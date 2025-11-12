@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "LoRa.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,6 +45,9 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+
+// declaring the object
+LoRa lora;
 
 /* USER CODE END PV */
 
@@ -91,6 +94,45 @@ int main(void)
   MX_USART2_UART_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
+
+// configuring SPI pins for lora
+
+lora.CS_port		= NSS_GPIO_PORT;
+lora.CS_pin		= NSS_Pin;
+lora.reset_port		= LoRa_RST_GPIO_PORT;
+lora.reset_pin		= LoRa_RST_PIN;
+lora.DIO0_port		= DIO0_GPIO_PORT;
+lora.DIO0_pin		= DIO0_Pin;
+lora.hSPIx		= &hspi1;
+
+char		send_data[200];
+uint16_t	status = LoRa_init(&lora);
+memset(send_data, NULL, 200);
+
+if (status == LORA_OK)
+	{
+		// whatever
+		snprintf(send_data, sizeof(send_data), "\n\r LoRa OK! :)");
+		LoRa_transmit(&lora, (uint8_t*)send_data, 120, 100);
+		HAL_UART_Transmit(&debugUART, (uint8_t*)send_data, 200, 200);
+	}
+else if (status == LORA_NOT_FOUND)
+	{
+		// mcu cant communicate with lora
+	}
+else if (status == LORA_UNAVAILABLE)
+	{
+		// setup is not correct
+	}
+
+
+lora.frequency      = 434;
+lora.spreadingFactor = SF_9;
+lora.bandWidth      = BW_250KHz;
+lora.crcRate        = CR_4_8;
+lora.power          = POWER_17db;
+lora.overCurrentProtection = 130;
+lora.preamble       = 10;
 
   /* USER CODE END 2 */
 
