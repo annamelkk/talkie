@@ -59,11 +59,11 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : DIOO_Pin */
-  GPIO_InitStruct.Pin = DIOO_Pin;
+  /*Configure GPIO pin : DIO0_Pin */
+  GPIO_InitStruct.Pin = DIO0_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(DIOO_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(DIO0_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : NSS_Pin LoRa_RST_Pin */
   GPIO_InitStruct.Pin = NSS_Pin|LoRa_RST_Pin;

@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "i2c.h"
 #include "spi.h"
 #include "usart.h"
 #include "gpio.h"
@@ -25,6 +26,10 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "LoRa.h"
+#include "gps.h"
+#include "ssd1306.h"
+#include "ssd1306_tests.h"
+#include "ssd1306_fonts.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,6 +50,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+// i2c for oled
 
 // declaring the object
 LoRa lora;
@@ -93,8 +99,26 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_SPI1_Init();
+  MX_I2C1_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
+
+// ======================OLED SETUP =============================
+    // Initialize the display
+    ssd1306_Init();
+    
+    // Clear the display buffer
+    ssd1306_Fill(Black);
+    
+    // Set cursor position and write text
+    ssd1306_SetCursor(0, 0);
+    ssd1306_WriteString("Hello World!", Font_11x18, White);
+    
+    // Update the physical display
+    ssd1306_UpdateScreen();
+
+/* ====================== LORA SETUP ==========================
 // configuring SPI pins for lora
 
 lora.CS_port		= NSS_GPIO_PORT;
@@ -115,6 +139,8 @@ if (status == LORA_OK)
 		snprintf(send_data, sizeof(send_data), "\n\r LoRa OK! :)");
 		LoRa_transmit(&lora, (uint8_t*)send_data, 120, 100);
 		HAL_UART_Transmit(&debugUART, (uint8_t*)send_data, 200, 200);
+		ssd1306_SetCursor(0, 0);
+		ssd1306_WriteString("Sent: LoRa OK!", Font_11x18, White);
 	}
 else if (status == LORA_NOT_FOUND)
 	{
@@ -133,6 +159,9 @@ lora.crcRate        = CR_4_8;
 lora.power          = POWER_17db;
 lora.overCurrentProtection = 130;
 lora.preamble       = 10;
+*/
+
+
 
   /* USER CODE END 2 */
 

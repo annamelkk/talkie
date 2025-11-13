@@ -1,0 +1,1006 @@
+ARM GAS  /tmp/ccntgVdZ.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"gps.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "Drivers/GPS/gps.c"
+  18              		.section	.text.GPS_Init,"ax",%progbits
+  19              		.align	1
+  20              		.global	GPS_Init
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	GPS_Init:
+  26              	.LFB68:
+   1:Drivers/GPS/gps.c **** /*
+   2:Drivers/GPS/gps.c ****  * gps.c
+   3:Drivers/GPS/gps.c ****  *
+   4:Drivers/GPS/gps.c ****  *  Created on: Nov 15, 2019
+   5:Drivers/GPS/gps.c ****  *      Author: Bulanov Konstantin
+   6:Drivers/GPS/gps.c ****  *
+   7:Drivers/GPS/gps.c ****  *  Contact information
+   8:Drivers/GPS/gps.c ****  *  -------------------
+   9:Drivers/GPS/gps.c ****  *
+  10:Drivers/GPS/gps.c ****  * e-mail   :  leech001@gmail.com
+  11:Drivers/GPS/gps.c ****  */
+  12:Drivers/GPS/gps.c **** 
+  13:Drivers/GPS/gps.c **** /*
+  14:Drivers/GPS/gps.c ****  * |---------------------------------------------------------------------------------
+  15:Drivers/GPS/gps.c ****  * | Copyright (C) Bulanov Konstantin,2019
+  16:Drivers/GPS/gps.c ****  * |
+  17:Drivers/GPS/gps.c ****  * | This program is free software: you can redistribute it and/or modify
+  18:Drivers/GPS/gps.c ****  * | it under the terms of the GNU General Public License as published by
+  19:Drivers/GPS/gps.c ****  * | the Free Software Foundation, either version 3 of the License, or
+  20:Drivers/GPS/gps.c ****  * | any later version.
+  21:Drivers/GPS/gps.c ****  * |
+  22:Drivers/GPS/gps.c ****  * | This program is distributed in the hope that it will be useful,
+  23:Drivers/GPS/gps.c ****  * | but WITHOUT ANY WARRANTY; without even the implied warranty of
+  24:Drivers/GPS/gps.c ****  * | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  25:Drivers/GPS/gps.c ****  * | GNU General Public License for more details.
+  26:Drivers/GPS/gps.c ****  * |
+  27:Drivers/GPS/gps.c ****  * | You should have received a copy of the GNU General Public License
+  28:Drivers/GPS/gps.c ****  * | along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  29:Drivers/GPS/gps.c ****  * |---------------------------------------------------------------------------------
+  30:Drivers/GPS/gps.c ****  */
+  31:Drivers/GPS/gps.c **** 
+  32:Drivers/GPS/gps.c **** 
+ARM GAS  /tmp/ccntgVdZ.s 			page 2
+
+
+  33:Drivers/GPS/gps.c **** #include <stdio.h>
+  34:Drivers/GPS/gps.c **** #include <string.h>
+  35:Drivers/GPS/gps.c **** #include <usart.h>
+  36:Drivers/GPS/gps.c **** #include "gps.h"
+  37:Drivers/GPS/gps.c **** 
+  38:Drivers/GPS/gps.c **** #if (GPS_DEBUG == 1)
+  39:Drivers/GPS/gps.c **** #include <usbd_cdc_if.h>
+  40:Drivers/GPS/gps.c **** #endif
+  41:Drivers/GPS/gps.c **** 
+  42:Drivers/GPS/gps.c **** uint8_t rx_data = 0;
+  43:Drivers/GPS/gps.c **** uint8_t rx_buffer[GPSBUFSIZE];
+  44:Drivers/GPS/gps.c **** uint8_t rx_index = 0;
+  45:Drivers/GPS/gps.c **** 
+  46:Drivers/GPS/gps.c **** GPS_t GPS;
+  47:Drivers/GPS/gps.c **** 
+  48:Drivers/GPS/gps.c **** #if (GPS_DEBUG == 1)
+  49:Drivers/GPS/gps.c **** void GPS_print(char *data){
+  50:Drivers/GPS/gps.c **** 	char buf[GPSBUFSIZE] = {0,};
+  51:Drivers/GPS/gps.c **** 	sprintf(buf, "%s\n", data);
+  52:Drivers/GPS/gps.c **** 	CDC_Transmit_FS((unsigned char *) buf, (uint16_t) strlen(buf));
+  53:Drivers/GPS/gps.c **** }
+  54:Drivers/GPS/gps.c **** #endif
+  55:Drivers/GPS/gps.c **** 
+  56:Drivers/GPS/gps.c **** void GPS_Init()
+  57:Drivers/GPS/gps.c **** {
+  27              		.loc 1 57 1 view -0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 08B5     		push	{r3, lr}
+  32              	.LCFI0:
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  58:Drivers/GPS/gps.c **** 	HAL_UART_Receive_IT(GPS_USART, &rx_data, 1);
+  36              		.loc 1 58 2 view .LVU1
+  37 0002 0122     		movs	r2, #1
+  38 0004 0249     		ldr	r1, .L3
+  39 0006 0348     		ldr	r0, .L3+4
+  40 0008 FFF7FEFF 		bl	HAL_UART_Receive_IT
+  41              	.LVL0:
+  59:Drivers/GPS/gps.c **** }
+  42              		.loc 1 59 1 is_stmt 0 view .LVU2
+  43 000c 08BD     		pop	{r3, pc}
+  44              	.L4:
+  45 000e 00BF     		.align	2
+  46              	.L3:
+  47 0010 00000000 		.word	rx_data
+  48 0014 00000000 		.word	huart2
+  49              		.cfi_endproc
+  50              	.LFE68:
+  52              		.section	.rodata.GPS_validate.str1.4,"aMS",%progbits,1
+  53              		.align	2
+  54              	.LC0:
+  55 0000 25303258 		.ascii	"%02X\000"
+  55      00
+  56              		.section	.text.GPS_validate,"ax",%progbits
+ARM GAS  /tmp/ccntgVdZ.s 			page 3
+
+
+  57              		.align	1
+  58              		.global	GPS_validate
+  59              		.syntax unified
+  60              		.thumb
+  61              		.thumb_func
+  63              	GPS_validate:
+  64              	.LVL1:
+  65              	.LFB70:
+  60:Drivers/GPS/gps.c **** 
+  61:Drivers/GPS/gps.c **** 
+  62:Drivers/GPS/gps.c **** void GPS_UART_CallBack(){
+  63:Drivers/GPS/gps.c **** 	if (rx_data != '\n' && rx_index < sizeof(rx_buffer)) {
+  64:Drivers/GPS/gps.c **** 		rx_buffer[rx_index++] = rx_data;
+  65:Drivers/GPS/gps.c **** 	} else {
+  66:Drivers/GPS/gps.c **** 
+  67:Drivers/GPS/gps.c **** 		#if (GPS_DEBUG == 1)
+  68:Drivers/GPS/gps.c **** 		GPS_print((char*)rx_buffer);
+  69:Drivers/GPS/gps.c **** 		#endif
+  70:Drivers/GPS/gps.c **** 
+  71:Drivers/GPS/gps.c **** 		if(GPS_validate((char*) rx_buffer))
+  72:Drivers/GPS/gps.c **** 			GPS_parse((char*) rx_buffer);
+  73:Drivers/GPS/gps.c **** 		rx_index = 0;
+  74:Drivers/GPS/gps.c **** 		memset(rx_buffer, 0, sizeof(rx_buffer));
+  75:Drivers/GPS/gps.c **** 	}
+  76:Drivers/GPS/gps.c **** 	HAL_UART_Receive_IT(GPS_USART, &rx_data, 1);
+  77:Drivers/GPS/gps.c **** }
+  78:Drivers/GPS/gps.c **** 
+  79:Drivers/GPS/gps.c **** 
+  80:Drivers/GPS/gps.c **** int GPS_validate(char *nmeastr){
+  66              		.loc 1 80 32 is_stmt 1 view -0
+  67              		.cfi_startproc
+  68              		@ args = 0, pretend = 0, frame = 8
+  69              		@ frame_needed = 0, uses_anonymous_args = 0
+  81:Drivers/GPS/gps.c ****     char check[3];
+  70              		.loc 1 81 5 view .LVU4
+  82:Drivers/GPS/gps.c ****     char checkcalcstr[3];
+  71              		.loc 1 82 5 view .LVU5
+  83:Drivers/GPS/gps.c ****     int i;
+  72              		.loc 1 83 5 view .LVU6
+  84:Drivers/GPS/gps.c ****     int calculated_check;
+  73              		.loc 1 84 5 view .LVU7
+  85:Drivers/GPS/gps.c **** 
+  86:Drivers/GPS/gps.c ****     i=0;
+  74              		.loc 1 86 5 view .LVU8
+  87:Drivers/GPS/gps.c ****     calculated_check=0;
+  75              		.loc 1 87 5 view .LVU9
+  88:Drivers/GPS/gps.c **** 
+  89:Drivers/GPS/gps.c ****     // check to ensure that the string starts with a $
+  90:Drivers/GPS/gps.c ****     if(nmeastr[i] == '$')
+  76              		.loc 1 90 5 view .LVU10
+  77              		.loc 1 90 15 is_stmt 0 view .LVU11
+  78 0000 0378     		ldrb	r3, [r0]	@ zero_extendqisi2
+  79              		.loc 1 90 7 view .LVU12
+  80 0002 242B     		cmp	r3, #36
+  81 0004 10D0     		beq	.L10
+  91:Drivers/GPS/gps.c ****         i++;
+  92:Drivers/GPS/gps.c ****     else
+ARM GAS  /tmp/ccntgVdZ.s 			page 4
+
+
+  93:Drivers/GPS/gps.c ****         return 0;
+  82              		.loc 1 93 16 view .LVU13
+  83 0006 0020     		movs	r0, #0
+  84              	.LVL2:
+  85              		.loc 1 93 16 view .LVU14
+  86 0008 7047     		bx	lr
+  87              	.LVL3:
+  88              	.L9:
+  94:Drivers/GPS/gps.c **** 
+  95:Drivers/GPS/gps.c ****     //No NULL reached, 75 char largest possible NMEA message, no '*' reached
+  96:Drivers/GPS/gps.c ****     while((nmeastr[i] != 0) && (nmeastr[i] != '*') && (i < 75)){
+  97:Drivers/GPS/gps.c ****         calculated_check ^= nmeastr[i];// calculate the checksum
+  89              		.loc 1 97 9 is_stmt 1 view .LVU15
+  90              		.loc 1 97 26 is_stmt 0 view .LVU16
+  91 000a 4A40     		eors	r2, r2, r1
+  92              	.LVL4:
+  98:Drivers/GPS/gps.c ****         i++;
+  93              		.loc 1 98 9 is_stmt 1 view .LVU17
+  94              		.loc 1 98 10 is_stmt 0 view .LVU18
+  95 000c 0133     		adds	r3, r3, #1
+  96              	.LVL5:
+  97              	.L6:
+  96:Drivers/GPS/gps.c ****         calculated_check ^= nmeastr[i];// calculate the checksum
+  98              		.loc 1 96 52 is_stmt 1 view .LVU19
+  96:Drivers/GPS/gps.c ****         calculated_check ^= nmeastr[i];// calculate the checksum
+  99              		.loc 1 96 19 is_stmt 0 view .LVU20
+ 100 000e 9C46     		mov	ip, r3
+ 101 0010 C15C     		ldrb	r1, [r0, r3]	@ zero_extendqisi2
+  96:Drivers/GPS/gps.c ****         calculated_check ^= nmeastr[i];// calculate the checksum
+ 102              		.loc 1 96 52 view .LVU21
+ 103 0012 19B1     		cbz	r1, .L8
+  96:Drivers/GPS/gps.c ****         calculated_check ^= nmeastr[i];// calculate the checksum
+ 104              		.loc 1 96 29 discriminator 1 view .LVU22
+ 105 0014 2A29     		cmp	r1, #42
+ 106 0016 01D0     		beq	.L8
+  96:Drivers/GPS/gps.c ****         calculated_check ^= nmeastr[i];// calculate the checksum
+ 107              		.loc 1 96 52 discriminator 2 view .LVU23
+ 108 0018 4A2B     		cmp	r3, #74
+ 109 001a F6DD     		ble	.L9
+ 110              	.L8:
+  99:Drivers/GPS/gps.c ****     }
+ 100:Drivers/GPS/gps.c **** 
+ 101:Drivers/GPS/gps.c ****     if(i >= 75){
+ 111              		.loc 1 101 5 is_stmt 1 view .LVU24
+ 112              		.loc 1 101 7 is_stmt 0 view .LVU25
+ 113 001c 4A2B     		cmp	r3, #74
+ 114 001e 23DC     		bgt	.L11
+ 102:Drivers/GPS/gps.c ****         return 0;// the string was too long so return an error
+ 103:Drivers/GPS/gps.c ****     }
+ 104:Drivers/GPS/gps.c **** 
+ 105:Drivers/GPS/gps.c ****     if (nmeastr[i] == '*'){
+ 115              		.loc 1 105 5 is_stmt 1 view .LVU26
+ 116              		.loc 1 105 8 is_stmt 0 view .LVU27
+ 117 0020 2A29     		cmp	r1, #42
+ 118 0022 04D0     		beq	.L19
+ 106:Drivers/GPS/gps.c ****         check[0] = nmeastr[i+1];    //put hex chars in check string
+ 107:Drivers/GPS/gps.c ****         check[1] = nmeastr[i+2];
+ARM GAS  /tmp/ccntgVdZ.s 			page 5
+
+
+ 108:Drivers/GPS/gps.c ****         check[2] = 0;
+ 109:Drivers/GPS/gps.c ****     }
+ 110:Drivers/GPS/gps.c ****     else
+ 111:Drivers/GPS/gps.c ****         return 0;// no checksum separator found there for invalid
+ 119              		.loc 1 111 16 view .LVU28
+ 120 0024 0020     		movs	r0, #0
+ 121              	.LVL6:
+ 112:Drivers/GPS/gps.c **** 
+ 113:Drivers/GPS/gps.c ****     sprintf(checkcalcstr,"%02X",calculated_check);
+ 114:Drivers/GPS/gps.c ****     return((checkcalcstr[0] == check[0])
+ 115:Drivers/GPS/gps.c ****         && (checkcalcstr[1] == check[1])) ? 1 : 0 ;
+ 116:Drivers/GPS/gps.c **** }
+ 122              		.loc 1 116 1 view .LVU29
+ 123 0026 7047     		bx	lr
+ 124              	.LVL7:
+ 125              	.L10:
+  87:Drivers/GPS/gps.c **** 
+ 126              		.loc 1 87 21 view .LVU30
+ 127 0028 0022     		movs	r2, #0
+  91:Drivers/GPS/gps.c ****     else
+ 128              		.loc 1 91 10 view .LVU31
+ 129 002a 0123     		movs	r3, #1
+ 130 002c EFE7     		b	.L6
+ 131              	.LVL8:
+ 132              	.L19:
+  80:Drivers/GPS/gps.c ****     char check[3];
+ 133              		.loc 1 80 32 view .LVU32
+ 134 002e 30B5     		push	{r4, r5, lr}
+ 135              	.LCFI1:
+ 136              		.cfi_def_cfa_offset 12
+ 137              		.cfi_offset 4, -12
+ 138              		.cfi_offset 5, -8
+ 139              		.cfi_offset 14, -4
+ 140 0030 83B0     		sub	sp, sp, #12
+ 141              	.LCFI2:
+ 142              		.cfi_def_cfa_offset 24
+ 106:Drivers/GPS/gps.c ****         check[1] = nmeastr[i+2];
+ 143              		.loc 1 106 9 is_stmt 1 view .LVU33
+ 106:Drivers/GPS/gps.c ****         check[1] = nmeastr[i+2];
+ 144              		.loc 1 106 27 is_stmt 0 view .LVU34
+ 145 0032 6044     		add	r0, r0, ip
+ 146              	.LVL9:
+ 106:Drivers/GPS/gps.c ****         check[1] = nmeastr[i+2];
+ 147              		.loc 1 106 27 view .LVU35
+ 148 0034 4478     		ldrb	r4, [r0, #1]	@ zero_extendqisi2
+ 106:Drivers/GPS/gps.c ****         check[1] = nmeastr[i+2];
+ 149              		.loc 1 106 18 view .LVU36
+ 150 0036 8DF80440 		strb	r4, [sp, #4]
+ 107:Drivers/GPS/gps.c ****         check[2] = 0;
+ 151              		.loc 1 107 9 is_stmt 1 view .LVU37
+ 107:Drivers/GPS/gps.c ****         check[2] = 0;
+ 152              		.loc 1 107 27 is_stmt 0 view .LVU38
+ 153 003a 8578     		ldrb	r5, [r0, #2]	@ zero_extendqisi2
+ 107:Drivers/GPS/gps.c ****         check[2] = 0;
+ 154              		.loc 1 107 18 view .LVU39
+ 155 003c 8DF80550 		strb	r5, [sp, #5]
+ 108:Drivers/GPS/gps.c ****     }
+ARM GAS  /tmp/ccntgVdZ.s 			page 6
+
+
+ 156              		.loc 1 108 9 is_stmt 1 view .LVU40
+ 108:Drivers/GPS/gps.c ****     }
+ 157              		.loc 1 108 18 is_stmt 0 view .LVU41
+ 158 0040 0023     		movs	r3, #0
+ 159              	.LVL10:
+ 108:Drivers/GPS/gps.c ****     }
+ 160              		.loc 1 108 18 view .LVU42
+ 161 0042 8DF80630 		strb	r3, [sp, #6]
+ 113:Drivers/GPS/gps.c ****     return((checkcalcstr[0] == check[0])
+ 162              		.loc 1 113 5 is_stmt 1 view .LVU43
+ 163 0046 0A49     		ldr	r1, .L21
+ 164 0048 6846     		mov	r0, sp
+ 165 004a FFF7FEFF 		bl	sprintf
+ 166              	.LVL11:
+ 114:Drivers/GPS/gps.c ****         && (checkcalcstr[1] == check[1])) ? 1 : 0 ;
+ 167              		.loc 1 114 5 view .LVU44
+ 114:Drivers/GPS/gps.c ****         && (checkcalcstr[1] == check[1])) ? 1 : 0 ;
+ 168              		.loc 1 114 25 is_stmt 0 view .LVU45
+ 169 004e 9DF80030 		ldrb	r3, [sp]	@ zero_extendqisi2
+ 115:Drivers/GPS/gps.c **** }
+ 170              		.loc 1 115 47 view .LVU46
+ 171 0052 9C42     		cmp	r4, r3
+ 172 0054 02D0     		beq	.L20
+ 115:Drivers/GPS/gps.c **** }
+ 173              		.loc 1 115 47 discriminator 4 view .LVU47
+ 174 0056 0020     		movs	r0, #0
+ 175              	.L5:
+ 176              		.loc 1 116 1 view .LVU48
+ 177 0058 03B0     		add	sp, sp, #12
+ 178              	.LCFI3:
+ 179              		.cfi_remember_state
+ 180              		.cfi_def_cfa_offset 12
+ 181              		@ sp needed
+ 182 005a 30BD     		pop	{r4, r5, pc}
+ 183              	.L20:
+ 184              	.LCFI4:
+ 185              		.cfi_restore_state
+ 115:Drivers/GPS/gps.c **** }
+ 186              		.loc 1 115 25 discriminator 1 view .LVU49
+ 187 005c 9DF80130 		ldrb	r3, [sp, #1]	@ zero_extendqisi2
+ 115:Drivers/GPS/gps.c **** }
+ 188              		.loc 1 115 47 discriminator 1 view .LVU50
+ 189 0060 9D42     		cmp	r5, r3
+ 190 0062 03D0     		beq	.L14
+ 115:Drivers/GPS/gps.c **** }
+ 191              		.loc 1 115 47 discriminator 4 view .LVU51
+ 192 0064 0020     		movs	r0, #0
+ 193 0066 F7E7     		b	.L5
+ 194              	.LVL12:
+ 195              	.L11:
+ 196              	.LCFI5:
+ 197              		.cfi_def_cfa_offset 0
+ 198              		.cfi_restore 4
+ 199              		.cfi_restore 5
+ 200              		.cfi_restore 14
+ 102:Drivers/GPS/gps.c ****     }
+ 201              		.loc 1 102 16 view .LVU52
+ARM GAS  /tmp/ccntgVdZ.s 			page 7
+
+
+ 202 0068 0020     		movs	r0, #0
+ 203              	.LVL13:
+ 102:Drivers/GPS/gps.c ****     }
+ 204              		.loc 1 102 16 view .LVU53
+ 205 006a 7047     		bx	lr
+ 206              	.LVL14:
+ 207              	.L14:
+ 208              	.LCFI6:
+ 209              		.cfi_def_cfa_offset 24
+ 210              		.cfi_offset 4, -12
+ 211              		.cfi_offset 5, -8
+ 212              		.cfi_offset 14, -4
+ 115:Drivers/GPS/gps.c **** }
+ 213              		.loc 1 115 47 discriminator 3 view .LVU54
+ 214 006c 0120     		movs	r0, #1
+ 215 006e F3E7     		b	.L5
+ 216              	.L22:
+ 217              		.align	2
+ 218              	.L21:
+ 219 0070 00000000 		.word	.LC0
+ 220              		.cfi_endproc
+ 221              	.LFE70:
+ 223              		.section	.text.GPS_nmea_to_dec,"ax",%progbits
+ 224              		.align	1
+ 225              		.global	GPS_nmea_to_dec
+ 226              		.syntax unified
+ 227              		.thumb
+ 228              		.thumb_func
+ 230              	GPS_nmea_to_dec:
+ 231              	.LVL15:
+ 232              	.LFB72:
+ 117:Drivers/GPS/gps.c **** 
+ 118:Drivers/GPS/gps.c **** void GPS_parse(char *GPSstrParse){
+ 119:Drivers/GPS/gps.c ****     if(!strncmp(GPSstrParse, "$GPGGA", 6)){
+ 120:Drivers/GPS/gps.c ****     	if (sscanf(GPSstrParse, "$GPGGA,%f,%f,%c,%f,%c,%d,%d,%f,%f,%c", &GPS.utc_time, &GPS.nmea_latit
+ 121:Drivers/GPS/gps.c ****     		GPS.dec_latitude = GPS_nmea_to_dec(GPS.nmea_latitude, GPS.ns);
+ 122:Drivers/GPS/gps.c ****     		GPS.dec_longitude = GPS_nmea_to_dec(GPS.nmea_longitude, GPS.ew);
+ 123:Drivers/GPS/gps.c ****     		return;
+ 124:Drivers/GPS/gps.c ****     	}
+ 125:Drivers/GPS/gps.c ****     }
+ 126:Drivers/GPS/gps.c ****     else if (!strncmp(GPSstrParse, "$GPRMC", 6)){
+ 127:Drivers/GPS/gps.c ****     	if(sscanf(GPSstrParse, "$GPRMC,%f,%f,%c,%f,%c,%f,%f,%d", &GPS.utc_time, &GPS.nmea_latitude, &G
+ 128:Drivers/GPS/gps.c ****     		return;
+ 129:Drivers/GPS/gps.c **** 
+ 130:Drivers/GPS/gps.c ****     }
+ 131:Drivers/GPS/gps.c ****     else if (!strncmp(GPSstrParse, "$GPGLL", 6)){
+ 132:Drivers/GPS/gps.c ****         if(sscanf(GPSstrParse, "$GPGLL,%f,%c,%f,%c,%f,%c", &GPS.nmea_latitude, &GPS.ns, &GPS.nmea_l
+ 133:Drivers/GPS/gps.c ****             return;
+ 134:Drivers/GPS/gps.c ****     }
+ 135:Drivers/GPS/gps.c ****     else if (!strncmp(GPSstrParse, "$GPVTG", 6)){
+ 136:Drivers/GPS/gps.c ****         if(sscanf(GPSstrParse, "$GPVTG,%f,%c,%f,%c,%f,%c,%f,%c", &GPS.course_t, &GPS.course_t_unit,
+ 137:Drivers/GPS/gps.c ****             return;
+ 138:Drivers/GPS/gps.c ****     }
+ 139:Drivers/GPS/gps.c **** }
+ 140:Drivers/GPS/gps.c **** 
+ 141:Drivers/GPS/gps.c **** float GPS_nmea_to_dec(float deg_coord, char nsew) {
+ 233              		.loc 1 141 51 is_stmt 1 view -0
+ARM GAS  /tmp/ccntgVdZ.s 			page 8
+
+
+ 234              		.cfi_startproc
+ 235              		@ args = 0, pretend = 0, frame = 0
+ 236              		@ frame_needed = 0, uses_anonymous_args = 0
+ 237              		.loc 1 141 51 is_stmt 0 view .LVU56
+ 238 0000 70B5     		push	{r4, r5, r6, lr}
+ 239              	.LCFI7:
+ 240              		.cfi_def_cfa_offset 16
+ 241              		.cfi_offset 4, -16
+ 242              		.cfi_offset 5, -12
+ 243              		.cfi_offset 6, -8
+ 244              		.cfi_offset 14, -4
+ 245 0002 0646     		mov	r6, r0
+ 246 0004 0D46     		mov	r5, r1
+ 142:Drivers/GPS/gps.c ****     int degree = (int)(deg_coord/100);
+ 247              		.loc 1 142 5 is_stmt 1 view .LVU57
+ 248              		.loc 1 142 33 is_stmt 0 view .LVU58
+ 249 0006 1049     		ldr	r1, .L27
+ 250              	.LVL16:
+ 251              		.loc 1 142 33 view .LVU59
+ 252 0008 FFF7FEFF 		bl	__aeabi_fdiv
+ 253              	.LVL17:
+ 254              		.loc 1 142 9 view .LVU60
+ 255 000c FFF7FEFF 		bl	__aeabi_f2iz
+ 256              	.LVL18:
+ 257 0010 0446     		mov	r4, r0
+ 258              	.LVL19:
+ 143:Drivers/GPS/gps.c ****     float minutes = deg_coord - degree*100;
+ 259              		.loc 1 143 5 is_stmt 1 view .LVU61
+ 260              		.loc 1 143 31 is_stmt 0 view .LVU62
+ 261 0012 6420     		movs	r0, #100
+ 262              	.LVL20:
+ 263              		.loc 1 143 31 view .LVU63
+ 264 0014 04FB00F0 		mul	r0, r4, r0
+ 265 0018 FFF7FEFF 		bl	__aeabi_i2f
+ 266              	.LVL21:
+ 267 001c 0146     		mov	r1, r0
+ 268              		.loc 1 143 11 view .LVU64
+ 269 001e 3046     		mov	r0, r6
+ 270 0020 FFF7FEFF 		bl	__aeabi_fsub
+ 271              	.LVL22:
+ 144:Drivers/GPS/gps.c ****     float dec_deg = minutes / 60;
+ 272              		.loc 1 144 5 is_stmt 1 view .LVU65
+ 273              		.loc 1 144 11 is_stmt 0 view .LVU66
+ 274 0024 0949     		ldr	r1, .L27+4
+ 275 0026 FFF7FEFF 		bl	__aeabi_fdiv
+ 276              	.LVL23:
+ 277              		.loc 1 144 11 view .LVU67
+ 278 002a 0646     		mov	r6, r0
+ 279              	.LVL24:
+ 145:Drivers/GPS/gps.c ****     float decimal = degree + dec_deg;
+ 280              		.loc 1 145 5 is_stmt 1 view .LVU68
+ 281              		.loc 1 145 28 is_stmt 0 view .LVU69
+ 282 002c 2046     		mov	r0, r4
+ 283              	.LVL25:
+ 284              		.loc 1 145 28 view .LVU70
+ 285 002e FFF7FEFF 		bl	__aeabi_i2f
+ 286              	.LVL26:
+ARM GAS  /tmp/ccntgVdZ.s 			page 9
+
+
+ 287              		.loc 1 145 11 view .LVU71
+ 288 0032 3146     		mov	r1, r6
+ 289 0034 FFF7FEFF 		bl	__aeabi_fadd
+ 290              	.LVL27:
+ 146:Drivers/GPS/gps.c ****     if (nsew == 'S' || nsew == 'W') { // return negative
+ 291              		.loc 1 146 5 is_stmt 1 view .LVU72
+ 292              		.loc 1 146 8 is_stmt 0 view .LVU73
+ 293 0038 532D     		cmp	r5, #83
+ 294 003a 01D0     		beq	.L24
+ 295              		.loc 1 146 21 discriminator 1 view .LVU74
+ 296 003c 572D     		cmp	r5, #87
+ 297 003e 01D1     		bne	.L23
+ 298              	.L24:
+ 147:Drivers/GPS/gps.c ****         decimal *= -1;
+ 299              		.loc 1 147 9 is_stmt 1 view .LVU75
+ 300              		.loc 1 147 17 is_stmt 0 view .LVU76
+ 301 0040 00F10040 		add	r0, r0, #-2147483648
+ 302              	.LVL28:
+ 148:Drivers/GPS/gps.c ****     }
+ 149:Drivers/GPS/gps.c ****     return decimal;
+ 303              		.loc 1 149 5 is_stmt 1 view .LVU77
+ 304              	.L23:
+ 150:Drivers/GPS/gps.c **** }
+ 305              		.loc 1 150 1 is_stmt 0 view .LVU78
+ 306 0044 70BD     		pop	{r4, r5, r6, pc}
+ 307              	.LVL29:
+ 308              	.L28:
+ 309              		.loc 1 150 1 view .LVU79
+ 310 0046 00BF     		.align	2
+ 311              	.L27:
+ 312 0048 0000C842 		.word	1120403456
+ 313 004c 00007042 		.word	1114636288
+ 314              		.cfi_endproc
+ 315              	.LFE72:
+ 317              		.section	.rodata.GPS_parse.str1.4,"aMS",%progbits,1
+ 318              		.align	2
+ 319              	.LC1:
+ 320 0000 24475047 		.ascii	"$GPGGA\000"
+ 320      474100
+ 321 0007 00       		.align	2
+ 322              	.LC2:
+ 323 0008 24475047 		.ascii	"$GPGGA,%f,%f,%c,%f,%c,%d,%d,%f,%f,%c\000"
+ 323      47412C25 
+ 323      662C2566 
+ 323      2C25632C 
+ 323      25662C25 
+ 324 002d 000000   		.align	2
+ 325              	.LC3:
+ 326 0030 24475052 		.ascii	"$GPRMC\000"
+ 326      4D4300
+ 327 0037 00       		.align	2
+ 328              	.LC4:
+ 329 0038 24475052 		.ascii	"$GPRMC,%f,%f,%c,%f,%c,%f,%f,%d\000"
+ 329      4D432C25 
+ 329      662C2566 
+ 329      2C25632C 
+ 329      25662C25 
+ARM GAS  /tmp/ccntgVdZ.s 			page 10
+
+
+ 330 0057 00       		.align	2
+ 331              	.LC5:
+ 332 0058 24475047 		.ascii	"$GPGLL\000"
+ 332      4C4C00
+ 333 005f 00       		.align	2
+ 334              	.LC6:
+ 335 0060 24475047 		.ascii	"$GPGLL,%f,%c,%f,%c,%f,%c\000"
+ 335      4C4C2C25 
+ 335      662C2563 
+ 335      2C25662C 
+ 335      25632C25 
+ 336 0079 000000   		.align	2
+ 337              	.LC7:
+ 338 007c 24475056 		.ascii	"$GPVTG\000"
+ 338      544700
+ 339 0083 00       		.align	2
+ 340              	.LC8:
+ 341 0084 24475056 		.ascii	"$GPVTG,%f,%c,%f,%c,%f,%c,%f,%c\000"
+ 341      54472C25 
+ 341      662C2563 
+ 341      2C25662C 
+ 341      25632C25 
+ 342              		.section	.text.GPS_parse,"ax",%progbits
+ 343              		.align	1
+ 344              		.global	GPS_parse
+ 345              		.syntax unified
+ 346              		.thumb
+ 347              		.thumb_func
+ 349              	GPS_parse:
+ 350              	.LVL30:
+ 351              	.LFB71:
+ 118:Drivers/GPS/gps.c ****     if(!strncmp(GPSstrParse, "$GPGGA", 6)){
+ 352              		.loc 1 118 34 is_stmt 1 view -0
+ 353              		.cfi_startproc
+ 354              		@ args = 0, pretend = 0, frame = 0
+ 355              		@ frame_needed = 0, uses_anonymous_args = 0
+ 118:Drivers/GPS/gps.c ****     if(!strncmp(GPSstrParse, "$GPGGA", 6)){
+ 356              		.loc 1 118 34 is_stmt 0 view .LVU81
+ 357 0000 10B5     		push	{r4, lr}
+ 358              	.LCFI8:
+ 359              		.cfi_def_cfa_offset 8
+ 360              		.cfi_offset 4, -8
+ 361              		.cfi_offset 14, -4
+ 362 0002 88B0     		sub	sp, sp, #32
+ 363              	.LCFI9:
+ 364              		.cfi_def_cfa_offset 40
+ 365 0004 0446     		mov	r4, r0
+ 119:Drivers/GPS/gps.c ****     	if (sscanf(GPSstrParse, "$GPGGA,%f,%f,%c,%f,%c,%d,%d,%f,%f,%c", &GPS.utc_time, &GPS.nmea_latit
+ 366              		.loc 1 119 5 is_stmt 1 view .LVU82
+ 119:Drivers/GPS/gps.c ****     	if (sscanf(GPSstrParse, "$GPGGA,%f,%f,%c,%f,%c,%d,%d,%f,%f,%c", &GPS.utc_time, &GPS.nmea_latit
+ 367              		.loc 1 119 9 is_stmt 0 view .LVU83
+ 368 0006 0622     		movs	r2, #6
+ 369 0008 4349     		ldr	r1, .L38
+ 370 000a FFF7FEFF 		bl	strncmp
+ 371              	.LVL31:
+ 119:Drivers/GPS/gps.c ****     	if (sscanf(GPSstrParse, "$GPGGA,%f,%f,%c,%f,%c,%d,%d,%f,%f,%c", &GPS.utc_time, &GPS.nmea_latit
+ 372              		.loc 1 119 7 discriminator 1 view .LVU84
+ARM GAS  /tmp/ccntgVdZ.s 			page 11
+
+
+ 373 000e 60B3     		cbz	r0, .L35
+ 126:Drivers/GPS/gps.c ****     	if(sscanf(GPSstrParse, "$GPRMC,%f,%f,%c,%f,%c,%f,%f,%d", &GPS.utc_time, &GPS.nmea_latitude, &G
+ 374              		.loc 1 126 10 is_stmt 1 view .LVU85
+ 126:Drivers/GPS/gps.c ****     	if(sscanf(GPSstrParse, "$GPRMC,%f,%f,%c,%f,%c,%f,%f,%d", &GPS.utc_time, &GPS.nmea_latitude, &G
+ 375              		.loc 1 126 15 is_stmt 0 view .LVU86
+ 376 0010 0622     		movs	r2, #6
+ 377 0012 4249     		ldr	r1, .L38+4
+ 378 0014 2046     		mov	r0, r4
+ 379 0016 FFF7FEFF 		bl	strncmp
+ 380              	.LVL32:
+ 126:Drivers/GPS/gps.c ****     	if(sscanf(GPSstrParse, "$GPRMC,%f,%f,%c,%f,%c,%f,%f,%d", &GPS.utc_time, &GPS.nmea_latitude, &G
+ 381              		.loc 1 126 13 discriminator 1 view .LVU87
+ 382 001a 0028     		cmp	r0, #0
+ 383 001c 50D0     		beq	.L36
+ 131:Drivers/GPS/gps.c ****         if(sscanf(GPSstrParse, "$GPGLL,%f,%c,%f,%c,%f,%c", &GPS.nmea_latitude, &GPS.ns, &GPS.nmea_l
+ 384              		.loc 1 131 10 is_stmt 1 view .LVU88
+ 131:Drivers/GPS/gps.c ****         if(sscanf(GPSstrParse, "$GPGLL,%f,%c,%f,%c,%f,%c", &GPS.nmea_latitude, &GPS.ns, &GPS.nmea_l
+ 385              		.loc 1 131 15 is_stmt 0 view .LVU89
+ 386 001e 0622     		movs	r2, #6
+ 387 0020 3F49     		ldr	r1, .L38+8
+ 388 0022 2046     		mov	r0, r4
+ 389 0024 FFF7FEFF 		bl	strncmp
+ 390              	.LVL33:
+ 131:Drivers/GPS/gps.c ****         if(sscanf(GPSstrParse, "$GPGLL,%f,%c,%f,%c,%f,%c", &GPS.nmea_latitude, &GPS.ns, &GPS.nmea_l
+ 391              		.loc 1 131 13 discriminator 1 view .LVU90
+ 392 0028 0028     		cmp	r0, #0
+ 393 002a 62D0     		beq	.L37
+ 135:Drivers/GPS/gps.c ****         if(sscanf(GPSstrParse, "$GPVTG,%f,%c,%f,%c,%f,%c,%f,%c", &GPS.course_t, &GPS.course_t_unit,
+ 394              		.loc 1 135 10 is_stmt 1 view .LVU91
+ 135:Drivers/GPS/gps.c ****         if(sscanf(GPSstrParse, "$GPVTG,%f,%c,%f,%c,%f,%c,%f,%c", &GPS.course_t, &GPS.course_t_unit,
+ 395              		.loc 1 135 15 is_stmt 0 view .LVU92
+ 396 002c 0622     		movs	r2, #6
+ 397 002e 3D49     		ldr	r1, .L38+12
+ 398 0030 2046     		mov	r0, r4
+ 399 0032 FFF7FEFF 		bl	strncmp
+ 400              	.LVL34:
+ 135:Drivers/GPS/gps.c ****         if(sscanf(GPSstrParse, "$GPVTG,%f,%c,%f,%c,%f,%c,%f,%c", &GPS.course_t, &GPS.course_t_unit,
+ 401              		.loc 1 135 13 discriminator 1 view .LVU93
+ 402 0036 0028     		cmp	r0, #0
+ 403 0038 59D1     		bne	.L29
+ 136:Drivers/GPS/gps.c ****             return;
+ 404              		.loc 1 136 9 is_stmt 1 view .LVU94
+ 136:Drivers/GPS/gps.c ****             return;
+ 405              		.loc 1 136 12 is_stmt 0 view .LVU95
+ 406 003a 3B4B     		ldr	r3, .L38+16
+ 407 003c 03F11002 		add	r2, r3, #16
+ 408 0040 0592     		str	r2, [sp, #20]
+ 409 0042 03F10C02 		add	r2, r3, #12
+ 410 0046 0492     		str	r2, [sp, #16]
+ 411 0048 03F10902 		add	r2, r3, #9
+ 412 004c 0392     		str	r2, [sp, #12]
+ 413 004e A3F11402 		sub	r2, r3, #20
+ 414 0052 0292     		str	r2, [sp, #8]
+ 415 0054 03F10802 		add	r2, r3, #8
+ 416 0058 0192     		str	r2, [sp, #4]
+ 417 005a 1A1D     		adds	r2, r3, #4
+ 418 005c 0092     		str	r2, [sp]
+ARM GAS  /tmp/ccntgVdZ.s 			page 12
+
+
+ 419 005e 1A1F     		subs	r2, r3, #4
+ 420 0060 3249     		ldr	r1, .L38+20
+ 421 0062 2046     		mov	r0, r4
+ 422 0064 FFF7FEFF 		bl	sscanf
+ 423              	.LVL35:
+ 137:Drivers/GPS/gps.c ****     }
+ 424              		.loc 1 137 13 is_stmt 1 view .LVU96
+ 425 0068 41E0     		b	.L29
+ 426              	.L35:
+ 120:Drivers/GPS/gps.c ****     		GPS.dec_latitude = GPS_nmea_to_dec(GPS.nmea_latitude, GPS.ns);
+ 427              		.loc 1 120 6 view .LVU97
+ 120:Drivers/GPS/gps.c ****     		GPS.dec_latitude = GPS_nmea_to_dec(GPS.nmea_latitude, GPS.ns);
+ 428              		.loc 1 120 10 is_stmt 0 view .LVU98
+ 429 006a 314B     		ldr	r3, .L38+24
+ 430 006c 03F11C02 		add	r2, r3, #28
+ 431 0070 0792     		str	r2, [sp, #28]
+ 432 0072 03F11802 		add	r2, r3, #24
+ 433 0076 0692     		str	r2, [sp, #24]
+ 434 0078 03F11402 		add	r2, r3, #20
+ 435 007c 0592     		str	r2, [sp, #20]
+ 436 007e 03F11002 		add	r2, r3, #16
+ 437 0082 0492     		str	r2, [sp, #16]
+ 438 0084 03F10C02 		add	r2, r3, #12
+ 439 0088 0392     		str	r2, [sp, #12]
+ 440 008a 03F10902 		add	r2, r3, #9
+ 441 008e 0292     		str	r2, [sp, #8]
+ 442 0090 1A1F     		subs	r2, r3, #4
+ 443 0092 0192     		str	r2, [sp, #4]
+ 444 0094 03F10802 		add	r2, r3, #8
+ 445 0098 0092     		str	r2, [sp]
+ 446 009a 1A1D     		adds	r2, r3, #4
+ 447 009c 2549     		ldr	r1, .L38+28
+ 448 009e 2046     		mov	r0, r4
+ 449 00a0 FFF7FEFF 		bl	sscanf
+ 450              	.LVL36:
+ 120:Drivers/GPS/gps.c ****     		GPS.dec_latitude = GPS_nmea_to_dec(GPS.nmea_latitude, GPS.ns);
+ 451              		.loc 1 120 9 discriminator 1 view .LVU99
+ 452 00a4 0028     		cmp	r0, #0
+ 453 00a6 22DD     		ble	.L29
+ 121:Drivers/GPS/gps.c ****     		GPS.dec_longitude = GPS_nmea_to_dec(GPS.nmea_longitude, GPS.ew);
+ 454              		.loc 1 121 7 is_stmt 1 view .LVU100
+ 121:Drivers/GPS/gps.c ****     		GPS.dec_longitude = GPS_nmea_to_dec(GPS.nmea_longitude, GPS.ew);
+ 455              		.loc 1 121 26 is_stmt 0 view .LVU101
+ 456 00a8 234C     		ldr	r4, .L38+32
+ 457              	.LVL37:
+ 121:Drivers/GPS/gps.c ****     		GPS.dec_longitude = GPS_nmea_to_dec(GPS.nmea_longitude, GPS.ew);
+ 458              		.loc 1 121 26 view .LVU102
+ 459 00aa 217E     		ldrb	r1, [r4, #24]	@ zero_extendqisi2
+ 460 00ac 2069     		ldr	r0, [r4, #16]	@ float
+ 461 00ae FFF7FEFF 		bl	GPS_nmea_to_dec
+ 462              	.LVL38:
+ 121:Drivers/GPS/gps.c ****     		GPS.dec_longitude = GPS_nmea_to_dec(GPS.nmea_longitude, GPS.ew);
+ 463              		.loc 1 121 24 discriminator 1 view .LVU103
+ 464 00b2 6060     		str	r0, [r4, #4]	@ float
+ 122:Drivers/GPS/gps.c ****     		return;
+ 465              		.loc 1 122 7 is_stmt 1 view .LVU104
+ 122:Drivers/GPS/gps.c ****     		return;
+ARM GAS  /tmp/ccntgVdZ.s 			page 13
+
+
+ 466              		.loc 1 122 27 is_stmt 0 view .LVU105
+ 467 00b4 617E     		ldrb	r1, [r4, #25]	@ zero_extendqisi2
+ 468 00b6 E068     		ldr	r0, [r4, #12]	@ float
+ 469 00b8 FFF7FEFF 		bl	GPS_nmea_to_dec
+ 470              	.LVL39:
+ 122:Drivers/GPS/gps.c ****     		return;
+ 471              		.loc 1 122 25 discriminator 1 view .LVU106
+ 472 00bc 2060     		str	r0, [r4]	@ float
+ 123:Drivers/GPS/gps.c ****     	}
+ 473              		.loc 1 123 7 is_stmt 1 view .LVU107
+ 474 00be 16E0     		b	.L29
+ 475              	.LVL40:
+ 476              	.L36:
+ 127:Drivers/GPS/gps.c ****     		return;
+ 477              		.loc 1 127 6 view .LVU108
+ 127:Drivers/GPS/gps.c ****     		return;
+ 478              		.loc 1 127 9 is_stmt 0 view .LVU109
+ 479 00c0 1B4B     		ldr	r3, .L38+24
+ 480 00c2 03F12802 		add	r2, r3, #40
+ 481 00c6 0592     		str	r2, [sp, #20]
+ 482 00c8 03F12402 		add	r2, r3, #36
+ 483 00cc 0492     		str	r2, [sp, #16]
+ 484 00ce 03F12002 		add	r2, r3, #32
+ 485 00d2 0392     		str	r2, [sp, #12]
+ 486 00d4 03F10902 		add	r2, r3, #9
+ 487 00d8 0292     		str	r2, [sp, #8]
+ 488 00da 1A1F     		subs	r2, r3, #4
+ 489 00dc 0192     		str	r2, [sp, #4]
+ 490 00de 03F10802 		add	r2, r3, #8
+ 491 00e2 0092     		str	r2, [sp]
+ 492 00e4 1A1D     		adds	r2, r3, #4
+ 493 00e6 1549     		ldr	r1, .L38+36
+ 494 00e8 2046     		mov	r0, r4
+ 495 00ea FFF7FEFF 		bl	sscanf
+ 496              	.LVL41:
+ 128:Drivers/GPS/gps.c **** 
+ 497              		.loc 1 128 7 is_stmt 1 view .LVU110
+ 498              	.L29:
+ 139:Drivers/GPS/gps.c **** 
+ 499              		.loc 1 139 1 is_stmt 0 view .LVU111
+ 500 00ee 08B0     		add	sp, sp, #32
+ 501              	.LCFI10:
+ 502              		.cfi_remember_state
+ 503              		.cfi_def_cfa_offset 8
+ 504              		@ sp needed
+ 505 00f0 10BD     		pop	{r4, pc}
+ 506              	.LVL42:
+ 507              	.L37:
+ 508              	.LCFI11:
+ 509              		.cfi_restore_state
+ 132:Drivers/GPS/gps.c ****             return;
+ 510              		.loc 1 132 9 is_stmt 1 view .LVU112
+ 132:Drivers/GPS/gps.c ****             return;
+ 511              		.loc 1 132 12 is_stmt 0 view .LVU113
+ 512 00f2 134B     		ldr	r3, .L38+40
+ 513 00f4 03F12402 		add	r2, r3, #36
+ 514 00f8 0392     		str	r2, [sp, #12]
+ARM GAS  /tmp/ccntgVdZ.s 			page 14
+
+
+ 515 00fa 1A1F     		subs	r2, r3, #4
+ 516 00fc 0292     		str	r2, [sp, #8]
+ 517 00fe 5A1C     		adds	r2, r3, #1
+ 518 0100 0192     		str	r2, [sp, #4]
+ 519 0102 A3F10C02 		sub	r2, r3, #12
+ 520 0106 0092     		str	r2, [sp]
+ 521 0108 A3F10802 		sub	r2, r3, #8
+ 522 010c 0D49     		ldr	r1, .L38+44
+ 523 010e 2046     		mov	r0, r4
+ 524 0110 FFF7FEFF 		bl	sscanf
+ 525              	.LVL43:
+ 133:Drivers/GPS/gps.c ****     }
+ 526              		.loc 1 133 13 is_stmt 1 view .LVU114
+ 527 0114 EBE7     		b	.L29
+ 528              	.L39:
+ 529 0116 00BF     		.align	2
+ 530              	.L38:
+ 531 0118 00000000 		.word	.LC1
+ 532 011c 30000000 		.word	.LC3
+ 533 0120 58000000 		.word	.LC5
+ 534 0124 7C000000 		.word	.LC7
+ 535 0128 44000000 		.word	GPS+68
+ 536 012c 84000000 		.word	.LC8
+ 537 0130 10000000 		.word	GPS+16
+ 538 0134 08000000 		.word	.LC2
+ 539 0138 00000000 		.word	GPS
+ 540 013c 38000000 		.word	.LC4
+ 541 0140 18000000 		.word	GPS+24
+ 542 0144 60000000 		.word	.LC6
+ 543              		.cfi_endproc
+ 544              	.LFE71:
+ 546              		.section	.text.GPS_UART_CallBack,"ax",%progbits
+ 547              		.align	1
+ 548              		.global	GPS_UART_CallBack
+ 549              		.syntax unified
+ 550              		.thumb
+ 551              		.thumb_func
+ 553              	GPS_UART_CallBack:
+ 554              	.LFB69:
+  62:Drivers/GPS/gps.c **** 	if (rx_data != '\n' && rx_index < sizeof(rx_buffer)) {
+ 555              		.loc 1 62 25 view -0
+ 556              		.cfi_startproc
+ 557              		@ args = 0, pretend = 0, frame = 0
+ 558              		@ frame_needed = 0, uses_anonymous_args = 0
+ 559 0000 08B5     		push	{r3, lr}
+ 560              	.LCFI12:
+ 561              		.cfi_def_cfa_offset 8
+ 562              		.cfi_offset 3, -8
+ 563              		.cfi_offset 14, -4
+  63:Drivers/GPS/gps.c **** 		rx_buffer[rx_index++] = rx_data;
+ 564              		.loc 1 63 2 view .LVU116
+  63:Drivers/GPS/gps.c **** 		rx_buffer[rx_index++] = rx_data;
+ 565              		.loc 1 63 14 is_stmt 0 view .LVU117
+ 566 0002 124B     		ldr	r3, .L46
+ 567 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  63:Drivers/GPS/gps.c **** 		rx_buffer[rx_index++] = rx_data;
+ 568              		.loc 1 63 5 view .LVU118
+ARM GAS  /tmp/ccntgVdZ.s 			page 15
+
+
+ 569 0006 0A2B     		cmp	r3, #10
+ 570 0008 0BD0     		beq	.L41
+  63:Drivers/GPS/gps.c **** 		rx_buffer[rx_index++] = rx_data;
+ 571              		.loc 1 63 34 discriminator 1 view .LVU119
+ 572 000a 114A     		ldr	r2, .L46+4
+ 573 000c 1178     		ldrb	r1, [r2]	@ zero_extendqisi2
+ 574 000e 92F90020 		ldrsb	r2, [r2]
+  63:Drivers/GPS/gps.c **** 		rx_buffer[rx_index++] = rx_data;
+ 575              		.loc 1 63 22 discriminator 1 view .LVU120
+ 576 0012 002A     		cmp	r2, #0
+ 577 0014 05DB     		blt	.L41
+  64:Drivers/GPS/gps.c **** 	} else {
+ 578              		.loc 1 64 3 is_stmt 1 view .LVU121
+  64:Drivers/GPS/gps.c **** 	} else {
+ 579              		.loc 1 64 21 is_stmt 0 view .LVU122
+ 580 0016 481C     		adds	r0, r1, #1
+ 581 0018 0D4A     		ldr	r2, .L46+4
+ 582 001a 1070     		strb	r0, [r2]
+  64:Drivers/GPS/gps.c **** 	} else {
+ 583              		.loc 1 64 25 view .LVU123
+ 584 001c 0D4A     		ldr	r2, .L46+8
+ 585 001e 5354     		strb	r3, [r2, r1]
+ 586 0020 0AE0     		b	.L42
+ 587              	.L41:
+  71:Drivers/GPS/gps.c **** 			GPS_parse((char*) rx_buffer);
+ 588              		.loc 1 71 3 is_stmt 1 view .LVU124
+  71:Drivers/GPS/gps.c **** 			GPS_parse((char*) rx_buffer);
+ 589              		.loc 1 71 6 is_stmt 0 view .LVU125
+ 590 0022 0C48     		ldr	r0, .L46+8
+ 591 0024 FFF7FEFF 		bl	GPS_validate
+ 592              	.LVL44:
+  71:Drivers/GPS/gps.c **** 			GPS_parse((char*) rx_buffer);
+ 593              		.loc 1 71 5 discriminator 1 view .LVU126
+ 594 0028 60B9     		cbnz	r0, .L45
+ 595              	.L43:
+  73:Drivers/GPS/gps.c **** 		memset(rx_buffer, 0, sizeof(rx_buffer));
+ 596              		.loc 1 73 3 is_stmt 1 view .LVU127
+  73:Drivers/GPS/gps.c **** 		memset(rx_buffer, 0, sizeof(rx_buffer));
+ 597              		.loc 1 73 12 is_stmt 0 view .LVU128
+ 598 002a 0021     		movs	r1, #0
+ 599 002c 084B     		ldr	r3, .L46+4
+ 600 002e 1970     		strb	r1, [r3]
+  74:Drivers/GPS/gps.c **** 	}
+ 601              		.loc 1 74 3 is_stmt 1 view .LVU129
+ 602 0030 8022     		movs	r2, #128
+ 603 0032 0848     		ldr	r0, .L46+8
+ 604 0034 FFF7FEFF 		bl	memset
+ 605              	.LVL45:
+ 606              	.L42:
+  76:Drivers/GPS/gps.c **** }
+ 607              		.loc 1 76 2 view .LVU130
+ 608 0038 0122     		movs	r2, #1
+ 609 003a 0449     		ldr	r1, .L46
+ 610 003c 0648     		ldr	r0, .L46+12
+ 611 003e FFF7FEFF 		bl	HAL_UART_Receive_IT
+ 612              	.LVL46:
+  77:Drivers/GPS/gps.c **** 
+ARM GAS  /tmp/ccntgVdZ.s 			page 16
+
+
+ 613              		.loc 1 77 1 is_stmt 0 view .LVU131
+ 614 0042 08BD     		pop	{r3, pc}
+ 615              	.L45:
+  72:Drivers/GPS/gps.c **** 		rx_index = 0;
+ 616              		.loc 1 72 4 is_stmt 1 view .LVU132
+ 617 0044 0348     		ldr	r0, .L46+8
+ 618 0046 FFF7FEFF 		bl	GPS_parse
+ 619              	.LVL47:
+ 620 004a EEE7     		b	.L43
+ 621              	.L47:
+ 622              		.align	2
+ 623              	.L46:
+ 624 004c 00000000 		.word	rx_data
+ 625 0050 00000000 		.word	rx_index
+ 626 0054 00000000 		.word	rx_buffer
+ 627 0058 00000000 		.word	huart2
+ 628              		.cfi_endproc
+ 629              	.LFE69:
+ 631              		.global	GPS
+ 632              		.section	.bss.GPS,"aw",%nobits
+ 633              		.align	2
+ 636              	GPS:
+ 637 0000 00000000 		.space	88
+ 637      00000000 
+ 637      00000000 
+ 637      00000000 
+ 637      00000000 
+ 638              		.global	rx_index
+ 639              		.section	.bss.rx_index,"aw",%nobits
+ 642              	rx_index:
+ 643 0000 00       		.space	1
+ 644              		.global	rx_buffer
+ 645              		.section	.bss.rx_buffer,"aw",%nobits
+ 646              		.align	2
+ 649              	rx_buffer:
+ 650 0000 00000000 		.space	128
+ 650      00000000 
+ 650      00000000 
+ 650      00000000 
+ 650      00000000 
+ 651              		.global	rx_data
+ 652              		.section	.bss.rx_data,"aw",%nobits
+ 655              	rx_data:
+ 656 0000 00       		.space	1
+ 657              		.text
+ 658              	.Letext0:
+ 659              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 660              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 661              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 662              		.file 5 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 663              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
+ 664              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h"
+ 665              		.file 8 "Drivers/GPS/gps.h"
+ 666              		.file 9 "Core/Inc/usart.h"
+ 667              		.file 10 "/usr/arm-none-eabi/include/stdio.h"
+ 668              		.file 11 "/usr/arm-none-eabi/include/string.h"
+ 669              		.file 12 "<built-in>"
+ARM GAS  /tmp/ccntgVdZ.s 			page 17
+
+
+ARM GAS  /tmp/ccntgVdZ.s 			page 18
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 gps.c
+     /tmp/ccntgVdZ.s:19     .text.GPS_Init:00000000 $t
+     /tmp/ccntgVdZ.s:25     .text.GPS_Init:00000000 GPS_Init
+     /tmp/ccntgVdZ.s:47     .text.GPS_Init:00000010 $d
+     /tmp/ccntgVdZ.s:655    .bss.rx_data:00000000 rx_data
+     /tmp/ccntgVdZ.s:53     .rodata.GPS_validate.str1.4:00000000 $d
+     /tmp/ccntgVdZ.s:57     .text.GPS_validate:00000000 $t
+     /tmp/ccntgVdZ.s:63     .text.GPS_validate:00000000 GPS_validate
+     /tmp/ccntgVdZ.s:219    .text.GPS_validate:00000070 $d
+     /tmp/ccntgVdZ.s:224    .text.GPS_nmea_to_dec:00000000 $t
+     /tmp/ccntgVdZ.s:230    .text.GPS_nmea_to_dec:00000000 GPS_nmea_to_dec
+     /tmp/ccntgVdZ.s:312    .text.GPS_nmea_to_dec:00000048 $d
+     /tmp/ccntgVdZ.s:318    .rodata.GPS_parse.str1.4:00000000 $d
+     /tmp/ccntgVdZ.s:343    .text.GPS_parse:00000000 $t
+     /tmp/ccntgVdZ.s:349    .text.GPS_parse:00000000 GPS_parse
+     /tmp/ccntgVdZ.s:531    .text.GPS_parse:00000118 $d
+     /tmp/ccntgVdZ.s:636    .bss.GPS:00000000 GPS
+     /tmp/ccntgVdZ.s:547    .text.GPS_UART_CallBack:00000000 $t
+     /tmp/ccntgVdZ.s:553    .text.GPS_UART_CallBack:00000000 GPS_UART_CallBack
+     /tmp/ccntgVdZ.s:624    .text.GPS_UART_CallBack:0000004c $d
+     /tmp/ccntgVdZ.s:642    .bss.rx_index:00000000 rx_index
+     /tmp/ccntgVdZ.s:649    .bss.rx_buffer:00000000 rx_buffer
+     /tmp/ccntgVdZ.s:633    .bss.GPS:00000000 $d
+     /tmp/ccntgVdZ.s:643    .bss.rx_index:00000000 $d
+     /tmp/ccntgVdZ.s:646    .bss.rx_buffer:00000000 $d
+     /tmp/ccntgVdZ.s:656    .bss.rx_data:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_UART_Receive_IT
+huart2
+sprintf
+__aeabi_fdiv
+__aeabi_f2iz
+__aeabi_i2f
+__aeabi_fsub
+__aeabi_fadd
+strncmp
+sscanf
+memset
