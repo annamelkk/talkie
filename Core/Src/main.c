@@ -30,6 +30,8 @@
 #include "ssd1306.h"
 #include "ssd1306_tests.h"
 #include "ssd1306_fonts.h"
+#include <string.h>
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -105,62 +107,74 @@ int main(void)
 
 
 // ======================OLED SETUP =============================
-    // Initialize the display
-    ssd1306_Init();
-    
-    // Clear the display buffer
-    ssd1306_Fill(Black);
-    
-    // Set cursor position and write text
-    ssd1306_SetCursor(0, 0);
-    ssd1306_WriteString("Hello World!", Font_11x18, White);
-    
-    // Update the physical display
-    ssd1306_UpdateScreen();
 
-/* ====================== LORA SETUP ==========================
+// Initialize the display
+ssd1306_Init();
+    
+// clear the display buffer
+ssd1306_Fill(Black);
+    
+// set cursor position and write text
+ssd1306_SetCursor(0, 0);
+ssd1306_WriteString("Startup!", Font_11x18, White);
+
+// update the display
+ssd1306_UpdateScreen();
+HAL_Delay(200);
+
+// ====================== LORA SETUP ==========================
 // configuring SPI pins for lora
 
-lora.CS_port		= NSS_GPIO_PORT;
+lora.CS_port		= NSS_GPIO_Port;
 lora.CS_pin		= NSS_Pin;
-lora.reset_port		= LoRa_RST_GPIO_PORT;
-lora.reset_pin		= LoRa_RST_PIN;
-lora.DIO0_port		= DIO0_GPIO_PORT;
+lora.reset_port		= LoRa_RST_GPIO_Port;
+lora.reset_pin		= LoRa_RST_Pin;
+lora.DIO0_port		= DIO0_GPIO_Port;
 lora.DIO0_pin		= DIO0_Pin;
 lora.hSPIx		= &hspi1;
 
 char		send_data[200];
 uint16_t	status = LoRa_init(&lora);
-memset(send_data, NULL, 200);
+
+memset(send_data, 0, 200);
 
 if (status == LORA_OK)
 	{
 		// whatever
+		/*
 		snprintf(send_data, sizeof(send_data), "\n\r LoRa OK! :)");
 		LoRa_transmit(&lora, (uint8_t*)send_data, 120, 100);
-		HAL_UART_Transmit(&debugUART, (uint8_t*)send_data, 200, 200);
+		HAL_UART_Transmit(&huart1, (uint8_t*)send_data, 200, 200);
+		*/
 		ssd1306_SetCursor(0, 0);
-		ssd1306_WriteString("Sent: LoRa OK!", Font_11x18, White);
+		ssd1306_WriteString("LoRa OK!", Font_11x18, White);
+		ssd1306_UpdateScreen();
 	}
 else if (status == LORA_NOT_FOUND)
 	{
-		// mcu cant communicate with lora
+		// mcu cant communicate with lora	
+		ssd1306_WriteString("LoRa not found, check wiring!", Font_11x18, White);
+		ssd1306_UpdateScreen();
 	}
 else if (status == LORA_UNAVAILABLE)
 	{
 		// setup is not correct
+		ssd1306_WriteString("Setup is not correct..", Font_11x18, White);
+		ssd1306_UpdateScreen();
 	}
 
 
 lora.frequency      = 434;
-lora.spreadingFactor = SF_9;
+lora.spredingFactor = SF_9;
 lora.bandWidth      = BW_250KHz;
 lora.crcRate        = CR_4_8;
 lora.power          = POWER_17db;
 lora.overCurrentProtection = 130;
 lora.preamble       = 10;
-*/
 
+
+// ====================== GPS SETUP ==========================
+GPS_Init();
 
 
   /* USER CODE END 2 */
