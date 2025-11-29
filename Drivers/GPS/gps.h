@@ -6,7 +6,7 @@
  */
 
 #define GPS_DEBUG	0
-#define	GPS_USART	&huart2
+#define	GPS_USART	&huart1
 #define GPSBUFSIZE  128       // GPS buffer size
 
 typedef struct{
