@@ -32,6 +32,10 @@
 #include "ssd1306_fonts.h"
 #include <string.h>
 #include <stdio.h>
+
+#include "comm.h"
+#include "protocol.h"
+#include "scan.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

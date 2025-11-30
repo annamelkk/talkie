@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccRDOUC5.s 			page 1
+ARM GAS  /tmp/cczWMdyT.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
   14:Core/Src/main.c ****   * If no LICENSE file comes with this software, it is provided AS-IS.
   15:Core/Src/main.c ****   *
   16:Core/Src/main.c ****   ******************************************************************************
-ARM GAS  /tmp/ccRDOUC5.s 			page 2
+ARM GAS  /tmp/cczWMdyT.s 			page 2
 
 
   17:Core/Src/main.c ****   */
@@ -79,179 +79,183 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
   32:Core/Src/main.c **** #include "ssd1306_fonts.h"
   33:Core/Src/main.c **** #include <string.h>
   34:Core/Src/main.c **** #include <stdio.h>
-  35:Core/Src/main.c **** /* USER CODE END Includes */
-  36:Core/Src/main.c **** 
-  37:Core/Src/main.c **** /* Private typedef -----------------------------------------------------------*/
-  38:Core/Src/main.c **** /* USER CODE BEGIN PTD */
-  39:Core/Src/main.c **** 
-  40:Core/Src/main.c **** /* USER CODE END PTD */
-  41:Core/Src/main.c **** 
-  42:Core/Src/main.c **** /* Private define ------------------------------------------------------------*/
-  43:Core/Src/main.c **** /* USER CODE BEGIN PD */
-  44:Core/Src/main.c **** 
-  45:Core/Src/main.c **** /* USER CODE END PD */
-  46:Core/Src/main.c **** 
-  47:Core/Src/main.c **** /* Private macro -------------------------------------------------------------*/
-  48:Core/Src/main.c **** /* USER CODE BEGIN PM */
-  49:Core/Src/main.c **** 
-  50:Core/Src/main.c **** /* USER CODE END PM */
-  51:Core/Src/main.c **** 
-  52:Core/Src/main.c **** /* Private variables ---------------------------------------------------------*/
+  35:Core/Src/main.c **** 
+  36:Core/Src/main.c **** #include "comm.h"
+  37:Core/Src/main.c **** #include "protocol.h"
+  38:Core/Src/main.c **** #include "scan.h"
+  39:Core/Src/main.c **** /* USER CODE END Includes */
+  40:Core/Src/main.c **** 
+  41:Core/Src/main.c **** /* Private typedef -----------------------------------------------------------*/
+  42:Core/Src/main.c **** /* USER CODE BEGIN PTD */
+  43:Core/Src/main.c **** 
+  44:Core/Src/main.c **** /* USER CODE END PTD */
+  45:Core/Src/main.c **** 
+  46:Core/Src/main.c **** /* Private define ------------------------------------------------------------*/
+  47:Core/Src/main.c **** /* USER CODE BEGIN PD */
+  48:Core/Src/main.c **** 
+  49:Core/Src/main.c **** /* USER CODE END PD */
+  50:Core/Src/main.c **** 
+  51:Core/Src/main.c **** /* Private macro -------------------------------------------------------------*/
+  52:Core/Src/main.c **** /* USER CODE BEGIN PM */
   53:Core/Src/main.c **** 
-  54:Core/Src/main.c **** /* USER CODE BEGIN PV */
-  55:Core/Src/main.c **** // i2c for oled
-  56:Core/Src/main.c **** 
-  57:Core/Src/main.c **** // declaring the object
-  58:Core/Src/main.c **** LoRa lora;
-  59:Core/Src/main.c **** GPS_t gps;
+  54:Core/Src/main.c **** /* USER CODE END PM */
+  55:Core/Src/main.c **** 
+  56:Core/Src/main.c **** /* Private variables ---------------------------------------------------------*/
+  57:Core/Src/main.c **** 
+  58:Core/Src/main.c **** /* USER CODE BEGIN PV */
+  59:Core/Src/main.c **** // i2c for oled
   60:Core/Src/main.c **** 
-  61:Core/Src/main.c **** /* USER CODE END PV */
-  62:Core/Src/main.c **** 
-  63:Core/Src/main.c **** /* Private function prototypes -----------------------------------------------*/
-  64:Core/Src/main.c **** void SystemClock_Config(void);
-  65:Core/Src/main.c **** /* USER CODE BEGIN PFP */
+  61:Core/Src/main.c **** // declaring the object
+  62:Core/Src/main.c **** LoRa lora;
+  63:Core/Src/main.c **** GPS_t gps;
+  64:Core/Src/main.c **** 
+  65:Core/Src/main.c **** /* USER CODE END PV */
   66:Core/Src/main.c **** 
-  67:Core/Src/main.c **** /* USER CODE END PFP */
-  68:Core/Src/main.c **** 
-  69:Core/Src/main.c **** /* Private user code ---------------------------------------------------------*/
-  70:Core/Src/main.c **** /* USER CODE BEGIN 0 */
-  71:Core/Src/main.c **** 
-  72:Core/Src/main.c **** void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-  73:Core/Src/main.c **** {
-ARM GAS  /tmp/ccRDOUC5.s 			page 3
+  67:Core/Src/main.c **** /* Private function prototypes -----------------------------------------------*/
+  68:Core/Src/main.c **** void SystemClock_Config(void);
+  69:Core/Src/main.c **** /* USER CODE BEGIN PFP */
+  70:Core/Src/main.c **** 
+  71:Core/Src/main.c **** /* USER CODE END PFP */
+  72:Core/Src/main.c **** 
+  73:Core/Src/main.c **** /* Private user code ---------------------------------------------------------*/
+ARM GAS  /tmp/cczWMdyT.s 			page 3
 
 
-  74:Core/Src/main.c **** 	if(huart == &huart1) GPS_UART_CallBack();
-  75:Core/Src/main.c **** }
-  76:Core/Src/main.c **** 
-  77:Core/Src/main.c **** 
-  78:Core/Src/main.c **** /* USER CODE END 0 */
-  79:Core/Src/main.c **** 
-  80:Core/Src/main.c **** /**
-  81:Core/Src/main.c ****   * @brief  The application entry point.
-  82:Core/Src/main.c ****   * @retval int
-  83:Core/Src/main.c ****   */
-  84:Core/Src/main.c **** int main(void)
-  85:Core/Src/main.c **** {
-  86:Core/Src/main.c **** 
-  87:Core/Src/main.c ****   /* USER CODE BEGIN 1 */
-  88:Core/Src/main.c **** 
-  89:Core/Src/main.c ****   /* USER CODE END 1 */
+  74:Core/Src/main.c **** /* USER CODE BEGIN 0 */
+  75:Core/Src/main.c **** 
+  76:Core/Src/main.c **** void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+  77:Core/Src/main.c **** {
+  78:Core/Src/main.c **** 	if(huart == &huart1) GPS_UART_CallBack();
+  79:Core/Src/main.c **** }
+  80:Core/Src/main.c **** 
+  81:Core/Src/main.c **** 
+  82:Core/Src/main.c **** /* USER CODE END 0 */
+  83:Core/Src/main.c **** 
+  84:Core/Src/main.c **** /**
+  85:Core/Src/main.c ****   * @brief  The application entry point.
+  86:Core/Src/main.c ****   * @retval int
+  87:Core/Src/main.c ****   */
+  88:Core/Src/main.c **** int main(void)
+  89:Core/Src/main.c **** {
   90:Core/Src/main.c **** 
-  91:Core/Src/main.c ****   /* MCU Configuration--------------------------------------------------------*/
+  91:Core/Src/main.c ****   /* USER CODE BEGIN 1 */
   92:Core/Src/main.c **** 
-  93:Core/Src/main.c ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  94:Core/Src/main.c ****   HAL_Init();
-  95:Core/Src/main.c **** 
-  96:Core/Src/main.c ****   /* USER CODE BEGIN Init */
-  97:Core/Src/main.c **** 
-  98:Core/Src/main.c ****   /* USER CODE END Init */
+  93:Core/Src/main.c ****   /* USER CODE END 1 */
+  94:Core/Src/main.c **** 
+  95:Core/Src/main.c ****   /* MCU Configuration--------------------------------------------------------*/
+  96:Core/Src/main.c **** 
+  97:Core/Src/main.c ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  98:Core/Src/main.c ****   HAL_Init();
   99:Core/Src/main.c **** 
- 100:Core/Src/main.c ****   /* Configure the system clock */
- 101:Core/Src/main.c ****   SystemClock_Config();
- 102:Core/Src/main.c **** 
- 103:Core/Src/main.c ****   /* USER CODE BEGIN SysInit */
- 104:Core/Src/main.c **** 
- 105:Core/Src/main.c ****   /* USER CODE END SysInit */
+ 100:Core/Src/main.c ****   /* USER CODE BEGIN Init */
+ 101:Core/Src/main.c **** 
+ 102:Core/Src/main.c ****   /* USER CODE END Init */
+ 103:Core/Src/main.c **** 
+ 104:Core/Src/main.c ****   /* Configure the system clock */
+ 105:Core/Src/main.c ****   SystemClock_Config();
  106:Core/Src/main.c **** 
- 107:Core/Src/main.c ****   /* Initialize all configured peripherals */
- 108:Core/Src/main.c ****   MX_GPIO_Init();
- 109:Core/Src/main.c ****   MX_USART2_UART_Init();
- 110:Core/Src/main.c ****   MX_SPI1_Init();
- 111:Core/Src/main.c ****   MX_I2C1_Init();
- 112:Core/Src/main.c ****   MX_USART1_UART_Init();
- 113:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
- 114:Core/Src/main.c **** 
- 115:Core/Src/main.c **** 
- 116:Core/Src/main.c **** // ======================OLED SETUP =============================
- 117:Core/Src/main.c **** 
- 118:Core/Src/main.c **** // Initialize the display
- 119:Core/Src/main.c **** ssd1306_Init();
- 120:Core/Src/main.c ****     
- 121:Core/Src/main.c **** // clear the display buffer
- 122:Core/Src/main.c **** ssd1306_Fill(Black);
- 123:Core/Src/main.c ****     
- 124:Core/Src/main.c **** // set cursor position and write text
- 125:Core/Src/main.c **** ssd1306_SetCursor(16, 16);
- 126:Core/Src/main.c **** ssd1306_WriteString("Startup...", Font_11x18, White);
- 127:Core/Src/main.c **** 
- 128:Core/Src/main.c **** // update the display
- 129:Core/Src/main.c **** ssd1306_UpdateScreen();
- 130:Core/Src/main.c **** HAL_Delay(500);
-ARM GAS  /tmp/ccRDOUC5.s 			page 4
+ 107:Core/Src/main.c ****   /* USER CODE BEGIN SysInit */
+ 108:Core/Src/main.c **** 
+ 109:Core/Src/main.c ****   /* USER CODE END SysInit */
+ 110:Core/Src/main.c **** 
+ 111:Core/Src/main.c ****   /* Initialize all configured peripherals */
+ 112:Core/Src/main.c ****   MX_GPIO_Init();
+ 113:Core/Src/main.c ****   MX_USART2_UART_Init();
+ 114:Core/Src/main.c ****   MX_SPI1_Init();
+ 115:Core/Src/main.c ****   MX_I2C1_Init();
+ 116:Core/Src/main.c ****   MX_USART1_UART_Init();
+ 117:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
+ 118:Core/Src/main.c **** 
+ 119:Core/Src/main.c **** 
+ 120:Core/Src/main.c **** // ======================OLED SETUP =============================
+ 121:Core/Src/main.c **** 
+ 122:Core/Src/main.c **** // Initialize the display
+ 123:Core/Src/main.c **** ssd1306_Init();
+ 124:Core/Src/main.c ****     
+ 125:Core/Src/main.c **** // clear the display buffer
+ 126:Core/Src/main.c **** ssd1306_Fill(Black);
+ 127:Core/Src/main.c ****     
+ 128:Core/Src/main.c **** // set cursor position and write text
+ 129:Core/Src/main.c **** ssd1306_SetCursor(16, 16);
+ 130:Core/Src/main.c **** ssd1306_WriteString("Startup...", Font_11x18, White);
+ARM GAS  /tmp/cczWMdyT.s 			page 4
 
 
- 131:Core/Src/main.c **** ssd1306_Fill(Black);
- 132:Core/Src/main.c **** 
- 133:Core/Src/main.c **** // ====================== LORA SETUP ==========================
- 134:Core/Src/main.c **** // configuring SPI pins for lora
- 135:Core/Src/main.c **** 
- 136:Core/Src/main.c **** lora.CS_port		= NSS_GPIO_Port;
- 137:Core/Src/main.c **** lora.CS_pin		= NSS_Pin;
- 138:Core/Src/main.c **** lora.reset_port		= LoRa_RST_GPIO_Port;
- 139:Core/Src/main.c **** lora.reset_pin		= LoRa_RST_Pin;
- 140:Core/Src/main.c **** lora.DIO0_port		= DIO0_GPIO_Port;
- 141:Core/Src/main.c **** lora.DIO0_pin		= DIO0_Pin;
- 142:Core/Src/main.c **** lora.hSPIx		= &hspi1;
- 143:Core/Src/main.c **** 
- 144:Core/Src/main.c **** char		send_data[200];
- 145:Core/Src/main.c **** uint16_t	status = LoRa_init(&lora);
- 146:Core/Src/main.c **** 
- 147:Core/Src/main.c **** memset(send_data, 0, 200);
- 148:Core/Src/main.c **** 
- 149:Core/Src/main.c **** if (status == LORA_OK)
- 150:Core/Src/main.c **** 	{
- 151:Core/Src/main.c **** 		// whatever
- 152:Core/Src/main.c **** 		/*	
- 153:Core/Src/main.c **** 		snprintf(send_data, sizeof(send_data), "\n\r LoRa OK! :)");
- 154:Core/Src/main.c **** 		LoRa_transmit(&lora, (uint8_t*)send_data, 120, 100);
- 155:Core/Src/main.c **** 		HAL_UART_Transmit(&huart1, (uint8_t*)send_data, 200, 200);
- 156:Core/Src/main.c **** 		*/
- 157:Core/Src/main.c **** 		ssd1306_SetCursor(16, 16);
- 158:Core/Src/main.c **** 		ssd1306_WriteString("LoRa OK!", Font_11x18, White);
- 159:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 160:Core/Src/main.c **** 		HAL_Delay(500);
- 161:Core/Src/main.c **** 	}
- 162:Core/Src/main.c **** else if (status == LORA_NOT_FOUND)
- 163:Core/Src/main.c **** 	{
- 164:Core/Src/main.c **** 		// mcu cant communicate with lora	
- 165:Core/Src/main.c **** 		ssd1306_WriteString("LoRa not found, check wiring!", Font_11x18, White);
- 166:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 167:Core/Src/main.c **** 		HAL_Delay(500);
- 168:Core/Src/main.c **** 	}
- 169:Core/Src/main.c **** else if (status == LORA_UNAVAILABLE)
- 170:Core/Src/main.c **** 	{
- 171:Core/Src/main.c **** 		// setup is not correct
- 172:Core/Src/main.c **** 		ssd1306_WriteString("Setup is not correct..", Font_11x18, White);
- 173:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 174:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 175:Core/Src/main.c **** 		HAL_Delay(500);
- 176:Core/Src/main.c **** 
- 177:Core/Src/main.c **** 	}
- 178:Core/Src/main.c **** 
- 179:Core/Src/main.c **** 
- 180:Core/Src/main.c **** lora.frequency      = 434;
- 181:Core/Src/main.c **** lora.spredingFactor = SF_9;
- 182:Core/Src/main.c **** lora.bandWidth      = BW_250KHz;
- 183:Core/Src/main.c **** lora.crcRate        = CR_4_8;
- 184:Core/Src/main.c **** lora.power          = POWER_17db;
- 185:Core/Src/main.c **** lora.overCurrentProtection = 130;
- 186:Core/Src/main.c **** lora.preamble       = 10;
- 187:Core/Src/main.c **** 
-ARM GAS  /tmp/ccRDOUC5.s 			page 5
+ 131:Core/Src/main.c **** 
+ 132:Core/Src/main.c **** // update the display
+ 133:Core/Src/main.c **** ssd1306_UpdateScreen();
+ 134:Core/Src/main.c **** HAL_Delay(500);
+ 135:Core/Src/main.c **** ssd1306_Fill(Black);
+ 136:Core/Src/main.c **** 
+ 137:Core/Src/main.c **** // ====================== LORA SETUP ==========================
+ 138:Core/Src/main.c **** // configuring SPI pins for lora
+ 139:Core/Src/main.c **** 
+ 140:Core/Src/main.c **** lora.CS_port		= NSS_GPIO_Port;
+ 141:Core/Src/main.c **** lora.CS_pin		= NSS_Pin;
+ 142:Core/Src/main.c **** lora.reset_port		= LoRa_RST_GPIO_Port;
+ 143:Core/Src/main.c **** lora.reset_pin		= LoRa_RST_Pin;
+ 144:Core/Src/main.c **** lora.DIO0_port		= DIO0_GPIO_Port;
+ 145:Core/Src/main.c **** lora.DIO0_pin		= DIO0_Pin;
+ 146:Core/Src/main.c **** lora.hSPIx		= &hspi1;
+ 147:Core/Src/main.c **** 
+ 148:Core/Src/main.c **** char		send_data[200];
+ 149:Core/Src/main.c **** uint16_t	status = LoRa_init(&lora);
+ 150:Core/Src/main.c **** 
+ 151:Core/Src/main.c **** memset(send_data, 0, 200);
+ 152:Core/Src/main.c **** 
+ 153:Core/Src/main.c **** if (status == LORA_OK)
+ 154:Core/Src/main.c **** 	{
+ 155:Core/Src/main.c **** 		// whatever
+ 156:Core/Src/main.c **** 		/*	
+ 157:Core/Src/main.c **** 		snprintf(send_data, sizeof(send_data), "\n\r LoRa OK! :)");
+ 158:Core/Src/main.c **** 		LoRa_transmit(&lora, (uint8_t*)send_data, 120, 100);
+ 159:Core/Src/main.c **** 		HAL_UART_Transmit(&huart1, (uint8_t*)send_data, 200, 200);
+ 160:Core/Src/main.c **** 		*/
+ 161:Core/Src/main.c **** 		ssd1306_SetCursor(16, 16);
+ 162:Core/Src/main.c **** 		ssd1306_WriteString("LoRa OK!", Font_11x18, White);
+ 163:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 164:Core/Src/main.c **** 		HAL_Delay(500);
+ 165:Core/Src/main.c **** 	}
+ 166:Core/Src/main.c **** else if (status == LORA_NOT_FOUND)
+ 167:Core/Src/main.c **** 	{
+ 168:Core/Src/main.c **** 		// mcu cant communicate with lora	
+ 169:Core/Src/main.c **** 		ssd1306_WriteString("LoRa not found, check wiring!", Font_11x18, White);
+ 170:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 171:Core/Src/main.c **** 		HAL_Delay(500);
+ 172:Core/Src/main.c **** 	}
+ 173:Core/Src/main.c **** else if (status == LORA_UNAVAILABLE)
+ 174:Core/Src/main.c **** 	{
+ 175:Core/Src/main.c **** 		// setup is not correct
+ 176:Core/Src/main.c **** 		ssd1306_WriteString("Setup is not correct..", Font_11x18, White);
+ 177:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 178:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 179:Core/Src/main.c **** 		HAL_Delay(500);
+ 180:Core/Src/main.c **** 
+ 181:Core/Src/main.c **** 	}
+ 182:Core/Src/main.c **** 
+ 183:Core/Src/main.c **** 
+ 184:Core/Src/main.c **** lora.frequency      = 434;
+ 185:Core/Src/main.c **** lora.spredingFactor = SF_9;
+ 186:Core/Src/main.c **** lora.bandWidth      = BW_250KHz;
+ 187:Core/Src/main.c **** lora.crcRate        = CR_4_8;
+ARM GAS  /tmp/cczWMdyT.s 			page 5
 
 
- 188:Core/Src/main.c **** 
- 189:Core/Src/main.c **** // ====================== GPS SETUP ==========================
- 190:Core/Src/main.c **** GPS_Init();
+ 188:Core/Src/main.c **** lora.power          = POWER_17db;
+ 189:Core/Src/main.c **** lora.overCurrentProtection = 130;
+ 190:Core/Src/main.c **** lora.preamble       = 10;
  191:Core/Src/main.c **** 
- 192:Core/Src/main.c **** void GPS_display_status(GPS_t *gps)
- 193:Core/Src/main.c **** {
-  37              		.loc 1 193 1 view -0
+ 192:Core/Src/main.c **** 
+ 193:Core/Src/main.c **** // ====================== GPS SETUP ==========================
+ 194:Core/Src/main.c **** GPS_Init();
+ 195:Core/Src/main.c **** 
+ 196:Core/Src/main.c **** void GPS_display_status(GPS_t *gps)
+ 197:Core/Src/main.c **** {
+  37              		.loc 1 197 1 view -0
   38              		.cfi_startproc
   39              		@ args = 0, pretend = 0, frame = 0
   40              		@ frame_needed = 0, uses_anonymous_args = 0
-  41              		.loc 1 193 1 is_stmt 0 view .LVU1
+  41              		.loc 1 197 1 is_stmt 0 view .LVU1
   42 0000 10B5     		push	{r4, lr}
   43              	.LCFI0:
   44              		.cfi_def_cfa_offset 8
@@ -261,48 +265,48 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
   48              	.LCFI1:
   49              		.cfi_def_cfa_offset 16
   50 0004 0446     		mov	r4, r0
- 194:Core/Src/main.c ****     ssd1306_SetCursor(0, 16); // adjust position as needed
-  51              		.loc 1 194 5 is_stmt 1 view .LVU2
+ 198:Core/Src/main.c ****     ssd1306_SetCursor(0, 16); // adjust position as needed
+  51              		.loc 1 198 5 is_stmt 1 view .LVU2
   52 0006 1021     		movs	r1, #16
   53 0008 0020     		movs	r0, #0
   54              	.LVL1:
-  55              		.loc 1 194 5 is_stmt 0 view .LVU3
+  55              		.loc 1 198 5 is_stmt 0 view .LVU3
   56 000a FFF7FEFF 		bl	ssd1306_SetCursor
   57              	.LVL2:
- 195:Core/Src/main.c **** 
- 196:Core/Src/main.c ****     if (gps->lock == 0)
-  58              		.loc 1 196 5 is_stmt 1 view .LVU4
-  59              		.loc 1 196 12 is_stmt 0 view .LVU5
+ 199:Core/Src/main.c **** 
+ 200:Core/Src/main.c ****     if (gps->lock == 0)
+  58              		.loc 1 200 5 is_stmt 1 view .LVU4
+  59              		.loc 1 200 12 is_stmt 0 view .LVU5
   60 000e E369     		ldr	r3, [r4, #28]
-  61              		.loc 1 196 8 view .LVU6
+  61              		.loc 1 200 8 view .LVU6
   62 0010 7BB1     		cbz	r3, .L6
- 197:Core/Src/main.c ****     {
- 198:Core/Src/main.c ****         // GPS module is connected but no fix yet
- 199:Core/Src/main.c ****         ssd1306_WriteString("GPS: no fix", Font_11x18, White);
- 200:Core/Src/main.c ****     }
- 201:Core/Src/main.c ****     else if (gps->lock > 0 && gps->satelites >= 3) 
-  63              		.loc 1 201 10 is_stmt 1 view .LVU7
-  64              		.loc 1 201 13 is_stmt 0 view .LVU8
+ 201:Core/Src/main.c ****     {
+ 202:Core/Src/main.c ****         // GPS module is connected but no fix yet
+ 203:Core/Src/main.c ****         ssd1306_WriteString("GPS: no fix", Font_11x18, White);
+ 204:Core/Src/main.c ****     }
+ 205:Core/Src/main.c ****     else if (gps->lock > 0 && gps->satelites >= 3) 
+  63              		.loc 1 205 10 is_stmt 1 view .LVU7
+  64              		.loc 1 205 13 is_stmt 0 view .LVU8
   65 0012 002B     		cmp	r3, #0
   66 0014 02DD     		ble	.L4
-  67              		.loc 1 201 34 discriminator 1 view .LVU9
+  67              		.loc 1 205 34 discriminator 1 view .LVU9
   68 0016 236A     		ldr	r3, [r4, #32]
-  69              		.loc 1 201 28 discriminator 1 view .LVU10
+  69              		.loc 1 205 28 discriminator 1 view .LVU10
   70 0018 022B     		cmp	r3, #2
   71 001a 12DC     		bgt	.L7
   72              	.L4:
- 202:Core/Src/main.c ****     {
- 203:Core/Src/main.c ****         // GPS has a valid fix (3+ satellites)
- 204:Core/Src/main.c ****         ssd1306_WriteString("GPS OK!", Font_11x18, White);
- 205:Core/Src/main.c ****     }
- 206:Core/Src/main.c ****     else
- 207:Core/Src/main.c ****     {
- 208:Core/Src/main.c ****         // if GPS string is invalid or module not responding
-ARM GAS  /tmp/ccRDOUC5.s 			page 6
+ 206:Core/Src/main.c ****     {
+ 207:Core/Src/main.c ****         // GPS has a valid fix (3+ satellites)
+ 208:Core/Src/main.c ****         ssd1306_WriteString("GPS OK!", Font_11x18, White);
+ARM GAS  /tmp/cczWMdyT.s 			page 6
 
 
- 209:Core/Src/main.c ****         ssd1306_WriteString("GPS not found!", Font_11x18, White);
-  73              		.loc 1 209 9 is_stmt 1 view .LVU11
+ 209:Core/Src/main.c ****     }
+ 210:Core/Src/main.c ****     else
+ 211:Core/Src/main.c ****     {
+ 212:Core/Src/main.c ****         // if GPS string is invalid or module not responding
+ 213:Core/Src/main.c ****         ssd1306_WriteString("GPS not found!", Font_11x18, White);
+  73              		.loc 1 213 9 is_stmt 1 view .LVU11
   74 001c 0D4B     		ldr	r3, .L8
   75 001e 0122     		movs	r2, #1
   76 0020 0092     		str	r2, [sp]
@@ -311,14 +315,14 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
   79 0026 FFF7FEFF 		bl	ssd1306_WriteString
   80              	.LVL3:
   81              	.L3:
- 210:Core/Src/main.c ****     }
- 211:Core/Src/main.c **** 
- 212:Core/Src/main.c ****     ssd1306_UpdateScreen();
-  82              		.loc 1 212 5 view .LVU12
+ 214:Core/Src/main.c ****     }
+ 215:Core/Src/main.c **** 
+ 216:Core/Src/main.c ****     ssd1306_UpdateScreen();
+  82              		.loc 1 216 5 view .LVU12
   83 002a FFF7FEFF 		bl	ssd1306_UpdateScreen
   84              	.LVL4:
- 213:Core/Src/main.c **** }
-  85              		.loc 1 213 1 is_stmt 0 view .LVU13
+ 217:Core/Src/main.c **** }
+  85              		.loc 1 217 1 is_stmt 0 view .LVU13
   86 002e 02B0     		add	sp, sp, #8
   87              	.LCFI2:
   88              		.cfi_remember_state
@@ -329,8 +333,8 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
   93              	.L6:
   94              	.LCFI3:
   95              		.cfi_restore_state
- 199:Core/Src/main.c ****     }
-  96              		.loc 1 199 9 is_stmt 1 view .LVU14
+ 203:Core/Src/main.c ****     }
+  96              		.loc 1 203 9 is_stmt 1 view .LVU14
   97 0032 084B     		ldr	r3, .L8
   98 0034 0122     		movs	r2, #1
   99 0036 0092     		str	r2, [sp]
@@ -340,8 +344,8 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  103              	.LVL6:
  104 0040 F3E7     		b	.L3
  105              	.L7:
- 204:Core/Src/main.c ****     }
- 106              		.loc 1 204 9 view .LVU15
+ 208:Core/Src/main.c ****     }
+ 106              		.loc 1 208 9 view .LVU15
  107 0042 044B     		ldr	r3, .L8
  108 0044 0122     		movs	r2, #1
  109 0046 0092     		str	r2, [sp]
@@ -354,13 +358,13 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  116 0052 00BF     		.align	2
  117              	.L8:
  118 0054 00000000 		.word	Font_11x18
+ARM GAS  /tmp/cczWMdyT.s 			page 7
+
+
  119 0058 14000000 		.word	.LC2
  120 005c 00000000 		.word	.LC0
  121 0060 0C000000 		.word	.LC1
  122              		.cfi_endproc
-ARM GAS  /tmp/ccRDOUC5.s 			page 7
-
-
  123              	.LFE70:
  125              		.section	.text.HAL_UART_RxCpltCallback,"ax",%progbits
  126              		.align	1
@@ -371,38 +375,38 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  132              	HAL_UART_RxCpltCallback:
  133              	.LVL8:
  134              	.LFB68:
-  73:Core/Src/main.c **** 	if(huart == &huart1) GPS_UART_CallBack();
- 135              		.loc 1 73 1 view -0
+  77:Core/Src/main.c **** 	if(huart == &huart1) GPS_UART_CallBack();
+ 135              		.loc 1 77 1 view -0
  136              		.cfi_startproc
  137              		@ args = 0, pretend = 0, frame = 0
  138              		@ frame_needed = 0, uses_anonymous_args = 0
-  73:Core/Src/main.c **** 	if(huart == &huart1) GPS_UART_CallBack();
- 139              		.loc 1 73 1 is_stmt 0 view .LVU17
+  77:Core/Src/main.c **** 	if(huart == &huart1) GPS_UART_CallBack();
+ 139              		.loc 1 77 1 is_stmt 0 view .LVU17
  140 0000 08B5     		push	{r3, lr}
  141              	.LCFI4:
  142              		.cfi_def_cfa_offset 8
  143              		.cfi_offset 3, -8
  144              		.cfi_offset 14, -4
-  74:Core/Src/main.c **** }
- 145              		.loc 1 74 2 is_stmt 1 view .LVU18
-  74:Core/Src/main.c **** }
- 146              		.loc 1 74 4 is_stmt 0 view .LVU19
+  78:Core/Src/main.c **** }
+ 145              		.loc 1 78 2 is_stmt 1 view .LVU18
+  78:Core/Src/main.c **** }
+ 146              		.loc 1 78 4 is_stmt 0 view .LVU19
  147 0002 034B     		ldr	r3, .L14
  148 0004 8342     		cmp	r3, r0
  149 0006 00D0     		beq	.L13
  150              	.LVL9:
  151              	.L10:
-  75:Core/Src/main.c **** 
- 152              		.loc 1 75 1 view .LVU20
+  79:Core/Src/main.c **** 
+ 152              		.loc 1 79 1 view .LVU20
  153 0008 08BD     		pop	{r3, pc}
  154              	.LVL10:
  155              	.L13:
-  74:Core/Src/main.c **** }
- 156              		.loc 1 74 23 is_stmt 1 discriminator 1 view .LVU21
+  78:Core/Src/main.c **** }
+ 156              		.loc 1 78 23 is_stmt 1 discriminator 1 view .LVU21
  157 000a FFF7FEFF 		bl	GPS_UART_CallBack
  158              	.LVL11:
-  75:Core/Src/main.c **** 
- 159              		.loc 1 75 1 is_stmt 0 view .LVU22
+  79:Core/Src/main.c **** 
+ 159              		.loc 1 79 1 is_stmt 0 view .LVU22
  160 000e FBE7     		b	.L10
  161              	.L15:
  162              		.align	2
@@ -414,95 +418,95 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  169              		.align	1
  170              		.global	Error_Handler
  171              		.syntax unified
+ARM GAS  /tmp/cczWMdyT.s 			page 8
+
+
  172              		.thumb
  173              		.thumb_func
  175              	Error_Handler:
  176              	.LFB72:
-ARM GAS  /tmp/ccRDOUC5.s 			page 8
-
-
- 214:Core/Src/main.c **** 
- 215:Core/Src/main.c **** char gps_buffer[GPSBUFSIZE];
- 216:Core/Src/main.c **** 
- 217:Core/Src/main.c **** GPS_parse(gps_buffer); // this fills the gps struct
  218:Core/Src/main.c **** 
- 219:Core/Src/main.c **** GPS_display_status(&gps);
+ 219:Core/Src/main.c **** char gps_buffer[GPSBUFSIZE];
  220:Core/Src/main.c **** 
- 221:Core/Src/main.c ****   /* USER CODE END 2 */
+ 221:Core/Src/main.c **** GPS_parse(gps_buffer); // this fills the gps struct
  222:Core/Src/main.c **** 
- 223:Core/Src/main.c ****   /* Infinite loop */
- 224:Core/Src/main.c ****   /* USER CODE BEGIN WHILE */
- 225:Core/Src/main.c ****   while (1)
- 226:Core/Src/main.c ****   {
- 227:Core/Src/main.c ****     /* USER CODE END WHILE */
- 228:Core/Src/main.c **** 
- 229:Core/Src/main.c ****     /* USER CODE BEGIN 3 */
- 230:Core/Src/main.c ****   }
- 231:Core/Src/main.c ****   /* USER CODE END 3 */
- 232:Core/Src/main.c **** }
- 233:Core/Src/main.c **** 
- 234:Core/Src/main.c **** /**
- 235:Core/Src/main.c ****   * @brief System Clock Configuration
- 236:Core/Src/main.c ****   * @retval None
- 237:Core/Src/main.c ****   */
- 238:Core/Src/main.c **** void SystemClock_Config(void)
- 239:Core/Src/main.c **** {
- 240:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
- 241:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
- 242:Core/Src/main.c **** 
- 243:Core/Src/main.c ****   /** Initializes the RCC Oscillators according to the specified parameters
- 244:Core/Src/main.c ****   * in the RCC_OscInitTypeDef structure.
- 245:Core/Src/main.c ****   */
- 246:Core/Src/main.c ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
- 247:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
- 248:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
- 249:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
- 250:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
- 251:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
- 252:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
- 253:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 254:Core/Src/main.c ****   {
- 255:Core/Src/main.c ****     Error_Handler();
- 256:Core/Src/main.c ****   }
- 257:Core/Src/main.c **** 
- 258:Core/Src/main.c ****   /** Initializes the CPU, AHB and APB buses clocks
- 259:Core/Src/main.c ****   */
- 260:Core/Src/main.c ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
- 261:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
- 262:Core/Src/main.c ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
- 263:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 264:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
- 265:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
- 266:Core/Src/main.c **** 
- 267:Core/Src/main.c ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
- 268:Core/Src/main.c ****   {
- 269:Core/Src/main.c ****     Error_Handler();
- 270:Core/Src/main.c ****   }
-ARM GAS  /tmp/ccRDOUC5.s 			page 9
+ 223:Core/Src/main.c **** GPS_display_status(&gps);
+ 224:Core/Src/main.c **** 
+ 225:Core/Src/main.c ****   /* USER CODE END 2 */
+ 226:Core/Src/main.c **** 
+ 227:Core/Src/main.c ****   /* Infinite loop */
+ 228:Core/Src/main.c ****   /* USER CODE BEGIN WHILE */
+ 229:Core/Src/main.c ****   while (1)
+ 230:Core/Src/main.c ****   {
+ 231:Core/Src/main.c ****     /* USER CODE END WHILE */
+ 232:Core/Src/main.c **** 
+ 233:Core/Src/main.c ****     /* USER CODE BEGIN 3 */
+ 234:Core/Src/main.c ****   }
+ 235:Core/Src/main.c ****   /* USER CODE END 3 */
+ 236:Core/Src/main.c **** }
+ 237:Core/Src/main.c **** 
+ 238:Core/Src/main.c **** /**
+ 239:Core/Src/main.c ****   * @brief System Clock Configuration
+ 240:Core/Src/main.c ****   * @retval None
+ 241:Core/Src/main.c ****   */
+ 242:Core/Src/main.c **** void SystemClock_Config(void)
+ 243:Core/Src/main.c **** {
+ 244:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+ 245:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+ 246:Core/Src/main.c **** 
+ 247:Core/Src/main.c ****   /** Initializes the RCC Oscillators according to the specified parameters
+ 248:Core/Src/main.c ****   * in the RCC_OscInitTypeDef structure.
+ 249:Core/Src/main.c ****   */
+ 250:Core/Src/main.c ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+ 251:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+ 252:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+ 253:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ 254:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 255:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 256:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+ 257:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 258:Core/Src/main.c ****   {
+ 259:Core/Src/main.c ****     Error_Handler();
+ 260:Core/Src/main.c ****   }
+ 261:Core/Src/main.c **** 
+ 262:Core/Src/main.c ****   /** Initializes the CPU, AHB and APB buses clocks
+ 263:Core/Src/main.c ****   */
+ 264:Core/Src/main.c ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+ 265:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 266:Core/Src/main.c ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+ 267:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 268:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 269:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 270:Core/Src/main.c **** 
+ARM GAS  /tmp/cczWMdyT.s 			page 9
 
 
- 271:Core/Src/main.c **** }
- 272:Core/Src/main.c **** 
- 273:Core/Src/main.c **** /* USER CODE BEGIN 4 */
- 274:Core/Src/main.c **** 
- 275:Core/Src/main.c **** /* USER CODE END 4 */
+ 271:Core/Src/main.c ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+ 272:Core/Src/main.c ****   {
+ 273:Core/Src/main.c ****     Error_Handler();
+ 274:Core/Src/main.c ****   }
+ 275:Core/Src/main.c **** }
  276:Core/Src/main.c **** 
- 277:Core/Src/main.c **** /**
- 278:Core/Src/main.c ****   * @brief  This function is executed in case of error occurrence.
- 279:Core/Src/main.c ****   * @retval None
- 280:Core/Src/main.c ****   */
- 281:Core/Src/main.c **** void Error_Handler(void)
- 282:Core/Src/main.c **** {
- 177              		.loc 1 282 1 is_stmt 1 view -0
+ 277:Core/Src/main.c **** /* USER CODE BEGIN 4 */
+ 278:Core/Src/main.c **** 
+ 279:Core/Src/main.c **** /* USER CODE END 4 */
+ 280:Core/Src/main.c **** 
+ 281:Core/Src/main.c **** /**
+ 282:Core/Src/main.c ****   * @brief  This function is executed in case of error occurrence.
+ 283:Core/Src/main.c ****   * @retval None
+ 284:Core/Src/main.c ****   */
+ 285:Core/Src/main.c **** void Error_Handler(void)
+ 286:Core/Src/main.c **** {
+ 177              		.loc 1 286 1 is_stmt 1 view -0
  178              		.cfi_startproc
  179              		@ Volatile: function does not return.
  180              		@ args = 0, pretend = 0, frame = 0
  181              		@ frame_needed = 0, uses_anonymous_args = 0
  182              		@ link register save eliminated.
- 283:Core/Src/main.c ****   /* USER CODE BEGIN Error_Handler_Debug */
- 284:Core/Src/main.c ****   /* User can add his own implementation to report the HAL error return state */
- 285:Core/Src/main.c ****   __disable_irq();
- 183              		.loc 1 285 3 view .LVU24
+ 287:Core/Src/main.c ****   /* USER CODE BEGIN Error_Handler_Debug */
+ 288:Core/Src/main.c ****   /* User can add his own implementation to report the HAL error return state */
+ 289:Core/Src/main.c ****   __disable_irq();
+ 183              		.loc 1 289 3 view .LVU24
  184              	.LBB4:
  185              	.LBI4:
  186              		.file 2 "Drivers/CMSIS/Include/cmsis_gcc.h"
@@ -534,13 +538,13 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
   26:Drivers/CMSIS/Include/cmsis_gcc.h **** #define __CMSIS_GCC_H
   27:Drivers/CMSIS/Include/cmsis_gcc.h **** 
   28:Drivers/CMSIS/Include/cmsis_gcc.h **** /* ignore some GCC warnings */
+ARM GAS  /tmp/cczWMdyT.s 			page 10
+
+
   29:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic push
   30:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wsign-conversion"
   31:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wconversion"
   32:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wunused-parameter"
-ARM GAS  /tmp/ccRDOUC5.s 			page 10
-
-
   33:Drivers/CMSIS/Include/cmsis_gcc.h **** 
   34:Drivers/CMSIS/Include/cmsis_gcc.h **** /* Fallback for __has_builtin */
   35:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __has_builtin
@@ -594,13 +598,13 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
   83:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
   84:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_WRITE(addr, val)    (void)((((struct T_UINT16_WRITE *)(void *)(addr))-
   85:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ARM GAS  /tmp/cczWMdyT.s 			page 11
+
+
   86:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_READ
   87:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
   88:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
   89:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
-ARM GAS  /tmp/ccRDOUC5.s 			page 11
-
-
   90:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT16_READ { uint16_t v; };
   91:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
   92:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_READ(addr)          (((const struct T_UINT16_READ *)(const void *)(add
@@ -654,13 +658,13 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  140:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __disable_irq(void)
  187              		.loc 2 140 27 view .LVU25
  188              	.LBB5:
+ARM GAS  /tmp/cczWMdyT.s 			page 12
+
+
  141:Drivers/CMSIS/Include/cmsis_gcc.h **** {
  142:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsid i" : : : "memory");
  189              		.loc 2 142 3 view .LVU26
  190              		.syntax unified
-ARM GAS  /tmp/ccRDOUC5.s 			page 12
-
-
  191              	@ 142 "Drivers/CMSIS/Include/cmsis_gcc.h" 1
  192 0000 72B6     		cpsid i
  193              	@ 0 "" 2
@@ -669,13 +673,13 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  196              	.L17:
  197              	.LBE5:
  198              	.LBE4:
- 286:Core/Src/main.c ****   while (1)
- 199              		.loc 1 286 3 view .LVU27
- 287:Core/Src/main.c ****   {
- 288:Core/Src/main.c ****   }
- 200              		.loc 1 288 3 view .LVU28
- 286:Core/Src/main.c ****   while (1)
- 201              		.loc 1 286 9 view .LVU29
+ 290:Core/Src/main.c ****   while (1)
+ 199              		.loc 1 290 3 view .LVU27
+ 291:Core/Src/main.c ****   {
+ 292:Core/Src/main.c ****   }
+ 200              		.loc 1 292 3 view .LVU28
+ 290:Core/Src/main.c ****   while (1)
+ 201              		.loc 1 290 9 view .LVU29
  202 0002 FEE7     		b	.L17
  203              		.cfi_endproc
  204              	.LFE72:
@@ -687,8 +691,8 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  211              		.thumb_func
  213              	SystemClock_Config:
  214              	.LFB71:
- 239:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
- 215              		.loc 1 239 1 view -0
+ 243:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+ 215              		.loc 1 243 1 view -0
  216              		.cfi_startproc
  217              		@ args = 0, pretend = 0, frame = 64
  218              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -700,119 +704,119 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  224 0002 90B0     		sub	sp, sp, #64
  225              	.LCFI6:
  226              		.cfi_def_cfa_offset 72
- 240:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
- 227              		.loc 1 240 3 view .LVU31
- 240:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
- 228              		.loc 1 240 22 is_stmt 0 view .LVU32
+ 244:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+ 227              		.loc 1 244 3 view .LVU31
+ 244:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+ 228              		.loc 1 244 22 is_stmt 0 view .LVU32
  229 0004 06AC     		add	r4, sp, #24
  230 0006 2822     		movs	r2, #40
  231 0008 0021     		movs	r1, #0
  232 000a 2046     		mov	r0, r4
  233 000c FFF7FEFF 		bl	memset
  234              	.LVL12:
- 241:Core/Src/main.c **** 
- 235              		.loc 1 241 3 is_stmt 1 view .LVU33
- 241:Core/Src/main.c **** 
- 236              		.loc 1 241 22 is_stmt 0 view .LVU34
+ 245:Core/Src/main.c **** 
+ 235              		.loc 1 245 3 is_stmt 1 view .LVU33
+ 245:Core/Src/main.c **** 
+ 236              		.loc 1 245 22 is_stmt 0 view .LVU34
+ARM GAS  /tmp/cczWMdyT.s 			page 13
+
+
  237 0010 0023     		movs	r3, #0
  238 0012 0193     		str	r3, [sp, #4]
  239 0014 0293     		str	r3, [sp, #8]
  240 0016 0393     		str	r3, [sp, #12]
-ARM GAS  /tmp/ccRDOUC5.s 			page 13
-
-
  241 0018 0493     		str	r3, [sp, #16]
  242 001a 0593     		str	r3, [sp, #20]
- 246:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
- 243              		.loc 1 246 3 is_stmt 1 view .LVU35
- 246:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
- 244              		.loc 1 246 36 is_stmt 0 view .LVU36
+ 250:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+ 243              		.loc 1 250 3 is_stmt 1 view .LVU35
+ 250:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+ 244              		.loc 1 250 36 is_stmt 0 view .LVU36
  245 001c 0122     		movs	r2, #1
  246 001e 0692     		str	r2, [sp, #24]
- 247:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
- 247              		.loc 1 247 3 is_stmt 1 view .LVU37
- 247:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
- 248              		.loc 1 247 30 is_stmt 0 view .LVU38
+ 251:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+ 247              		.loc 1 251 3 is_stmt 1 view .LVU37
+ 251:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+ 248              		.loc 1 251 30 is_stmt 0 view .LVU38
  249 0020 4FF48033 		mov	r3, #65536
  250 0024 0793     		str	r3, [sp, #28]
- 248:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
- 251              		.loc 1 248 3 is_stmt 1 view .LVU39
- 249:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
- 252              		.loc 1 249 3 view .LVU40
- 249:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
- 253              		.loc 1 249 30 is_stmt 0 view .LVU41
+ 252:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ 251              		.loc 1 252 3 is_stmt 1 view .LVU39
+ 253:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 252              		.loc 1 253 3 view .LVU40
+ 253:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 253              		.loc 1 253 30 is_stmt 0 view .LVU41
  254 0026 0A92     		str	r2, [sp, #40]
- 250:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
- 255              		.loc 1 250 3 is_stmt 1 view .LVU42
- 250:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
- 256              		.loc 1 250 34 is_stmt 0 view .LVU43
+ 254:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 255              		.loc 1 254 3 is_stmt 1 view .LVU42
+ 254:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 256              		.loc 1 254 34 is_stmt 0 view .LVU43
  257 0028 0222     		movs	r2, #2
  258 002a 0D92     		str	r2, [sp, #52]
- 251:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
- 259              		.loc 1 251 3 is_stmt 1 view .LVU44
- 251:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
- 260              		.loc 1 251 35 is_stmt 0 view .LVU45
+ 255:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+ 259              		.loc 1 255 3 is_stmt 1 view .LVU44
+ 255:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+ 260              		.loc 1 255 35 is_stmt 0 view .LVU45
  261 002c 0E93     		str	r3, [sp, #56]
- 252:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 262              		.loc 1 252 3 is_stmt 1 view .LVU46
- 252:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 263              		.loc 1 252 32 is_stmt 0 view .LVU47
+ 256:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 262              		.loc 1 256 3 is_stmt 1 view .LVU46
+ 256:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 263              		.loc 1 256 32 is_stmt 0 view .LVU47
  264 002e 4FF4E013 		mov	r3, #1835008
  265 0032 0F93     		str	r3, [sp, #60]
- 253:Core/Src/main.c ****   {
- 266              		.loc 1 253 3 is_stmt 1 view .LVU48
- 253:Core/Src/main.c ****   {
- 267              		.loc 1 253 7 is_stmt 0 view .LVU49
+ 257:Core/Src/main.c ****   {
+ 266              		.loc 1 257 3 is_stmt 1 view .LVU48
+ 257:Core/Src/main.c ****   {
+ 267              		.loc 1 257 7 is_stmt 0 view .LVU49
  268 0034 2046     		mov	r0, r4
  269 0036 FFF7FEFF 		bl	HAL_RCC_OscConfig
  270              	.LVL13:
- 253:Core/Src/main.c ****   {
- 271              		.loc 1 253 6 discriminator 1 view .LVU50
+ 257:Core/Src/main.c ****   {
+ 271              		.loc 1 257 6 discriminator 1 view .LVU50
  272 003a 78B9     		cbnz	r0, .L22
- 260:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
- 273              		.loc 1 260 3 is_stmt 1 view .LVU51
- 260:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
- 274              		.loc 1 260 31 is_stmt 0 view .LVU52
+ 264:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 273              		.loc 1 264 3 is_stmt 1 view .LVU51
+ 264:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 274              		.loc 1 264 31 is_stmt 0 view .LVU52
  275 003c 0F23     		movs	r3, #15
+ARM GAS  /tmp/cczWMdyT.s 			page 14
+
+
  276 003e 0193     		str	r3, [sp, #4]
- 262:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 277              		.loc 1 262 3 is_stmt 1 view .LVU53
- 262:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-ARM GAS  /tmp/ccRDOUC5.s 			page 14
-
-
- 278              		.loc 1 262 34 is_stmt 0 view .LVU54
+ 266:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 277              		.loc 1 266 3 is_stmt 1 view .LVU53
+ 266:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 278              		.loc 1 266 34 is_stmt 0 view .LVU54
  279 0040 0221     		movs	r1, #2
  280 0042 0291     		str	r1, [sp, #8]
- 263:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
- 281              		.loc 1 263 3 is_stmt 1 view .LVU55
- 263:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
- 282              		.loc 1 263 35 is_stmt 0 view .LVU56
+ 267:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 281              		.loc 1 267 3 is_stmt 1 view .LVU55
+ 267:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 282              		.loc 1 267 35 is_stmt 0 view .LVU56
  283 0044 0023     		movs	r3, #0
  284 0046 0393     		str	r3, [sp, #12]
- 264:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
- 285              		.loc 1 264 3 is_stmt 1 view .LVU57
- 264:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
- 286              		.loc 1 264 36 is_stmt 0 view .LVU58
+ 268:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 285              		.loc 1 268 3 is_stmt 1 view .LVU57
+ 268:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 286              		.loc 1 268 36 is_stmt 0 view .LVU58
  287 0048 4FF48062 		mov	r2, #1024
  288 004c 0492     		str	r2, [sp, #16]
- 265:Core/Src/main.c **** 
- 289              		.loc 1 265 3 is_stmt 1 view .LVU59
- 265:Core/Src/main.c **** 
- 290              		.loc 1 265 36 is_stmt 0 view .LVU60
+ 269:Core/Src/main.c **** 
+ 289              		.loc 1 269 3 is_stmt 1 view .LVU59
+ 269:Core/Src/main.c **** 
+ 290              		.loc 1 269 36 is_stmt 0 view .LVU60
  291 004e 0593     		str	r3, [sp, #20]
- 267:Core/Src/main.c ****   {
- 292              		.loc 1 267 3 is_stmt 1 view .LVU61
- 267:Core/Src/main.c ****   {
- 293              		.loc 1 267 7 is_stmt 0 view .LVU62
+ 271:Core/Src/main.c ****   {
+ 292              		.loc 1 271 3 is_stmt 1 view .LVU61
+ 271:Core/Src/main.c ****   {
+ 293              		.loc 1 271 7 is_stmt 0 view .LVU62
  294 0050 01A8     		add	r0, sp, #4
  295 0052 FFF7FEFF 		bl	HAL_RCC_ClockConfig
  296              	.LVL14:
- 267:Core/Src/main.c ****   {
- 297              		.loc 1 267 6 discriminator 1 view .LVU63
+ 271:Core/Src/main.c ****   {
+ 297              		.loc 1 271 6 discriminator 1 view .LVU63
  298 0056 18B9     		cbnz	r0, .L23
- 271:Core/Src/main.c **** 
- 299              		.loc 1 271 1 view .LVU64
+ 275:Core/Src/main.c **** 
+ 299              		.loc 1 275 1 view .LVU64
  300 0058 10B0     		add	sp, sp, #64
  301              	.LCFI7:
  302              		.cfi_remember_state
@@ -822,25 +826,25 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  306              	.L22:
  307              	.LCFI8:
  308              		.cfi_restore_state
- 255:Core/Src/main.c ****   }
- 309              		.loc 1 255 5 is_stmt 1 view .LVU65
+ 259:Core/Src/main.c ****   }
+ 309              		.loc 1 259 5 is_stmt 1 view .LVU65
  310 005c FFF7FEFF 		bl	Error_Handler
  311              	.LVL15:
  312              	.L23:
- 269:Core/Src/main.c ****   }
- 313              		.loc 1 269 5 view .LVU66
+ 273:Core/Src/main.c ****   }
+ 313              		.loc 1 273 5 view .LVU66
  314 0060 FFF7FEFF 		bl	Error_Handler
  315              	.LVL16:
  316              		.cfi_endproc
  317              	.LFE71:
  319              		.section	.rodata.main.str1.4,"aMS",%progbits,1
+ARM GAS  /tmp/cczWMdyT.s 			page 15
+
+
  320              		.align	2
  321              	.LC3:
  322 0000 53746172 		.ascii	"Startup...\000"
  322      7475702E 
-ARM GAS  /tmp/ccRDOUC5.s 			page 15
-
-
  322      2E2E00
  323 000b 00       		.align	2
  324              	.LC4:
@@ -869,8 +873,8 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  337              		.thumb_func
  339              	main:
  340              	.LFB69:
-  85:Core/Src/main.c **** 
- 341              		.loc 1 85 1 view -0
+  89:Core/Src/main.c **** 
+ 341              		.loc 1 89 1 view -0
  342              		.cfi_startproc
  343              		@ args = 0, pretend = 0, frame = 328
  344              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -882,54 +886,54 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  350 0002 D4B0     		sub	sp, sp, #336
  351              	.LCFI10:
  352              		.cfi_def_cfa_offset 344
-  94:Core/Src/main.c **** 
- 353              		.loc 1 94 3 view .LVU68
+  98:Core/Src/main.c **** 
+ 353              		.loc 1 98 3 view .LVU68
  354 0004 FFF7FEFF 		bl	HAL_Init
  355              	.LVL17:
- 101:Core/Src/main.c **** 
- 356              		.loc 1 101 3 view .LVU69
+ 105:Core/Src/main.c **** 
+ 356              		.loc 1 105 3 view .LVU69
  357 0008 FFF7FEFF 		bl	SystemClock_Config
  358              	.LVL18:
- 108:Core/Src/main.c ****   MX_USART2_UART_Init();
- 359              		.loc 1 108 3 view .LVU70
+ 112:Core/Src/main.c ****   MX_USART2_UART_Init();
+ 359              		.loc 1 112 3 view .LVU70
  360 000c FFF7FEFF 		bl	MX_GPIO_Init
  361              	.LVL19:
- 109:Core/Src/main.c ****   MX_SPI1_Init();
- 362              		.loc 1 109 3 view .LVU71
+ARM GAS  /tmp/cczWMdyT.s 			page 16
+
+
+ 113:Core/Src/main.c ****   MX_SPI1_Init();
+ 362              		.loc 1 113 3 view .LVU71
  363 0010 FFF7FEFF 		bl	MX_USART2_UART_Init
  364              	.LVL20:
-ARM GAS  /tmp/ccRDOUC5.s 			page 16
-
-
- 110:Core/Src/main.c ****   MX_I2C1_Init();
- 365              		.loc 1 110 3 view .LVU72
+ 114:Core/Src/main.c ****   MX_I2C1_Init();
+ 365              		.loc 1 114 3 view .LVU72
  366 0014 FFF7FEFF 		bl	MX_SPI1_Init
  367              	.LVL21:
- 111:Core/Src/main.c ****   MX_USART1_UART_Init();
- 368              		.loc 1 111 3 view .LVU73
+ 115:Core/Src/main.c ****   MX_USART1_UART_Init();
+ 368              		.loc 1 115 3 view .LVU73
  369 0018 FFF7FEFF 		bl	MX_I2C1_Init
  370              	.LVL22:
- 112:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
- 371              		.loc 1 112 3 view .LVU74
+ 116:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
+ 371              		.loc 1 116 3 view .LVU74
  372 001c FFF7FEFF 		bl	MX_USART1_UART_Init
  373              	.LVL23:
- 119:Core/Src/main.c ****     
- 374              		.loc 1 119 1 view .LVU75
+ 123:Core/Src/main.c ****     
+ 374              		.loc 1 123 1 view .LVU75
  375 0020 FFF7FEFF 		bl	ssd1306_Init
  376              	.LVL24:
- 122:Core/Src/main.c ****     
- 377              		.loc 1 122 1 view .LVU76
+ 126:Core/Src/main.c ****     
+ 377              		.loc 1 126 1 view .LVU76
  378 0024 0020     		movs	r0, #0
  379 0026 FFF7FEFF 		bl	ssd1306_Fill
  380              	.LVL25:
- 125:Core/Src/main.c **** ssd1306_WriteString("Startup...", Font_11x18, White);
- 381              		.loc 1 125 1 view .LVU77
+ 129:Core/Src/main.c **** ssd1306_WriteString("Startup...", Font_11x18, White);
+ 381              		.loc 1 129 1 view .LVU77
  382 002a 1021     		movs	r1, #16
  383 002c 0846     		mov	r0, r1
  384 002e FFF7FEFF 		bl	ssd1306_SetCursor
  385              	.LVL26:
- 126:Core/Src/main.c **** 
- 386              		.loc 1 126 1 view .LVU78
+ 130:Core/Src/main.c **** 
+ 386              		.loc 1 130 1 view .LVU78
  387 0032 3E4B     		ldr	r3, .L33
  388 0034 0124     		movs	r4, #1
  389 0036 0094     		str	r4, [sp]
@@ -937,184 +941,184 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  391 003a 3D48     		ldr	r0, .L33+4
  392 003c FFF7FEFF 		bl	ssd1306_WriteString
  393              	.LVL27:
- 129:Core/Src/main.c **** HAL_Delay(500);
- 394              		.loc 1 129 1 view .LVU79
+ 133:Core/Src/main.c **** HAL_Delay(500);
+ 394              		.loc 1 133 1 view .LVU79
  395 0040 FFF7FEFF 		bl	ssd1306_UpdateScreen
  396              	.LVL28:
- 130:Core/Src/main.c **** ssd1306_Fill(Black);
- 397              		.loc 1 130 1 view .LVU80
+ 134:Core/Src/main.c **** ssd1306_Fill(Black);
+ 397              		.loc 1 134 1 view .LVU80
  398 0044 4FF4FA70 		mov	r0, #500
  399 0048 FFF7FEFF 		bl	HAL_Delay
  400              	.LVL29:
- 131:Core/Src/main.c **** 
- 401              		.loc 1 131 1 view .LVU81
+ 135:Core/Src/main.c **** 
+ 401              		.loc 1 135 1 view .LVU81
  402 004c 0020     		movs	r0, #0
  403 004e FFF7FEFF 		bl	ssd1306_Fill
  404              	.LVL30:
- 136:Core/Src/main.c **** lora.CS_pin		= NSS_Pin;
- 405              		.loc 1 136 1 view .LVU82
- 136:Core/Src/main.c **** lora.CS_pin		= NSS_Pin;
- 406              		.loc 1 136 15 is_stmt 0 view .LVU83
+ 140:Core/Src/main.c **** lora.CS_pin		= NSS_Pin;
+ 405              		.loc 1 140 1 view .LVU82
+ 140:Core/Src/main.c **** lora.CS_pin		= NSS_Pin;
+ARM GAS  /tmp/cczWMdyT.s 			page 17
+
+
+ 406              		.loc 1 140 15 is_stmt 0 view .LVU83
  407 0052 3848     		ldr	r0, .L33+8
  408 0054 384B     		ldr	r3, .L33+12
  409 0056 0360     		str	r3, [r0]
-ARM GAS  /tmp/ccRDOUC5.s 			page 17
-
-
- 137:Core/Src/main.c **** lora.reset_port		= LoRa_RST_GPIO_Port;
- 410              		.loc 1 137 1 is_stmt 1 view .LVU84
- 137:Core/Src/main.c **** lora.reset_port		= LoRa_RST_GPIO_Port;
- 411              		.loc 1 137 14 is_stmt 0 view .LVU85
+ 141:Core/Src/main.c **** lora.reset_port		= LoRa_RST_GPIO_Port;
+ 410              		.loc 1 141 1 is_stmt 1 view .LVU84
+ 141:Core/Src/main.c **** lora.reset_port		= LoRa_RST_GPIO_Port;
+ 411              		.loc 1 141 14 is_stmt 0 view .LVU85
  412 0058 1022     		movs	r2, #16
  413 005a 8280     		strh	r2, [r0, #4]	@ movhi
- 138:Core/Src/main.c **** lora.reset_pin		= LoRa_RST_Pin;
- 414              		.loc 1 138 1 is_stmt 1 view .LVU86
- 138:Core/Src/main.c **** lora.reset_pin		= LoRa_RST_Pin;
- 415              		.loc 1 138 18 is_stmt 0 view .LVU87
+ 142:Core/Src/main.c **** lora.reset_pin		= LoRa_RST_Pin;
+ 414              		.loc 1 142 1 is_stmt 1 view .LVU86
+ 142:Core/Src/main.c **** lora.reset_pin		= LoRa_RST_Pin;
+ 415              		.loc 1 142 18 is_stmt 0 view .LVU87
  416 005c 8360     		str	r3, [r0, #8]
- 139:Core/Src/main.c **** lora.DIO0_port		= DIO0_GPIO_Port;
- 417              		.loc 1 139 1 is_stmt 1 view .LVU88
- 139:Core/Src/main.c **** lora.DIO0_port		= DIO0_GPIO_Port;
- 418              		.loc 1 139 17 is_stmt 0 view .LVU89
+ 143:Core/Src/main.c **** lora.DIO0_port		= DIO0_GPIO_Port;
+ 417              		.loc 1 143 1 is_stmt 1 view .LVU88
+ 143:Core/Src/main.c **** lora.DIO0_port		= DIO0_GPIO_Port;
+ 418              		.loc 1 143 17 is_stmt 0 view .LVU89
  419 005e 4FF48072 		mov	r2, #256
  420 0062 8281     		strh	r2, [r0, #12]	@ movhi
- 140:Core/Src/main.c **** lora.DIO0_pin		= DIO0_Pin;
- 421              		.loc 1 140 1 is_stmt 1 view .LVU90
- 140:Core/Src/main.c **** lora.DIO0_pin		= DIO0_Pin;
- 422              		.loc 1 140 17 is_stmt 0 view .LVU91
+ 144:Core/Src/main.c **** lora.DIO0_pin		= DIO0_Pin;
+ 421              		.loc 1 144 1 is_stmt 1 view .LVU90
+ 144:Core/Src/main.c **** lora.DIO0_pin		= DIO0_Pin;
+ 422              		.loc 1 144 17 is_stmt 0 view .LVU91
  423 0064 0361     		str	r3, [r0, #16]
- 141:Core/Src/main.c **** lora.hSPIx		= &hspi1;
- 424              		.loc 1 141 1 is_stmt 1 view .LVU92
- 141:Core/Src/main.c **** lora.hSPIx		= &hspi1;
- 425              		.loc 1 141 16 is_stmt 0 view .LVU93
+ 145:Core/Src/main.c **** lora.hSPIx		= &hspi1;
+ 424              		.loc 1 145 1 is_stmt 1 view .LVU92
+ 145:Core/Src/main.c **** lora.hSPIx		= &hspi1;
+ 425              		.loc 1 145 16 is_stmt 0 view .LVU93
  426 0066 8482     		strh	r4, [r0, #20]	@ movhi
- 142:Core/Src/main.c **** 
- 427              		.loc 1 142 1 is_stmt 1 view .LVU94
- 142:Core/Src/main.c **** 
- 428              		.loc 1 142 13 is_stmt 0 view .LVU95
+ 146:Core/Src/main.c **** 
+ 427              		.loc 1 146 1 is_stmt 1 view .LVU94
+ 146:Core/Src/main.c **** 
+ 428              		.loc 1 146 13 is_stmt 0 view .LVU95
  429 0068 344B     		ldr	r3, .L33+16
  430 006a 8361     		str	r3, [r0, #24]
- 144:Core/Src/main.c **** uint16_t	status = LoRa_init(&lora);
- 431              		.loc 1 144 1 is_stmt 1 view .LVU96
- 145:Core/Src/main.c **** 
- 432              		.loc 1 145 1 view .LVU97
- 145:Core/Src/main.c **** 
- 433              		.loc 1 145 19 is_stmt 0 view .LVU98
+ 148:Core/Src/main.c **** uint16_t	status = LoRa_init(&lora);
+ 431              		.loc 1 148 1 is_stmt 1 view .LVU96
+ 149:Core/Src/main.c **** 
+ 432              		.loc 1 149 1 view .LVU97
+ 149:Core/Src/main.c **** 
+ 433              		.loc 1 149 19 is_stmt 0 view .LVU98
  434 006c FFF7FEFF 		bl	LoRa_init
  435              	.LVL31:
  436 0070 0446     		mov	r4, r0
  437              	.LVL32:
- 147:Core/Src/main.c **** 
- 438              		.loc 1 147 1 is_stmt 1 view .LVU99
+ 151:Core/Src/main.c **** 
+ 438              		.loc 1 151 1 is_stmt 1 view .LVU99
  439 0072 C822     		movs	r2, #200
  440 0074 0021     		movs	r1, #0
  441 0076 22A8     		add	r0, sp, #136
  442 0078 FFF7FEFF 		bl	memset
  443              	.LVL33:
- 149:Core/Src/main.c **** 	{
- 444              		.loc 1 149 1 view .LVU100
- 149:Core/Src/main.c **** 	{
- 445              		.loc 1 149 4 is_stmt 0 view .LVU101
+ 153:Core/Src/main.c **** 	{
+ 444              		.loc 1 153 1 view .LVU100
+ 153:Core/Src/main.c **** 	{
+ARM GAS  /tmp/cczWMdyT.s 			page 18
+
+
+ 445              		.loc 1 153 4 is_stmt 0 view .LVU101
  446 007c C82C     		cmp	r4, #200
  447 007e 24D0     		beq	.L30
- 162:Core/Src/main.c **** 	{
-ARM GAS  /tmp/ccRDOUC5.s 			page 18
-
-
- 448              		.loc 1 162 6 is_stmt 1 view .LVU102
- 162:Core/Src/main.c **** 	{
- 449              		.loc 1 162 9 is_stmt 0 view .LVU103
+ 166:Core/Src/main.c **** 	{
+ 448              		.loc 1 166 6 is_stmt 1 view .LVU102
+ 166:Core/Src/main.c **** 	{
+ 449              		.loc 1 166 9 is_stmt 0 view .LVU103
  450 0080 B4F5CA7F 		cmp	r4, #404
  451 0084 33D0     		beq	.L31
- 169:Core/Src/main.c **** 	{
- 452              		.loc 1 169 6 is_stmt 1 view .LVU104
- 169:Core/Src/main.c **** 	{
- 453              		.loc 1 169 9 is_stmt 0 view .LVU105
+ 173:Core/Src/main.c **** 	{
+ 452              		.loc 1 173 6 is_stmt 1 view .LVU104
+ 173:Core/Src/main.c **** 	{
+ 453              		.loc 1 173 9 is_stmt 0 view .LVU105
  454 0086 40F2F713 		movw	r3, #503
  455 008a 9C42     		cmp	r4, r3
  456 008c 3DD0     		beq	.L32
  457              	.L26:
- 180:Core/Src/main.c **** lora.spredingFactor = SF_9;
- 458              		.loc 1 180 1 is_stmt 1 view .LVU106
- 180:Core/Src/main.c **** lora.spredingFactor = SF_9;
- 459              		.loc 1 180 21 is_stmt 0 view .LVU107
+ 184:Core/Src/main.c **** lora.spredingFactor = SF_9;
+ 458              		.loc 1 184 1 is_stmt 1 view .LVU106
+ 184:Core/Src/main.c **** lora.spredingFactor = SF_9;
+ 459              		.loc 1 184 21 is_stmt 0 view .LVU107
  460 008e 294B     		ldr	r3, .L33+8
  461 0090 4FF4D972 		mov	r2, #434
  462 0094 1A62     		str	r2, [r3, #32]
- 181:Core/Src/main.c **** lora.bandWidth      = BW_250KHz;
- 463              		.loc 1 181 1 is_stmt 1 view .LVU108
- 181:Core/Src/main.c **** lora.bandWidth      = BW_250KHz;
- 464              		.loc 1 181 21 is_stmt 0 view .LVU109
+ 185:Core/Src/main.c **** lora.bandWidth      = BW_250KHz;
+ 463              		.loc 1 185 1 is_stmt 1 view .LVU108
+ 185:Core/Src/main.c **** lora.bandWidth      = BW_250KHz;
+ 464              		.loc 1 185 21 is_stmt 0 view .LVU109
  465 0096 0922     		movs	r2, #9
  466 0098 83F82420 		strb	r2, [r3, #36]
- 182:Core/Src/main.c **** lora.crcRate        = CR_4_8;
- 467              		.loc 1 182 1 is_stmt 1 view .LVU110
- 182:Core/Src/main.c **** lora.crcRate        = CR_4_8;
- 468              		.loc 1 182 21 is_stmt 0 view .LVU111
+ 186:Core/Src/main.c **** lora.crcRate        = CR_4_8;
+ 467              		.loc 1 186 1 is_stmt 1 view .LVU110
+ 186:Core/Src/main.c **** lora.crcRate        = CR_4_8;
+ 468              		.loc 1 186 21 is_stmt 0 view .LVU111
  469 009c 0822     		movs	r2, #8
  470 009e 83F82520 		strb	r2, [r3, #37]
- 183:Core/Src/main.c **** lora.power          = POWER_17db;
- 471              		.loc 1 183 1 is_stmt 1 view .LVU112
- 183:Core/Src/main.c **** lora.power          = POWER_17db;
- 472              		.loc 1 183 21 is_stmt 0 view .LVU113
+ 187:Core/Src/main.c **** lora.power          = POWER_17db;
+ 471              		.loc 1 187 1 is_stmt 1 view .LVU112
+ 187:Core/Src/main.c **** lora.power          = POWER_17db;
+ 472              		.loc 1 187 21 is_stmt 0 view .LVU113
  473 00a2 0422     		movs	r2, #4
  474 00a4 83F82620 		strb	r2, [r3, #38]
- 184:Core/Src/main.c **** lora.overCurrentProtection = 130;
- 475              		.loc 1 184 1 is_stmt 1 view .LVU114
- 184:Core/Src/main.c **** lora.overCurrentProtection = 130;
- 476              		.loc 1 184 21 is_stmt 0 view .LVU115
+ 188:Core/Src/main.c **** lora.overCurrentProtection = 130;
+ 475              		.loc 1 188 1 is_stmt 1 view .LVU114
+ 188:Core/Src/main.c **** lora.overCurrentProtection = 130;
+ 476              		.loc 1 188 21 is_stmt 0 view .LVU115
  477 00a8 FC22     		movs	r2, #252
  478 00aa 83F82A20 		strb	r2, [r3, #42]
- 185:Core/Src/main.c **** lora.preamble       = 10;
- 479              		.loc 1 185 1 is_stmt 1 view .LVU116
- 185:Core/Src/main.c **** lora.preamble       = 10;
- 480              		.loc 1 185 28 is_stmt 0 view .LVU117
+ 189:Core/Src/main.c **** lora.preamble       = 10;
+ 479              		.loc 1 189 1 is_stmt 1 view .LVU116
+ 189:Core/Src/main.c **** lora.preamble       = 10;
+ 480              		.loc 1 189 28 is_stmt 0 view .LVU117
  481 00ae 8222     		movs	r2, #130
  482 00b0 83F82B20 		strb	r2, [r3, #43]
- 186:Core/Src/main.c **** 
- 483              		.loc 1 186 1 is_stmt 1 view .LVU118
- 186:Core/Src/main.c **** 
- 484              		.loc 1 186 21 is_stmt 0 view .LVU119
+ 190:Core/Src/main.c **** 
+ 483              		.loc 1 190 1 is_stmt 1 view .LVU118
+ 190:Core/Src/main.c **** 
+ARM GAS  /tmp/cczWMdyT.s 			page 19
+
+
+ 484              		.loc 1 190 21 is_stmt 0 view .LVU119
  485 00b4 0A22     		movs	r2, #10
  486 00b6 1A85     		strh	r2, [r3, #40]	@ movhi
- 190:Core/Src/main.c **** 
-ARM GAS  /tmp/ccRDOUC5.s 			page 19
-
-
- 487              		.loc 1 190 1 is_stmt 1 view .LVU120
+ 194:Core/Src/main.c **** 
+ 487              		.loc 1 194 1 is_stmt 1 view .LVU120
  488 00b8 FFF7FEFF 		bl	GPS_Init
  489              	.LVL34:
- 192:Core/Src/main.c **** {
- 490              		.loc 1 192 1 view .LVU121
- 215:Core/Src/main.c **** 
- 491              		.loc 1 215 1 view .LVU122
- 217:Core/Src/main.c **** 
- 492              		.loc 1 217 1 view .LVU123
+ 196:Core/Src/main.c **** {
+ 490              		.loc 1 196 1 view .LVU121
+ 219:Core/Src/main.c **** 
+ 491              		.loc 1 219 1 view .LVU122
+ 221:Core/Src/main.c **** 
+ 492              		.loc 1 221 1 view .LVU123
  493 00bc 02A8     		add	r0, sp, #8
  494 00be FFF7FEFF 		bl	GPS_parse
  495              	.LVL35:
- 219:Core/Src/main.c **** 
- 496              		.loc 1 219 1 view .LVU124
+ 223:Core/Src/main.c **** 
+ 496              		.loc 1 223 1 view .LVU124
  497 00c2 1F48     		ldr	r0, .L33+20
  498 00c4 FFF7FEFF 		bl	GPS_display_status.0
  499              	.LVL36:
  500              	.L28:
- 225:Core/Src/main.c ****   {
- 501              		.loc 1 225 3 view .LVU125
- 230:Core/Src/main.c ****   /* USER CODE END 3 */
- 502              		.loc 1 230 3 view .LVU126
- 225:Core/Src/main.c ****   {
- 503              		.loc 1 225 9 view .LVU127
+ 229:Core/Src/main.c ****   {
+ 501              		.loc 1 229 3 view .LVU125
+ 234:Core/Src/main.c ****   /* USER CODE END 3 */
+ 502              		.loc 1 234 3 view .LVU126
+ 229:Core/Src/main.c ****   {
+ 503              		.loc 1 229 9 view .LVU127
  504 00c8 FEE7     		b	.L28
  505              	.L30:
- 157:Core/Src/main.c **** 		ssd1306_WriteString("LoRa OK!", Font_11x18, White);
- 506              		.loc 1 157 3 view .LVU128
+ 161:Core/Src/main.c **** 		ssd1306_WriteString("LoRa OK!", Font_11x18, White);
+ 506              		.loc 1 161 3 view .LVU128
  507 00ca 1021     		movs	r1, #16
  508 00cc 0846     		mov	r0, r1
  509 00ce FFF7FEFF 		bl	ssd1306_SetCursor
  510              	.LVL37:
- 158:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 511              		.loc 1 158 3 view .LVU129
+ 162:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 511              		.loc 1 162 3 view .LVU129
  512 00d2 164B     		ldr	r3, .L33
  513 00d4 0122     		movs	r2, #1
  514 00d6 0092     		str	r2, [sp]
@@ -1122,42 +1126,42 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  516 00da 1A48     		ldr	r0, .L33+24
  517 00dc FFF7FEFF 		bl	ssd1306_WriteString
  518              	.LVL38:
- 159:Core/Src/main.c **** 		HAL_Delay(500);
- 519              		.loc 1 159 3 view .LVU130
+ 163:Core/Src/main.c **** 		HAL_Delay(500);
+ 519              		.loc 1 163 3 view .LVU130
  520 00e0 FFF7FEFF 		bl	ssd1306_UpdateScreen
  521              	.LVL39:
- 160:Core/Src/main.c **** 	}
- 522              		.loc 1 160 3 view .LVU131
+ 164:Core/Src/main.c **** 	}
+ 522              		.loc 1 164 3 view .LVU131
  523 00e4 4FF4FA70 		mov	r0, #500
  524 00e8 FFF7FEFF 		bl	HAL_Delay
  525              	.LVL40:
  526 00ec CFE7     		b	.L26
  527              	.L31:
- 165:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 528              		.loc 1 165 3 view .LVU132
+ 169:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ARM GAS  /tmp/cczWMdyT.s 			page 20
+
+
+ 528              		.loc 1 169 3 view .LVU132
  529 00ee 0F4B     		ldr	r3, .L33
  530 00f0 0122     		movs	r2, #1
  531 00f2 0092     		str	r2, [sp]
-ARM GAS  /tmp/ccRDOUC5.s 			page 20
-
-
  532 00f4 0ECB     		ldm	r3, {r1, r2, r3}
  533 00f6 1448     		ldr	r0, .L33+28
  534 00f8 FFF7FEFF 		bl	ssd1306_WriteString
  535              	.LVL41:
- 166:Core/Src/main.c **** 		HAL_Delay(500);
- 536              		.loc 1 166 3 view .LVU133
+ 170:Core/Src/main.c **** 		HAL_Delay(500);
+ 536              		.loc 1 170 3 view .LVU133
  537 00fc FFF7FEFF 		bl	ssd1306_UpdateScreen
  538              	.LVL42:
- 167:Core/Src/main.c **** 	}
- 539              		.loc 1 167 3 view .LVU134
+ 171:Core/Src/main.c **** 	}
+ 539              		.loc 1 171 3 view .LVU134
  540 0100 4FF4FA70 		mov	r0, #500
  541 0104 FFF7FEFF 		bl	HAL_Delay
  542              	.LVL43:
  543 0108 C1E7     		b	.L26
  544              	.L32:
- 172:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 545              		.loc 1 172 3 view .LVU135
+ 176:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 545              		.loc 1 176 3 view .LVU135
  546 010a 084B     		ldr	r3, .L33
  547 010c 0122     		movs	r2, #1
  548 010e 0092     		str	r2, [sp]
@@ -1165,16 +1169,16 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  550 0112 0E48     		ldr	r0, .L33+32
  551 0114 FFF7FEFF 		bl	ssd1306_WriteString
  552              	.LVL44:
- 173:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 553              		.loc 1 173 3 view .LVU136
+ 177:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 553              		.loc 1 177 3 view .LVU136
  554 0118 FFF7FEFF 		bl	ssd1306_UpdateScreen
  555              	.LVL45:
- 174:Core/Src/main.c **** 		HAL_Delay(500);
- 556              		.loc 1 174 3 view .LVU137
+ 178:Core/Src/main.c **** 		HAL_Delay(500);
+ 556              		.loc 1 178 3 view .LVU137
  557 011c FFF7FEFF 		bl	ssd1306_UpdateScreen
  558              	.LVL46:
- 175:Core/Src/main.c **** 
- 559              		.loc 1 175 3 view .LVU138
+ 179:Core/Src/main.c **** 
+ 559              		.loc 1 179 3 view .LVU138
  560 0120 4FF4FA70 		mov	r0, #500
  561 0124 FFF7FEFF 		bl	HAL_Delay
  562              	.LVL47:
@@ -1194,13 +1198,13 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  576              		.cfi_endproc
  577              	.LFE69:
  579              		.global	gps
+ARM GAS  /tmp/cczWMdyT.s 			page 21
+
+
  580              		.section	.bss.gps,"aw",%nobits
  581              		.align	2
  584              	gps:
  585 0000 00000000 		.space	88
-ARM GAS  /tmp/ccRDOUC5.s 			page 21
-
-
  585      00000000 
  585      00000000 
  585      00000000 
@@ -1236,30 +1240,30 @@ ARM GAS  /tmp/ccRDOUC5.s 			page 1
  612              		.file 20 "Core/Inc/i2c.h"
  613              		.file 21 "Core/Inc/gpio.h"
  614              		.file 22 "<built-in>"
-ARM GAS  /tmp/ccRDOUC5.s 			page 22
+ARM GAS  /tmp/cczWMdyT.s 			page 22
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-     /tmp/ccRDOUC5.s:19     .rodata.GPS_display_status.0.str1.4:00000000 $d
-     /tmp/ccRDOUC5.s:29     .text.GPS_display_status.0:00000000 $t
-     /tmp/ccRDOUC5.s:34     .text.GPS_display_status.0:00000000 GPS_display_status.0
-     /tmp/ccRDOUC5.s:118    .text.GPS_display_status.0:00000054 $d
-     /tmp/ccRDOUC5.s:126    .text.HAL_UART_RxCpltCallback:00000000 $t
-     /tmp/ccRDOUC5.s:132    .text.HAL_UART_RxCpltCallback:00000000 HAL_UART_RxCpltCallback
-     /tmp/ccRDOUC5.s:164    .text.HAL_UART_RxCpltCallback:00000010 $d
-     /tmp/ccRDOUC5.s:169    .text.Error_Handler:00000000 $t
-     /tmp/ccRDOUC5.s:175    .text.Error_Handler:00000000 Error_Handler
-     /tmp/ccRDOUC5.s:207    .text.SystemClock_Config:00000000 $t
-     /tmp/ccRDOUC5.s:213    .text.SystemClock_Config:00000000 SystemClock_Config
-     /tmp/ccRDOUC5.s:320    .rodata.main.str1.4:00000000 $d
-     /tmp/ccRDOUC5.s:333    .text.main:00000000 $t
-     /tmp/ccRDOUC5.s:339    .text.main:00000000 main
-     /tmp/ccRDOUC5.s:567    .text.main:0000012c $d
-     /tmp/ccRDOUC5.s:591    .bss.lora:00000000 lora
-     /tmp/ccRDOUC5.s:584    .bss.gps:00000000 gps
-     /tmp/ccRDOUC5.s:581    .bss.gps:00000000 $d
-     /tmp/ccRDOUC5.s:588    .bss.lora:00000000 $d
+     /tmp/cczWMdyT.s:19     .rodata.GPS_display_status.0.str1.4:00000000 $d
+     /tmp/cczWMdyT.s:29     .text.GPS_display_status.0:00000000 $t
+     /tmp/cczWMdyT.s:34     .text.GPS_display_status.0:00000000 GPS_display_status.0
+     /tmp/cczWMdyT.s:118    .text.GPS_display_status.0:00000054 $d
+     /tmp/cczWMdyT.s:126    .text.HAL_UART_RxCpltCallback:00000000 $t
+     /tmp/cczWMdyT.s:132    .text.HAL_UART_RxCpltCallback:00000000 HAL_UART_RxCpltCallback
+     /tmp/cczWMdyT.s:164    .text.HAL_UART_RxCpltCallback:00000010 $d
+     /tmp/cczWMdyT.s:169    .text.Error_Handler:00000000 $t
+     /tmp/cczWMdyT.s:175    .text.Error_Handler:00000000 Error_Handler
+     /tmp/cczWMdyT.s:207    .text.SystemClock_Config:00000000 $t
+     /tmp/cczWMdyT.s:213    .text.SystemClock_Config:00000000 SystemClock_Config
+     /tmp/cczWMdyT.s:320    .rodata.main.str1.4:00000000 $d
+     /tmp/cczWMdyT.s:333    .text.main:00000000 $t
+     /tmp/cczWMdyT.s:339    .text.main:00000000 main
+     /tmp/cczWMdyT.s:567    .text.main:0000012c $d
+     /tmp/cczWMdyT.s:591    .bss.lora:00000000 lora
+     /tmp/cczWMdyT.s:584    .bss.gps:00000000 gps
+     /tmp/cczWMdyT.s:581    .bss.gps:00000000 $d
+     /tmp/cczWMdyT.s:588    .bss.lora:00000000 $d
 
 UNDEFINED SYMBOLS
 ssd1306_SetCursor
