@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccRBlRwv.s 			page 1
+ARM GAS  /tmp/ccTvFPW6.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
   30:Drivers/OLED/ssd1306.c ****     HAL_Delay(10);
   31:Drivers/OLED/ssd1306.c ****     HAL_GPIO_WritePin(SSD1306_Reset_Port, SSD1306_Reset_Pin, GPIO_PIN_SET);
   32:Drivers/OLED/ssd1306.c ****     HAL_Delay(10);
-ARM GAS  /tmp/ccRBlRwv.s 			page 2
+ARM GAS  /tmp/ccTvFPW6.s 			page 2
 
 
   33:Drivers/OLED/ssd1306.c **** }
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
   87:Drivers/OLED/ssd1306.c ****     ssd1306_WriteCommand(0xB0); //Set Page Start Address for Page Addressing Mode,0-7
   88:Drivers/OLED/ssd1306.c **** 
   89:Drivers/OLED/ssd1306.c **** #ifdef SSD1306_MIRROR_VERT
-ARM GAS  /tmp/ccRBlRwv.s 			page 3
+ARM GAS  /tmp/ccTvFPW6.s 			page 3
 
 
   90:Drivers/OLED/ssd1306.c ****     ssd1306_WriteCommand(0xC0); // Mirror vertically
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  144:Drivers/OLED/ssd1306.c **** #if (SSD1306_HEIGHT == 32)
  145:Drivers/OLED/ssd1306.c ****     ssd1306_WriteCommand(0x02);
  146:Drivers/OLED/ssd1306.c **** #elif (SSD1306_HEIGHT == 64)
-ARM GAS  /tmp/ccRBlRwv.s 			page 4
+ARM GAS  /tmp/ccTvFPW6.s 			page 4
 
 
  147:Drivers/OLED/ssd1306.c ****     ssd1306_WriteCommand(0x12);
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  201:Drivers/OLED/ssd1306.c **** void ssd1306_DrawPixel(uint8_t x, uint8_t y, SSD1306_COLOR color) {
  202:Drivers/OLED/ssd1306.c ****     if(x >= SSD1306_WIDTH || y >= SSD1306_HEIGHT) {
  203:Drivers/OLED/ssd1306.c ****         // Don't write outside the buffer
-ARM GAS  /tmp/ccRBlRwv.s 			page 5
+ARM GAS  /tmp/ccTvFPW6.s 			page 5
 
 
  204:Drivers/OLED/ssd1306.c ****         return;
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  258:Drivers/OLED/ssd1306.c **** char ssd1306_WriteString(char* str, SSD1306_Font_t Font, SSD1306_COLOR color) {
  259:Drivers/OLED/ssd1306.c ****     while (*str) {
  260:Drivers/OLED/ssd1306.c ****         if (ssd1306_WriteChar(*str, Font, color) != *str) {
-ARM GAS  /tmp/ccRBlRwv.s 			page 6
+ARM GAS  /tmp/ccTvFPW6.s 			page 6
 
 
  261:Drivers/OLED/ssd1306.c ****             // Char could not be written
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  315:Drivers/OLED/ssd1306.c ****     return;
  316:Drivers/OLED/ssd1306.c **** }
  317:Drivers/OLED/ssd1306.c **** 
-ARM GAS  /tmp/ccRBlRwv.s 			page 7
+ARM GAS  /tmp/ccTvFPW6.s 			page 7
 
 
  318:Drivers/OLED/ssd1306.c **** /* Convert Degrees to Radians */
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
   71              		.loc 1 329 19 is_stmt 0 view .LVU10
   72 0006 C308     		lsrs	r3, r0, #3
   73 0008 064A     		ldr	r2, .L9
-ARM GAS  /tmp/ccRBlRwv.s 			page 8
+ARM GAS  /tmp/ccTvFPW6.s 			page 8
 
 
   74 000a A2FB0323 		umull	r2, r3, r2, r3
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  123              		.align	1
  124              		.global	ssd1306_WriteCommand
  125              		.syntax unified
-ARM GAS  /tmp/ccRBlRwv.s 			page 9
+ARM GAS  /tmp/ccTvFPW6.s 			page 9
 
 
  126              		.thumb
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  177              		.thumb_func
  179              	ssd1306_WriteData:
  180              	.LVL10:
-ARM GAS  /tmp/ccRBlRwv.s 			page 10
+ARM GAS  /tmp/ccTvFPW6.s 			page 10
 
 
  181              	.LFB67:
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  231              	.LVL14:
  232              	.LFB68:
   63:Drivers/OLED/ssd1306.c ****     SSD1306_Error_t ret = SSD1306_ERR;
-ARM GAS  /tmp/ccRBlRwv.s 			page 11
+ARM GAS  /tmp/ccTvFPW6.s 			page 11
 
 
  233              		.loc 1 63 64 is_stmt 1 view -0
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  273              	.L29:
  274 001a 00BF     		.align	2
  275              	.L28:
-ARM GAS  /tmp/ccRBlRwv.s 			page 12
+ARM GAS  /tmp/ccTvFPW6.s 			page 12
 
 
  276 001c 00000000 		.word	SSD1306_Buffer
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  324              	.LFE70:
  326              		.section	.text.ssd1306_UpdateScreen,"ax",%progbits
  327              		.align	1
-ARM GAS  /tmp/ccRBlRwv.s 			page 13
+ARM GAS  /tmp/ccTvFPW6.s 			page 13
 
 
  328              		.global	ssd1306_UpdateScreen
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  373              		.loc 1 187 47 discriminator 3 view .LVU63
  374 0028 0134     		adds	r4, r4, #1
  375              	.LVL31:
-ARM GAS  /tmp/ccRBlRwv.s 			page 14
+ARM GAS  /tmp/ccTvFPW6.s 			page 14
 
 
  187:Drivers/OLED/ssd1306.c ****         ssd1306_WriteCommand(0xB0 + i); // Set the current RAM page address.
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  422              		.loc 1 208 5 is_stmt 1 view .LVU73
  208:Drivers/OLED/ssd1306.c ****         SSD1306_Buffer[x + (y / 8) * SSD1306_WIDTH] |= 1 << (y % 8);
  423              		.loc 1 208 7 is_stmt 0 view .LVU74
-ARM GAS  /tmp/ccRBlRwv.s 			page 15
+ARM GAS  /tmp/ccTvFPW6.s 			page 15
 
 
  424 000c 012A     		cmp	r2, #1
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  467 0038 01F00701 		and	r1, r1, #7
  468              	.LVL40:
  209:Drivers/OLED/ssd1306.c ****     } else { 
-ARM GAS  /tmp/ccRBlRwv.s 			page 16
+ARM GAS  /tmp/ccTvFPW6.s 			page 16
 
 
  469              		.loc 1 209 58 view .LVU86
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  521              	.LVL44:
  221:Drivers/OLED/ssd1306.c ****     uint32_t i, b, j;
  522              		.loc 1 221 75 view .LVU91
-ARM GAS  /tmp/ccRBlRwv.s 			page 17
+ARM GAS  /tmp/ccTvFPW6.s 			page 17
 
 
  523 000a 00E90E00 		stmdb	r0, {r1, r2, r3}
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  560              		.loc 1 231 57 discriminator 1 view .LVU108
  561 003a 402B     		cmp	r3, #64
  562 003c 3BDC     		bgt	.L64
-ARM GAS  /tmp/ccRBlRwv.s 			page 18
+ARM GAS  /tmp/ccTvFPW6.s 			page 18
 
 
  239:Drivers/OLED/ssd1306.c ****         b = Font.data[(ch - 32) * Font.height + i];
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  604 0070 124B     		ldr	r3, .L68
  605 0072 1888     		ldrh	r0, [r3]
  243:Drivers/OLED/ssd1306.c ****             } else {
-ARM GAS  /tmp/ccRBlRwv.s 			page 19
+ARM GAS  /tmp/ccTvFPW6.s 			page 19
 
 
  606              		.loc 1 243 65 view .LVU122
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  647              	.LVL54:
  251:Drivers/OLED/ssd1306.c ****     
  648              		.loc 1 251 22 view .LVU136
-ARM GAS  /tmp/ccRBlRwv.s 			page 20
+ARM GAS  /tmp/ccTvFPW6.s 			page 20
 
 
  649 00a4 1E80     		strh	r6, [r3]	@ movhi
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  698 0000 30B5     		push	{r4, r5, lr}
  699              	.LCFI18:
  700              		.cfi_def_cfa_offset 12
-ARM GAS  /tmp/ccRBlRwv.s 			page 21
+ARM GAS  /tmp/ccTvFPW6.s 			page 21
 
 
  701              		.cfi_offset 4, -12
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  744 002e 30BD     		pop	{r4, r5, pc}
  269:Drivers/OLED/ssd1306.c **** 
  745              		.loc 1 269 1 view .LVU155
-ARM GAS  /tmp/ccRBlRwv.s 			page 22
+ARM GAS  /tmp/ccTvFPW6.s 			page 22
 
 
  746              		.cfi_endproc
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  796              	.LCFI21:
  797              		.cfi_def_cfa_offset 36
  798              		.cfi_offset 4, -36
-ARM GAS  /tmp/ccRBlRwv.s 			page 23
+ARM GAS  /tmp/ccTvFPW6.s 			page 23
 
 
  799              		.cfi_offset 5, -32
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  842              		.loc 1 282 5 is_stmt 1 view .LVU174
  282:Drivers/OLED/ssd1306.c ****     int32_t error = deltaX - deltaY;
  843              		.loc 1 282 36 is_stmt 0 view .LVU175
-ARM GAS  /tmp/ccRBlRwv.s 			page 24
+ARM GAS  /tmp/ccTvFPW6.s 			page 24
 
 
  844 0030 B345     		cmp	fp, r6
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  885              	.LVL76:
  886              	.L85:
  289:Drivers/OLED/ssd1306.c ****         error2 = error * 2;
-ARM GAS  /tmp/ccRBlRwv.s 			page 25
+ARM GAS  /tmp/ccTvFPW6.s 			page 25
 
 
  887              		.loc 1 289 9 is_stmt 1 view .LVU189
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  925              		.loc 1 298 16 is_stmt 0 view .LVU205
  926 007a 019B     		ldr	r3, [sp, #4]
  927              	.LVL83:
-ARM GAS  /tmp/ccRBlRwv.s 			page 26
+ARM GAS  /tmp/ccTvFPW6.s 			page 26
 
 
  298:Drivers/OLED/ssd1306.c ****         }
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  972 0002 F0B5     		push	{r4, r5, r6, r7, lr}
  973              	.LCFI24:
  974              		.cfi_def_cfa_offset 20
-ARM GAS  /tmp/ccRBlRwv.s 			page 27
+ARM GAS  /tmp/ccTvFPW6.s 			page 27
 
 
  975              		.cfi_offset 4, -20
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1017              		.loc 1 311 18 is_stmt 1 discriminator 1 view .LVU229
  1018 0034 B442     		cmp	r4, r6
  1019 0036 EBD3     		bcc	.L92
-ARM GAS  /tmp/ccRBlRwv.s 			page 28
+ARM GAS  /tmp/ccTvFPW6.s 			page 28
 
 
  316:Drivers/OLED/ssd1306.c **** 
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1067 0004 89B0     		sub	sp, sp, #36
  1068              	.LCFI29:
  1069              		.cfi_def_cfa_offset 72
-ARM GAS  /tmp/ccRBlRwv.s 			page 29
+ARM GAS  /tmp/ccTvFPW6.s 			page 29
 
 
  1070 0006 8346     		mov	fp, r0
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1111 0030 04EBC40A 		add	r10, r4, r4, lsl #3
  1112              		.loc 1 353 21 view .LVU253
  1113 0034 CAF35C0A 		ubfx	r10, r10, #1, #29
-ARM GAS  /tmp/ccRBlRwv.s 			page 30
+ARM GAS  /tmp/ccTvFPW6.s 			page 30
 
 
  1114 0038 374B     		ldr	r3, .L104+4
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1155              	.LVL110:
  1156 006c 0146     		mov	r1, r0
  1157              		.loc 1 366 37 discriminator 1 view .LVU265
-ARM GAS  /tmp/ccRBlRwv.s 			page 31
+ARM GAS  /tmp/ccTvFPW6.s 			page 31
 
 
  1158 006e 3046     		mov	r0, r6
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1207              	.LVL120:
  1208 00b4 FFF7FEFF 		bl	ssd1306_DegToRad
  1209              	.LVL121:
-ARM GAS  /tmp/ccRBlRwv.s 			page 32
+ARM GAS  /tmp/ccTvFPW6.s 			page 32
 
 
  1210 00b8 0446     		mov	r4, r0
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1253              	.LVL132:
  360:Drivers/OLED/ssd1306.c ****         if(count != approx_segments) {
  1254              		.loc 1 360 9 is_stmt 1 view .LVU289
-ARM GAS  /tmp/ccRBlRwv.s 			page 33
+ARM GAS  /tmp/ccTvFPW6.s 			page 33
 
 
  360:Drivers/OLED/ssd1306.c ****         if(count != approx_segments) {
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1301              	ssd1306_DrawArcWithRadiusLine:
  1302              	.LVL140:
  1303              	.LFB81:
-ARM GAS  /tmp/ccRBlRwv.s 			page 34
+ARM GAS  /tmp/ccTvFPW6.s 			page 34
 
 
  373:Drivers/OLED/ssd1306.c **** 
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1341              		.loc 1 389 5 view .LVU309
  390:Drivers/OLED/ssd1306.c ****     float rad;
  1342              		.loc 1 390 5 view .LVU310
-ARM GAS  /tmp/ccRBlRwv.s 			page 35
+ARM GAS  /tmp/ccTvFPW6.s 			page 35
 
 
  391:Drivers/OLED/ssd1306.c ****     
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1391 0056 2046     		mov	r0, r4
  1392 0058 FFF7FEFF 		bl	__aeabi_fdiv
  1393              	.LVL153:
-ARM GAS  /tmp/ccRBlRwv.s 			page 36
+ARM GAS  /tmp/ccTvFPW6.s 			page 36
 
 
  1394 005c 0446     		mov	r4, r0
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1444 009e FFF7FEFF 		bl	__aeabi_fmul
  1445              	.LVL167:
  1446              		.loc 1 400 33 discriminator 1 view .LVU340
-ARM GAS  /tmp/ccRBlRwv.s 			page 37
+ARM GAS  /tmp/ccTvFPW6.s 			page 37
 
 
  1447 00a2 FFF7FEFF 		bl	__aeabi_f2iz
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1488              	.LVL177:
  1489 00d4 C5B2     		uxtb	r5, r0
  1490              		.loc 1 411 13 discriminator 1 view .LVU352
-ARM GAS  /tmp/ccRBlRwv.s 			page 38
+ARM GAS  /tmp/ccTvFPW6.s 			page 38
 
 
  1491 00d6 029B     		ldr	r3, [sp, #8]
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1539              	.LVL188:
  1540 011a 0446     		mov	r4, r0
  1541              	.LVL189:
-ARM GAS  /tmp/ccRBlRwv.s 			page 39
+ARM GAS  /tmp/ccTvFPW6.s 			page 39
 
 
  403:Drivers/OLED/ssd1306.c ****         yp1 = y + (int8_t)(cosf(rad)*radius);    
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  406:Drivers/OLED/ssd1306.c ****             rad = ssd1306_DegToRad(count*approx_degree);
  1583              		.loc 1 406 9 is_stmt 1 view .LVU376
  406:Drivers/OLED/ssd1306.c ****             rad = ssd1306_DegToRad(count*approx_degree);
-ARM GAS  /tmp/ccRBlRwv.s 			page 40
+ARM GAS  /tmp/ccTvFPW6.s 			page 40
 
 
  1584              		.loc 1 406 12 is_stmt 0 view .LVU377
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1628              		@ sp needed
  1629 018c BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
  1630              	.LVL207:
-ARM GAS  /tmp/ccRBlRwv.s 			page 41
+ARM GAS  /tmp/ccTvFPW6.s 			page 41
 
 
  1631              	.L114:
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1677 000c 9946     		mov	r9, r3
  1678 000e 5742     		rsbs	r7, r2, #0
  1679              	.LVL209:
-ARM GAS  /tmp/ccRBlRwv.s 			page 42
+ARM GAS  /tmp/ccTvFPW6.s 			page 42
 
 
  423:Drivers/OLED/ssd1306.c ****     int32_t x = -par_r;
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1709 002c 7C00     		lsls	r4, r7, #1
  1710              	.LVL214:
  1711              		.loc 1 450 32 view .LVU406
-ARM GAS  /tmp/ccRBlRwv.s 			page 43
+ARM GAS  /tmp/ccTvFPW6.s 			page 43
 
 
  1712 002e 0134     		adds	r4, r4, #1
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1759 0080 FFF7FEFF 		bl	ssd1306_DrawPixel
  1760              	.LVL220:
  438:Drivers/OLED/ssd1306.c **** 
-ARM GAS  /tmp/ccRBlRwv.s 			page 44
+ARM GAS  /tmp/ccTvFPW6.s 			page 44
 
 
  1761              		.loc 1 438 9 view .LVU414
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  454:Drivers/OLED/ssd1306.c ****     return;
  455:Drivers/OLED/ssd1306.c **** }
  1799              		.loc 1 455 1 view .LVU430
-ARM GAS  /tmp/ccRBlRwv.s 			page 45
+ARM GAS  /tmp/ccTvFPW6.s 			page 45
 
 
  1800 00a6 03B0     		add	sp, sp, #12
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1846 0006 2DE9F84F 		push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}
  1847              	.LCFI38:
  1848              		.cfi_def_cfa_offset 40
-ARM GAS  /tmp/ccRBlRwv.s 			page 46
+ARM GAS  /tmp/ccTvFPW6.s 			page 46
 
 
  1849              		.cfi_offset 3, -40
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1891              	.L130:
  470:Drivers/OLED/ssd1306.c ****                 ssd1306_DrawPixel(_x, _y, par_color);
  1892              		.loc 1 470 47 is_stmt 1 discriminator 1 view .LVU447
-ARM GAS  /tmp/ccRBlRwv.s 			page 47
+ARM GAS  /tmp/ccTvFPW6.s 			page 47
 
 
  470:Drivers/OLED/ssd1306.c ****                 ssd1306_DrawPixel(_x, _y, par_color);
@@ -2818,7 +2818,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1929              		.loc 1 475 9 is_stmt 1 view .LVU462
  476:Drivers/OLED/ssd1306.c ****         if (e2 <= y) {
  1930              		.loc 1 476 9 view .LVU463
-ARM GAS  /tmp/ccRBlRwv.s 			page 48
+ARM GAS  /tmp/ccTvFPW6.s 			page 48
 
 
  1931              		.loc 1 476 12 is_stmt 0 view .LVU464
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  1975              	.LVL245:
  1976              		.loc 1 486 32 view .LVU483
  1977 0078 0BF1010B 		add	fp, fp, #1
-ARM GAS  /tmp/ccRBlRwv.s 			page 49
+ARM GAS  /tmp/ccTvFPW6.s 			page 49
 
 
  1978              		.loc 1 486 17 view .LVU484
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2020              		.cfi_restore 7
  2021              		.cfi_restore 8
  2022              		.cfi_restore 9
-ARM GAS  /tmp/ccRBlRwv.s 			page 50
+ARM GAS  /tmp/ccTvFPW6.s 			page 50
 
 
  2023              		.cfi_restore 10
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2074 0024 3146     		mov	r1, r6
  2075 0026 3846     		mov	r0, r7
  2076 0028 FFF7FEFF 		bl	ssd1306_Line
-ARM GAS  /tmp/ccRBlRwv.s 			page 51
+ARM GAS  /tmp/ccTvFPW6.s 			page 51
 
 
  2077              	.LVL256:
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2125              		.cfi_offset 5, -24
  2126              		.cfi_offset 6, -20
  2127              		.cfi_offset 7, -16
-ARM GAS  /tmp/ccRBlRwv.s 			page 52
+ARM GAS  /tmp/ccTvFPW6.s 			page 52
 
 
  2128              		.cfi_offset 8, -12
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  511:Drivers/OLED/ssd1306.c ****         for (uint8_t x= x_start; (x<= x_end)&&(x<SSD1306_WIDTH); x++) {
  2174              		.loc 1 511 67 discriminator 4 view .LVU521
  2175 0034 0134     		adds	r4, r4, #1
-ARM GAS  /tmp/ccRBlRwv.s 			page 53
+ARM GAS  /tmp/ccTvFPW6.s 			page 53
 
 
  2176              	.LVL266:
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2219              		.thumb
  2220              		.thumb_func
  2222              	ssd1306_InvertRectangle:
-ARM GAS  /tmp/ccRBlRwv.s 			page 54
+ARM GAS  /tmp/ccTvFPW6.s 			page 54
 
 
  2223              	.LVL270:
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2264              		.loc 1 528 19 is_stmt 0 view .LVU546
  2265 0020 0446     		mov	r4, r0
  2266              	.LVL271:
-ARM GAS  /tmp/ccRBlRwv.s 			page 55
+ARM GAS  /tmp/ccTvFPW6.s 			page 55
 
 
  2267              		.loc 1 528 5 view .LVU547
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  529:Drivers/OLED/ssd1306.c ****       SSD1306_Buffer[i] ^= 0xFF << (y1 % 8);
  2308              		.loc 1 529 7 view .LVU562
  529:Drivers/OLED/ssd1306.c ****       SSD1306_Buffer[i] ^= 0xFF << (y1 % 8);
-ARM GAS  /tmp/ccRBlRwv.s 			page 56
+ARM GAS  /tmp/ccTvFPW6.s 			page 56
 
 
  2309              		.loc 1 529 9 is_stmt 0 view .LVU563
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2342              		.loc 1 539 5 is_stmt 1 view .LVU575
  539:Drivers/OLED/ssd1306.c ****     for (i = x1 + (y1 / 8) * SSD1306_WIDTH;
  2343              		.loc 1 539 39 is_stmt 0 view .LVU576
-ARM GAS  /tmp/ccRBlRwv.s 			page 57
+ARM GAS  /tmp/ccTvFPW6.s 			page 57
 
 
  2344 008a 01F00701 		and	r1, r1, #7
@@ -3418,7 +3418,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  541:Drivers/OLED/ssd1306.c ****       SSD1306_Buffer[i] ^= mask;
  2383              		.loc 1 541 12 discriminator 1 view .LVU592
  2384 00b4 9842     		cmp	r0, r3
-ARM GAS  /tmp/ccRBlRwv.s 			page 58
+ARM GAS  /tmp/ccTvFPW6.s 			page 58
 
 
  2385 00b6 F6D2     		bcs	.L162
@@ -3478,7 +3478,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2430              		.align	2
  2431              	.L172:
  2432 00cc 00000000 		.word	SSD1306_Buffer
-ARM GAS  /tmp/ccRBlRwv.s 			page 59
+ARM GAS  /tmp/ccTvFPW6.s 			page 59
 
 
  2433              		.cfi_endproc
@@ -3538,7 +3538,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2482              	.LVL296:
  2483              		.loc 1 553 8 view .LVU610
  2484 0020 4FEAD808 		lsr	r8, r8, #3
-ARM GAS  /tmp/ccRBlRwv.s 			page 60
+ARM GAS  /tmp/ccTvFPW6.s 			page 60
 
 
  2485              	.LVL297:
@@ -3598,7 +3598,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2523              		.loc 1 558 31 is_stmt 1 discriminator 1 view .LVU622
  2524 0046 B442     		cmp	r4, r6
  2525 0048 0DD2     		bcs	.L186
-ARM GAS  /tmp/ccRBlRwv.s 			page 61
+ARM GAS  /tmp/ccTvFPW6.s 			page 61
 
 
  559:Drivers/OLED/ssd1306.c ****                 byte <<= 1;
@@ -3658,7 +3658,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  558:Drivers/OLED/ssd1306.c ****             if (i & 7) {
  2568              		.loc 1 558 22 is_stmt 0 view .LVU636
  2569 0078 0024     		movs	r4, #0
-ARM GAS  /tmp/ccRBlRwv.s 			page 62
+ARM GAS  /tmp/ccTvFPW6.s 			page 62
 
 
  2570 007a E4E7     		b	.L182
@@ -3718,7 +3718,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2615              		.loc 1 576 5 is_stmt 1 view .LVU645
  2616 000a 2046     		mov	r0, r4
  2617 000c FFF7FEFF 		bl	ssd1306_WriteCommand
-ARM GAS  /tmp/ccRBlRwv.s 			page 63
+ARM GAS  /tmp/ccTvFPW6.s 			page 63
 
 
  2618              	.LVL313:
@@ -3778,7 +3778,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2661 000c FFF7FEFF 		bl	ssd1306_WriteCommand
  2662              	.LVL317:
  589:Drivers/OLED/ssd1306.c **** }
-ARM GAS  /tmp/ccRBlRwv.s 			page 64
+ARM GAS  /tmp/ccTvFPW6.s 			page 64
 
 
  2663              		.loc 1 589 1 is_stmt 0 view .LVU658
@@ -3838,7 +3838,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2710 000a FFF7FEFF 		bl	ssd1306_SetDisplayOn
  2711              	.LVL321:
   83:Drivers/OLED/ssd1306.c ****     ssd1306_WriteCommand(0x00); // 00b,Horizontal Addressing Mode; 01b,Vertical Addressing Mode;
-ARM GAS  /tmp/ccRBlRwv.s 			page 65
+ARM GAS  /tmp/ccTvFPW6.s 			page 65
 
 
  2712              		.loc 1 83 5 view .LVU668
@@ -3898,7 +3898,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  125:Drivers/OLED/ssd1306.c **** #elif (SSD1306_HEIGHT == 128)
  2756              		.loc 1 125 5 view .LVU679
  2757 0050 3F20     		movs	r0, #63
-ARM GAS  /tmp/ccRBlRwv.s 			page 66
+ARM GAS  /tmp/ccTvFPW6.s 			page 66
 
 
  2758 0052 FFF7FEFF 		bl	ssd1306_WriteCommand
@@ -3958,7 +3958,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2801 0092 2020     		movs	r0, #32
  2802 0094 FFF7FEFF 		bl	ssd1306_WriteCommand
  2803              	.LVL344:
-ARM GAS  /tmp/ccRBlRwv.s 			page 67
+ARM GAS  /tmp/ccTvFPW6.s 			page 67
 
 
  157:Drivers/OLED/ssd1306.c ****     ssd1306_WriteCommand(0x14); //
@@ -4018,7 +4018,7 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2847              		.syntax unified
  2848              		.thumb
  2849              		.thumb_func
-ARM GAS  /tmp/ccRBlRwv.s 			page 68
+ARM GAS  /tmp/ccTvFPW6.s 			page 68
 
 
  2851              	ssd1306_GetDisplayOn:
@@ -4070,86 +4070,86 @@ ARM GAS  /tmp/ccRBlRwv.s 			page 1
  2893              		.file 11 "/usr/arm-none-eabi/include/string.h"
  2894              		.file 12 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
  2895              		.file 13 "<built-in>"
-ARM GAS  /tmp/ccRBlRwv.s 			page 69
+ARM GAS  /tmp/ccTvFPW6.s 			page 69
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 ssd1306.c
-     /tmp/ccRBlRwv.s:19     .text.ssd1306_DegToRad:00000000 $t
-     /tmp/ccRBlRwv.s:24     .text.ssd1306_DegToRad:00000000 ssd1306_DegToRad
-     /tmp/ccRBlRwv.s:47     .text.ssd1306_DegToRad:0000000c $d
-     /tmp/ccRBlRwv.s:52     .text.ssd1306_NormalizeTo0_360:00000000 $t
-     /tmp/ccRBlRwv.s:57     .text.ssd1306_NormalizeTo0_360:00000000 ssd1306_NormalizeTo0_360
-     /tmp/ccRBlRwv.s:99     .text.ssd1306_NormalizeTo0_360:00000024 $d
-     /tmp/ccRBlRwv.s:104    .text.ssd1306_Reset:00000000 $t
-     /tmp/ccRBlRwv.s:110    .text.ssd1306_Reset:00000000 ssd1306_Reset
-     /tmp/ccRBlRwv.s:123    .text.ssd1306_WriteCommand:00000000 $t
-     /tmp/ccRBlRwv.s:129    .text.ssd1306_WriteCommand:00000000 ssd1306_WriteCommand
-     /tmp/ccRBlRwv.s:168    .text.ssd1306_WriteCommand:00000028 $d
-     /tmp/ccRBlRwv.s:173    .text.ssd1306_WriteData:00000000 $t
-     /tmp/ccRBlRwv.s:179    .text.ssd1306_WriteData:00000000 ssd1306_WriteData
-     /tmp/ccRBlRwv.s:219    .text.ssd1306_WriteData:00000024 $d
-     /tmp/ccRBlRwv.s:224    .text.ssd1306_FillBuffer:00000000 $t
-     /tmp/ccRBlRwv.s:230    .text.ssd1306_FillBuffer:00000000 ssd1306_FillBuffer
-     /tmp/ccRBlRwv.s:276    .text.ssd1306_FillBuffer:0000001c $d
-     /tmp/ccRBlRwv.s:2880   .bss.SSD1306_Buffer:00000000 SSD1306_Buffer
-     /tmp/ccRBlRwv.s:281    .text.ssd1306_Fill:00000000 $t
-     /tmp/ccRBlRwv.s:287    .text.ssd1306_Fill:00000000 ssd1306_Fill
-     /tmp/ccRBlRwv.s:322    .text.ssd1306_Fill:00000018 $d
-     /tmp/ccRBlRwv.s:327    .text.ssd1306_UpdateScreen:00000000 $t
-     /tmp/ccRBlRwv.s:333    .text.ssd1306_UpdateScreen:00000000 ssd1306_UpdateScreen
-     /tmp/ccRBlRwv.s:391    .text.ssd1306_UpdateScreen:00000034 $d
-     /tmp/ccRBlRwv.s:396    .text.ssd1306_DrawPixel:00000000 $t
-     /tmp/ccRBlRwv.s:402    .text.ssd1306_DrawPixel:00000000 ssd1306_DrawPixel
-     /tmp/ccRBlRwv.s:486    .text.ssd1306_DrawPixel:00000048 $d
-     /tmp/ccRBlRwv.s:491    .text.ssd1306_WriteChar:00000000 $t
-     /tmp/ccRBlRwv.s:497    .text.ssd1306_WriteChar:00000000 ssd1306_WriteChar
-     /tmp/ccRBlRwv.s:679    .text.ssd1306_WriteChar:000000bc $d
-     /tmp/ccRBlRwv.s:2874   .bss.SSD1306:00000000 SSD1306
-     /tmp/ccRBlRwv.s:684    .text.ssd1306_WriteString:00000000 $t
-     /tmp/ccRBlRwv.s:690    .text.ssd1306_WriteString:00000000 ssd1306_WriteString
-     /tmp/ccRBlRwv.s:750    .text.ssd1306_SetCursor:00000000 $t
-     /tmp/ccRBlRwv.s:756    .text.ssd1306_SetCursor:00000000 ssd1306_SetCursor
-     /tmp/ccRBlRwv.s:776    .text.ssd1306_SetCursor:00000008 $d
-     /tmp/ccRBlRwv.s:781    .text.ssd1306_Line:00000000 $t
-     /tmp/ccRBlRwv.s:787    .text.ssd1306_Line:00000000 ssd1306_Line
-     /tmp/ccRBlRwv.s:954    .text.ssd1306_Polyline:00000000 $t
-     /tmp/ccRBlRwv.s:960    .text.ssd1306_Polyline:00000000 ssd1306_Polyline
-     /tmp/ccRBlRwv.s:1041   .text.ssd1306_DrawArc:00000000 $t
-     /tmp/ccRBlRwv.s:1047   .text.ssd1306_DrawArc:00000000 ssd1306_DrawArc
-     /tmp/ccRBlRwv.s:1289   .text.ssd1306_DrawArc:00000114 $d
-     /tmp/ccRBlRwv.s:1295   .text.ssd1306_DrawArcWithRadiusLine:00000000 $t
-     /tmp/ccRBlRwv.s:1301   .text.ssd1306_DrawArcWithRadiusLine:00000000 ssd1306_DrawArcWithRadiusLine
-     /tmp/ccRBlRwv.s:1635   .text.ssd1306_DrawArcWithRadiusLine:00000190 $d
-     /tmp/ccRBlRwv.s:1640   .text.ssd1306_DrawCircle:00000000 $t
-     /tmp/ccRBlRwv.s:1646   .text.ssd1306_DrawCircle:00000000 ssd1306_DrawCircle
-     /tmp/ccRBlRwv.s:1824   .text.ssd1306_FillCircle:00000000 $t
-     /tmp/ccRBlRwv.s:1830   .text.ssd1306_FillCircle:00000000 ssd1306_FillCircle
-     /tmp/ccRBlRwv.s:2032   .text.ssd1306_DrawRectangle:00000000 $t
-     /tmp/ccRBlRwv.s:2038   .text.ssd1306_DrawRectangle:00000000 ssd1306_DrawRectangle
-     /tmp/ccRBlRwv.s:2106   .text.ssd1306_FillRectangle:00000000 $t
-     /tmp/ccRBlRwv.s:2112   .text.ssd1306_FillRectangle:00000000 ssd1306_FillRectangle
-     /tmp/ccRBlRwv.s:2216   .text.ssd1306_InvertRectangle:00000000 $t
-ARM GAS  /tmp/ccRBlRwv.s 			page 70
+     /tmp/ccTvFPW6.s:19     .text.ssd1306_DegToRad:00000000 $t
+     /tmp/ccTvFPW6.s:24     .text.ssd1306_DegToRad:00000000 ssd1306_DegToRad
+     /tmp/ccTvFPW6.s:47     .text.ssd1306_DegToRad:0000000c $d
+     /tmp/ccTvFPW6.s:52     .text.ssd1306_NormalizeTo0_360:00000000 $t
+     /tmp/ccTvFPW6.s:57     .text.ssd1306_NormalizeTo0_360:00000000 ssd1306_NormalizeTo0_360
+     /tmp/ccTvFPW6.s:99     .text.ssd1306_NormalizeTo0_360:00000024 $d
+     /tmp/ccTvFPW6.s:104    .text.ssd1306_Reset:00000000 $t
+     /tmp/ccTvFPW6.s:110    .text.ssd1306_Reset:00000000 ssd1306_Reset
+     /tmp/ccTvFPW6.s:123    .text.ssd1306_WriteCommand:00000000 $t
+     /tmp/ccTvFPW6.s:129    .text.ssd1306_WriteCommand:00000000 ssd1306_WriteCommand
+     /tmp/ccTvFPW6.s:168    .text.ssd1306_WriteCommand:00000028 $d
+     /tmp/ccTvFPW6.s:173    .text.ssd1306_WriteData:00000000 $t
+     /tmp/ccTvFPW6.s:179    .text.ssd1306_WriteData:00000000 ssd1306_WriteData
+     /tmp/ccTvFPW6.s:219    .text.ssd1306_WriteData:00000024 $d
+     /tmp/ccTvFPW6.s:224    .text.ssd1306_FillBuffer:00000000 $t
+     /tmp/ccTvFPW6.s:230    .text.ssd1306_FillBuffer:00000000 ssd1306_FillBuffer
+     /tmp/ccTvFPW6.s:276    .text.ssd1306_FillBuffer:0000001c $d
+     /tmp/ccTvFPW6.s:2880   .bss.SSD1306_Buffer:00000000 SSD1306_Buffer
+     /tmp/ccTvFPW6.s:281    .text.ssd1306_Fill:00000000 $t
+     /tmp/ccTvFPW6.s:287    .text.ssd1306_Fill:00000000 ssd1306_Fill
+     /tmp/ccTvFPW6.s:322    .text.ssd1306_Fill:00000018 $d
+     /tmp/ccTvFPW6.s:327    .text.ssd1306_UpdateScreen:00000000 $t
+     /tmp/ccTvFPW6.s:333    .text.ssd1306_UpdateScreen:00000000 ssd1306_UpdateScreen
+     /tmp/ccTvFPW6.s:391    .text.ssd1306_UpdateScreen:00000034 $d
+     /tmp/ccTvFPW6.s:396    .text.ssd1306_DrawPixel:00000000 $t
+     /tmp/ccTvFPW6.s:402    .text.ssd1306_DrawPixel:00000000 ssd1306_DrawPixel
+     /tmp/ccTvFPW6.s:486    .text.ssd1306_DrawPixel:00000048 $d
+     /tmp/ccTvFPW6.s:491    .text.ssd1306_WriteChar:00000000 $t
+     /tmp/ccTvFPW6.s:497    .text.ssd1306_WriteChar:00000000 ssd1306_WriteChar
+     /tmp/ccTvFPW6.s:679    .text.ssd1306_WriteChar:000000bc $d
+     /tmp/ccTvFPW6.s:2874   .bss.SSD1306:00000000 SSD1306
+     /tmp/ccTvFPW6.s:684    .text.ssd1306_WriteString:00000000 $t
+     /tmp/ccTvFPW6.s:690    .text.ssd1306_WriteString:00000000 ssd1306_WriteString
+     /tmp/ccTvFPW6.s:750    .text.ssd1306_SetCursor:00000000 $t
+     /tmp/ccTvFPW6.s:756    .text.ssd1306_SetCursor:00000000 ssd1306_SetCursor
+     /tmp/ccTvFPW6.s:776    .text.ssd1306_SetCursor:00000008 $d
+     /tmp/ccTvFPW6.s:781    .text.ssd1306_Line:00000000 $t
+     /tmp/ccTvFPW6.s:787    .text.ssd1306_Line:00000000 ssd1306_Line
+     /tmp/ccTvFPW6.s:954    .text.ssd1306_Polyline:00000000 $t
+     /tmp/ccTvFPW6.s:960    .text.ssd1306_Polyline:00000000 ssd1306_Polyline
+     /tmp/ccTvFPW6.s:1041   .text.ssd1306_DrawArc:00000000 $t
+     /tmp/ccTvFPW6.s:1047   .text.ssd1306_DrawArc:00000000 ssd1306_DrawArc
+     /tmp/ccTvFPW6.s:1289   .text.ssd1306_DrawArc:00000114 $d
+     /tmp/ccTvFPW6.s:1295   .text.ssd1306_DrawArcWithRadiusLine:00000000 $t
+     /tmp/ccTvFPW6.s:1301   .text.ssd1306_DrawArcWithRadiusLine:00000000 ssd1306_DrawArcWithRadiusLine
+     /tmp/ccTvFPW6.s:1635   .text.ssd1306_DrawArcWithRadiusLine:00000190 $d
+     /tmp/ccTvFPW6.s:1640   .text.ssd1306_DrawCircle:00000000 $t
+     /tmp/ccTvFPW6.s:1646   .text.ssd1306_DrawCircle:00000000 ssd1306_DrawCircle
+     /tmp/ccTvFPW6.s:1824   .text.ssd1306_FillCircle:00000000 $t
+     /tmp/ccTvFPW6.s:1830   .text.ssd1306_FillCircle:00000000 ssd1306_FillCircle
+     /tmp/ccTvFPW6.s:2032   .text.ssd1306_DrawRectangle:00000000 $t
+     /tmp/ccTvFPW6.s:2038   .text.ssd1306_DrawRectangle:00000000 ssd1306_DrawRectangle
+     /tmp/ccTvFPW6.s:2106   .text.ssd1306_FillRectangle:00000000 $t
+     /tmp/ccTvFPW6.s:2112   .text.ssd1306_FillRectangle:00000000 ssd1306_FillRectangle
+     /tmp/ccTvFPW6.s:2216   .text.ssd1306_InvertRectangle:00000000 $t
+ARM GAS  /tmp/ccTvFPW6.s 			page 70
 
 
-     /tmp/ccRBlRwv.s:2222   .text.ssd1306_InvertRectangle:00000000 ssd1306_InvertRectangle
-     /tmp/ccRBlRwv.s:2432   .text.ssd1306_InvertRectangle:000000cc $d
-     /tmp/ccRBlRwv.s:2437   .text.ssd1306_DrawBitmap:00000000 $t
-     /tmp/ccRBlRwv.s:2443   .text.ssd1306_DrawBitmap:00000000 ssd1306_DrawBitmap
-     /tmp/ccRBlRwv.s:2587   .text.ssd1306_SetContrast:00000000 $t
-     /tmp/ccRBlRwv.s:2593   .text.ssd1306_SetContrast:00000000 ssd1306_SetContrast
-     /tmp/ccRBlRwv.s:2626   .text.ssd1306_SetDisplayOn:00000000 $t
-     /tmp/ccRBlRwv.s:2632   .text.ssd1306_SetDisplayOn:00000000 ssd1306_SetDisplayOn
-     /tmp/ccRBlRwv.s:2681   .text.ssd1306_SetDisplayOn:0000001c $d
-     /tmp/ccRBlRwv.s:2686   .text.ssd1306_Init:00000000 $t
-     /tmp/ccRBlRwv.s:2692   .text.ssd1306_Init:00000000 ssd1306_Init
-     /tmp/ccRBlRwv.s:2840   .text.ssd1306_Init:000000c4 $d
-     /tmp/ccRBlRwv.s:2845   .text.ssd1306_GetDisplayOn:00000000 $t
-     /tmp/ccRBlRwv.s:2851   .text.ssd1306_GetDisplayOn:00000000 ssd1306_GetDisplayOn
-     /tmp/ccRBlRwv.s:2866   .text.ssd1306_GetDisplayOn:00000008 $d
-     /tmp/ccRBlRwv.s:2871   .bss.SSD1306:00000000 $d
-     /tmp/ccRBlRwv.s:2877   .bss.SSD1306_Buffer:00000000 $d
+     /tmp/ccTvFPW6.s:2222   .text.ssd1306_InvertRectangle:00000000 ssd1306_InvertRectangle
+     /tmp/ccTvFPW6.s:2432   .text.ssd1306_InvertRectangle:000000cc $d
+     /tmp/ccTvFPW6.s:2437   .text.ssd1306_DrawBitmap:00000000 $t
+     /tmp/ccTvFPW6.s:2443   .text.ssd1306_DrawBitmap:00000000 ssd1306_DrawBitmap
+     /tmp/ccTvFPW6.s:2587   .text.ssd1306_SetContrast:00000000 $t
+     /tmp/ccTvFPW6.s:2593   .text.ssd1306_SetContrast:00000000 ssd1306_SetContrast
+     /tmp/ccTvFPW6.s:2626   .text.ssd1306_SetDisplayOn:00000000 $t
+     /tmp/ccTvFPW6.s:2632   .text.ssd1306_SetDisplayOn:00000000 ssd1306_SetDisplayOn
+     /tmp/ccTvFPW6.s:2681   .text.ssd1306_SetDisplayOn:0000001c $d
+     /tmp/ccTvFPW6.s:2686   .text.ssd1306_Init:00000000 $t
+     /tmp/ccTvFPW6.s:2692   .text.ssd1306_Init:00000000 ssd1306_Init
+     /tmp/ccTvFPW6.s:2840   .text.ssd1306_Init:000000c4 $d
+     /tmp/ccTvFPW6.s:2845   .text.ssd1306_GetDisplayOn:00000000 $t
+     /tmp/ccTvFPW6.s:2851   .text.ssd1306_GetDisplayOn:00000000 ssd1306_GetDisplayOn
+     /tmp/ccTvFPW6.s:2866   .text.ssd1306_GetDisplayOn:00000008 $d
+     /tmp/ccTvFPW6.s:2871   .bss.SSD1306:00000000 $d
+     /tmp/ccTvFPW6.s:2877   .bss.SSD1306_Buffer:00000000 $d
 
 UNDEFINED SYMBOLS
 __aeabi_fmul
