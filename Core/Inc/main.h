@@ -68,6 +68,12 @@ void Error_Handler(void);
 #define USART_RX_GPIO_Port GPIOA
 #define NSS_Pin GPIO_PIN_4
 #define NSS_GPIO_Port GPIOA
+#define send_Pin GPIO_PIN_1
+#define send_GPIO_Port GPIOB
+#define send_EXTI_IRQn EXTI1_IRQn
+#define scan_Pin GPIO_PIN_2
+#define scan_GPIO_Port GPIOB
+#define scan_EXTI_IRQn EXTI2_IRQn
 #define LoRa_RST_Pin GPIO_PIN_8
 #define LoRa_RST_GPIO_Port GPIOA
 #define TMS_Pin GPIO_PIN_13
