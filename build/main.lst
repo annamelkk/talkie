@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccUcAEGb.s 			page 1
+ARM GAS  /tmp/ccRkHykf.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
   14:Core/Src/main.c ****   * If no LICENSE file comes with this software, it is provided AS-IS.
   15:Core/Src/main.c ****   *
   16:Core/Src/main.c ****   ******************************************************************************
-ARM GAS  /tmp/ccUcAEGb.s 			page 2
+ARM GAS  /tmp/ccRkHykf.s 			page 2
 
 
   17:Core/Src/main.c ****   */
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
   71:Core/Src/main.c **** /* USER CODE END PFP */
   72:Core/Src/main.c **** 
   73:Core/Src/main.c **** /* Private user code ---------------------------------------------------------*/
-ARM GAS  /tmp/ccUcAEGb.s 			page 3
+ARM GAS  /tmp/ccRkHykf.s 			page 3
 
 
   74:Core/Src/main.c **** /* USER CODE BEGIN 0 */
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  128:Core/Src/main.c **** // set cursor position and write text
  129:Core/Src/main.c **** ssd1306_SetCursor(16, 16);
  130:Core/Src/main.c **** ssd1306_WriteString("Startup...", Font_11x18, White);
-ARM GAS  /tmp/ccUcAEGb.s 			page 4
+ARM GAS  /tmp/ccRkHykf.s 			page 4
 
 
  131:Core/Src/main.c **** 
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  185:Core/Src/main.c **** lora.spredingFactor = SF_9;
  186:Core/Src/main.c **** lora.bandWidth      = BW_250KHz;
  187:Core/Src/main.c **** lora.crcRate        = CR_4_8;
-ARM GAS  /tmp/ccUcAEGb.s 			page 5
+ARM GAS  /tmp/ccRkHykf.s 			page 5
 
 
  188:Core/Src/main.c **** lora.power          = POWER_17db;
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  206:Core/Src/main.c ****     {
  207:Core/Src/main.c ****         // GPS has a valid fix (3+ satellites)
  208:Core/Src/main.c ****         ssd1306_WriteString("GPS OK!", Font_11x18, White);
-ARM GAS  /tmp/ccUcAEGb.s 			page 6
+ARM GAS  /tmp/ccRkHykf.s 			page 6
 
 
  209:Core/Src/main.c ****     }
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  116 0052 00BF     		.align	2
  117              	.L8:
  118 0054 00000000 		.word	Font_11x18
-ARM GAS  /tmp/ccUcAEGb.s 			page 7
+ARM GAS  /tmp/ccRkHykf.s 			page 7
 
 
  119 0058 14000000 		.word	.LC2
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  169              		.align	1
  170              		.global	Error_Handler
  171              		.syntax unified
-ARM GAS  /tmp/ccUcAEGb.s 			page 8
+ARM GAS  /tmp/ccRkHykf.s 			page 8
 
 
  172              		.thumb
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  268:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
  269:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
  270:Core/Src/main.c **** 
-ARM GAS  /tmp/ccUcAEGb.s 			page 9
+ARM GAS  /tmp/ccRkHykf.s 			page 9
 
 
  271:Core/Src/main.c ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
   26:Drivers/CMSIS/Include/cmsis_gcc.h **** #define __CMSIS_GCC_H
   27:Drivers/CMSIS/Include/cmsis_gcc.h **** 
   28:Drivers/CMSIS/Include/cmsis_gcc.h **** /* ignore some GCC warnings */
-ARM GAS  /tmp/ccUcAEGb.s 			page 10
+ARM GAS  /tmp/ccRkHykf.s 			page 10
 
 
   29:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic push
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
   83:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
   84:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_WRITE(addr, val)    (void)((((struct T_UINT16_WRITE *)(void *)(addr))-
   85:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
-ARM GAS  /tmp/ccUcAEGb.s 			page 11
+ARM GAS  /tmp/ccRkHykf.s 			page 11
 
 
   86:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_READ
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  140:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __disable_irq(void)
  187              		.loc 2 140 27 view .LVU25
  188              	.LBB5:
-ARM GAS  /tmp/ccUcAEGb.s 			page 12
+ARM GAS  /tmp/ccRkHykf.s 			page 12
 
 
  141:Drivers/CMSIS/Include/cmsis_gcc.h **** {
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  235              		.loc 1 245 3 is_stmt 1 view .LVU33
  245:Core/Src/main.c **** 
  236              		.loc 1 245 22 is_stmt 0 view .LVU34
-ARM GAS  /tmp/ccUcAEGb.s 			page 13
+ARM GAS  /tmp/ccRkHykf.s 			page 13
 
 
  237 0010 0023     		movs	r3, #0
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  264:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
  274              		.loc 1 264 31 is_stmt 0 view .LVU52
  275 003c 0F23     		movs	r3, #15
-ARM GAS  /tmp/ccUcAEGb.s 			page 14
+ARM GAS  /tmp/ccRkHykf.s 			page 14
 
 
  276 003e 0193     		str	r3, [sp, #4]
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  316              		.cfi_endproc
  317              	.LFE71:
  319              		.section	.rodata.main.str1.4,"aMS",%progbits,1
-ARM GAS  /tmp/ccUcAEGb.s 			page 15
+ARM GAS  /tmp/ccRkHykf.s 			page 15
 
 
  320              		.align	2
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  359              		.loc 1 112 3 view .LVU70
  360 000c FFF7FEFF 		bl	MX_GPIO_Init
  361              	.LVL19:
-ARM GAS  /tmp/ccUcAEGb.s 			page 16
+ARM GAS  /tmp/ccRkHykf.s 			page 16
 
 
  113:Core/Src/main.c ****   MX_SPI1_Init();
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  140:Core/Src/main.c **** lora.CS_pin		= NSS_Pin;
  405              		.loc 1 140 1 view .LVU82
  140:Core/Src/main.c **** lora.CS_pin		= NSS_Pin;
-ARM GAS  /tmp/ccUcAEGb.s 			page 17
+ARM GAS  /tmp/ccRkHykf.s 			page 17
 
 
  406              		.loc 1 140 15 is_stmt 0 view .LVU83
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  153:Core/Src/main.c **** 	{
  444              		.loc 1 153 1 view .LVU100
  153:Core/Src/main.c **** 	{
-ARM GAS  /tmp/ccUcAEGb.s 			page 18
+ARM GAS  /tmp/ccRkHykf.s 			page 18
 
 
  445              		.loc 1 153 4 is_stmt 0 view .LVU101
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  190:Core/Src/main.c **** 
  483              		.loc 1 190 1 is_stmt 1 view .LVU118
  190:Core/Src/main.c **** 
-ARM GAS  /tmp/ccUcAEGb.s 			page 19
+ARM GAS  /tmp/ccRkHykf.s 			page 19
 
 
  484              		.loc 1 190 21 is_stmt 0 view .LVU119
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  526 00ec CFE7     		b	.L26
  527              	.L31:
  169:Core/Src/main.c **** 		ssd1306_UpdateScreen();
-ARM GAS  /tmp/ccUcAEGb.s 			page 20
+ARM GAS  /tmp/ccRkHykf.s 			page 20
 
 
  528              		.loc 1 169 3 view .LVU132
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  576              		.cfi_endproc
  577              	.LFE69:
  579              		.global	gps
-ARM GAS  /tmp/ccUcAEGb.s 			page 21
+ARM GAS  /tmp/ccRkHykf.s 			page 21
 
 
  580              		.section	.bss.gps,"aw",%nobits
@@ -1240,30 +1240,30 @@ ARM GAS  /tmp/ccUcAEGb.s 			page 1
  612              		.file 20 "Core/Inc/i2c.h"
  613              		.file 21 "Core/Inc/gpio.h"
  614              		.file 22 "<built-in>"
-ARM GAS  /tmp/ccUcAEGb.s 			page 22
+ARM GAS  /tmp/ccRkHykf.s 			page 22
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-     /tmp/ccUcAEGb.s:19     .rodata.GPS_display_status.0.str1.4:00000000 $d
-     /tmp/ccUcAEGb.s:29     .text.GPS_display_status.0:00000000 $t
-     /tmp/ccUcAEGb.s:34     .text.GPS_display_status.0:00000000 GPS_display_status.0
-     /tmp/ccUcAEGb.s:118    .text.GPS_display_status.0:00000054 $d
-     /tmp/ccUcAEGb.s:126    .text.HAL_UART_RxCpltCallback:00000000 $t
-     /tmp/ccUcAEGb.s:132    .text.HAL_UART_RxCpltCallback:00000000 HAL_UART_RxCpltCallback
-     /tmp/ccUcAEGb.s:164    .text.HAL_UART_RxCpltCallback:00000010 $d
-     /tmp/ccUcAEGb.s:169    .text.Error_Handler:00000000 $t
-     /tmp/ccUcAEGb.s:175    .text.Error_Handler:00000000 Error_Handler
-     /tmp/ccUcAEGb.s:207    .text.SystemClock_Config:00000000 $t
-     /tmp/ccUcAEGb.s:213    .text.SystemClock_Config:00000000 SystemClock_Config
-     /tmp/ccUcAEGb.s:320    .rodata.main.str1.4:00000000 $d
-     /tmp/ccUcAEGb.s:333    .text.main:00000000 $t
-     /tmp/ccUcAEGb.s:339    .text.main:00000000 main
-     /tmp/ccUcAEGb.s:567    .text.main:0000012c $d
-     /tmp/ccUcAEGb.s:591    .bss.lora:00000000 lora
-     /tmp/ccUcAEGb.s:584    .bss.gps:00000000 gps
-     /tmp/ccUcAEGb.s:581    .bss.gps:00000000 $d
-     /tmp/ccUcAEGb.s:588    .bss.lora:00000000 $d
+     /tmp/ccRkHykf.s:19     .rodata.GPS_display_status.0.str1.4:00000000 $d
+     /tmp/ccRkHykf.s:29     .text.GPS_display_status.0:00000000 $t
+     /tmp/ccRkHykf.s:34     .text.GPS_display_status.0:00000000 GPS_display_status.0
+     /tmp/ccRkHykf.s:118    .text.GPS_display_status.0:00000054 $d
+     /tmp/ccRkHykf.s:126    .text.HAL_UART_RxCpltCallback:00000000 $t
+     /tmp/ccRkHykf.s:132    .text.HAL_UART_RxCpltCallback:00000000 HAL_UART_RxCpltCallback
+     /tmp/ccRkHykf.s:164    .text.HAL_UART_RxCpltCallback:00000010 $d
+     /tmp/ccRkHykf.s:169    .text.Error_Handler:00000000 $t
+     /tmp/ccRkHykf.s:175    .text.Error_Handler:00000000 Error_Handler
+     /tmp/ccRkHykf.s:207    .text.SystemClock_Config:00000000 $t
+     /tmp/ccRkHykf.s:213    .text.SystemClock_Config:00000000 SystemClock_Config
+     /tmp/ccRkHykf.s:320    .rodata.main.str1.4:00000000 $d
+     /tmp/ccRkHykf.s:333    .text.main:00000000 $t
+     /tmp/ccRkHykf.s:339    .text.main:00000000 main
+     /tmp/ccRkHykf.s:567    .text.main:0000012c $d
+     /tmp/ccRkHykf.s:591    .bss.lora:00000000 lora
+     /tmp/ccRkHykf.s:584    .bss.gps:00000000 gps
+     /tmp/ccRkHykf.s:581    .bss.gps:00000000 $d
+     /tmp/ccRkHykf.s:588    .bss.lora:00000000 $d
 
 UNDEFINED SYMBOLS
 ssd1306_SetCursor
