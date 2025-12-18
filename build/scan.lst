@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccK3lrae.s 			page 1
+ARM GAS  /tmp/cciOfpHJ.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -17,12 +17,327 @@ ARM GAS  /tmp/ccK3lrae.s 			page 1
   14              		.text
   15              	.Ltext0:
   16              		.cfi_sections	.debug_frame
-  17              		.file 1 "./APP/scan.c"
-  18              	.Letext0:
-ARM GAS  /tmp/ccK3lrae.s 			page 2
+  17              		.file 1 "APP/scan.c"
+  18              		.section	.text.SCAN_Init,"ax",%progbits
+  19              		.align	1
+  20              		.global	SCAN_Init
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	SCAN_Init:
+  26              	.LFB65:
+   1:APP/scan.c    **** #include "scan.h"
+   2:APP/scan.c    **** #include "comm.h"
+   3:APP/scan.c    **** #include "stm32f1xx_hal.h"
+   4:APP/scan.c    **** 
+   5:APP/scan.c    **** #define	SCAN_DURATION_MS	10000
+   6:APP/scan.c    **** #define	SCAN_TX_PERIOD_MS	1000
+   7:APP/scan.c    **** 
+   8:APP/scan.c    **** static bool	scan_active = false;
+   9:APP/scan.c    **** static uint32_t	scan_start_time = 0;
+  10:APP/scan.c    **** static uint32_t	last_tx_time = 0;
+  11:APP/scan.c    **** 
+  12:APP/scan.c    **** void SCAN_Init(void)
+  13:APP/scan.c    **** {
+  27              		.loc 1 13 1 view -0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  14:APP/scan.c    **** 	scan_active = false;
+  32              		.loc 1 14 2 view .LVU1
+  33              		.loc 1 14 14 is_stmt 0 view .LVU2
+  34 0000 014B     		ldr	r3, .L2
+  35 0002 0022     		movs	r2, #0
+  36 0004 1A70     		strb	r2, [r3]
+  15:APP/scan.c    **** }
+  37              		.loc 1 15 1 view .LVU3
+  38 0006 7047     		bx	lr
+  39              	.L3:
+  40              		.align	2
+  41              	.L2:
+  42 0008 00000000 		.word	scan_active
+  43              		.cfi_endproc
+ARM GAS  /tmp/cciOfpHJ.s 			page 2
+
+
+  44              	.LFE65:
+  46              		.section	.text.SCAN_Start,"ax",%progbits
+  47              		.align	1
+  48              		.global	SCAN_Start
+  49              		.syntax unified
+  50              		.thumb
+  51              		.thumb_func
+  53              	SCAN_Start:
+  54              	.LFB66:
+  16:APP/scan.c    **** 
+  17:APP/scan.c    **** void SCAN_Start(void)
+  18:APP/scan.c    **** {
+  55              		.loc 1 18 1 is_stmt 1 view -0
+  56              		.cfi_startproc
+  57              		@ args = 0, pretend = 0, frame = 0
+  58              		@ frame_needed = 0, uses_anonymous_args = 0
+  59 0000 08B5     		push	{r3, lr}
+  60              	.LCFI0:
+  61              		.cfi_def_cfa_offset 8
+  62              		.cfi_offset 3, -8
+  63              		.cfi_offset 14, -4
+  19:APP/scan.c    **** 	scan_active = true;
+  64              		.loc 1 19 2 view .LVU5
+  65              		.loc 1 19 14 is_stmt 0 view .LVU6
+  66 0002 054B     		ldr	r3, .L6
+  67 0004 0122     		movs	r2, #1
+  68 0006 1A70     		strb	r2, [r3]
+  20:APP/scan.c    **** 	scan_start_time = HAL_GetTick();
+  69              		.loc 1 20 2 is_stmt 1 view .LVU7
+  70              		.loc 1 20 20 is_stmt 0 view .LVU8
+  71 0008 FFF7FEFF 		bl	HAL_GetTick
+  72              	.LVL0:
+  73              		.loc 1 20 18 discriminator 1 view .LVU9
+  74 000c 034B     		ldr	r3, .L6+4
+  75 000e 1860     		str	r0, [r3]
+  21:APP/scan.c    **** 	last_tx_time = 0;
+  76              		.loc 1 21 2 is_stmt 1 view .LVU10
+  77              		.loc 1 21 15 is_stmt 0 view .LVU11
+  78 0010 034B     		ldr	r3, .L6+8
+  79 0012 0022     		movs	r2, #0
+  80 0014 1A60     		str	r2, [r3]
+  22:APP/scan.c    **** }
+  81              		.loc 1 22 1 view .LVU12
+  82 0016 08BD     		pop	{r3, pc}
+  83              	.L7:
+  84              		.align	2
+  85              	.L6:
+  86 0018 00000000 		.word	scan_active
+  87 001c 00000000 		.word	scan_start_time
+  88 0020 00000000 		.word	last_tx_time
+  89              		.cfi_endproc
+  90              	.LFE66:
+  92              		.section	.text.SCAN_Stop,"ax",%progbits
+  93              		.align	1
+  94              		.global	SCAN_Stop
+  95              		.syntax unified
+  96              		.thumb
+ARM GAS  /tmp/cciOfpHJ.s 			page 3
+
+
+  97              		.thumb_func
+  99              	SCAN_Stop:
+ 100              	.LFB67:
+  23:APP/scan.c    **** 
+  24:APP/scan.c    **** void SCAN_Stop(void)
+  25:APP/scan.c    **** {
+ 101              		.loc 1 25 1 is_stmt 1 view -0
+ 102              		.cfi_startproc
+ 103              		@ args = 0, pretend = 0, frame = 0
+ 104              		@ frame_needed = 0, uses_anonymous_args = 0
+ 105              		@ link register save eliminated.
+  26:APP/scan.c    **** 	scan_active = false;
+ 106              		.loc 1 26 2 view .LVU14
+ 107              		.loc 1 26 14 is_stmt 0 view .LVU15
+ 108 0000 014B     		ldr	r3, .L9
+ 109 0002 0022     		movs	r2, #0
+ 110 0004 1A70     		strb	r2, [r3]
+  27:APP/scan.c    **** }
+ 111              		.loc 1 27 1 view .LVU16
+ 112 0006 7047     		bx	lr
+ 113              	.L10:
+ 114              		.align	2
+ 115              	.L9:
+ 116 0008 00000000 		.word	scan_active
+ 117              		.cfi_endproc
+ 118              	.LFE67:
+ 120              		.section	.text.SCAN_IsActive,"ax",%progbits
+ 121              		.align	1
+ 122              		.global	SCAN_IsActive
+ 123              		.syntax unified
+ 124              		.thumb
+ 125              		.thumb_func
+ 127              	SCAN_IsActive:
+ 128              	.LFB68:
+  28:APP/scan.c    **** 
+  29:APP/scan.c    **** bool SCAN_IsActive(void)
+  30:APP/scan.c    **** {
+ 129              		.loc 1 30 1 is_stmt 1 view -0
+ 130              		.cfi_startproc
+ 131              		@ args = 0, pretend = 0, frame = 0
+ 132              		@ frame_needed = 0, uses_anonymous_args = 0
+ 133              		@ link register save eliminated.
+  31:APP/scan.c    **** 	return scan_active;
+ 134              		.loc 1 31 2 view .LVU18
+  32:APP/scan.c    **** }
+ 135              		.loc 1 32 1 is_stmt 0 view .LVU19
+ 136 0000 014B     		ldr	r3, .L12
+ 137 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 138 0004 7047     		bx	lr
+ 139              	.L13:
+ 140 0006 00BF     		.align	2
+ 141              	.L12:
+ 142 0008 00000000 		.word	scan_active
+ 143              		.cfi_endproc
+ 144              	.LFE68:
+ 146              		.section	.text.SCAN_Process,"ax",%progbits
+ 147              		.align	1
+ARM GAS  /tmp/cciOfpHJ.s 			page 4
+
+
+ 148              		.global	SCAN_Process
+ 149              		.syntax unified
+ 150              		.thumb
+ 151              		.thumb_func
+ 153              	SCAN_Process:
+ 154              	.LFB69:
+  33:APP/scan.c    **** 
+  34:APP/scan.c    **** void SCAN_Process(void)
+  35:APP/scan.c    **** {
+ 155              		.loc 1 35 1 is_stmt 1 view -0
+ 156              		.cfi_startproc
+ 157              		@ args = 0, pretend = 0, frame = 0
+ 158              		@ frame_needed = 0, uses_anonymous_args = 0
+ 159 0000 08B5     		push	{r3, lr}
+ 160              	.LCFI1:
+ 161              		.cfi_def_cfa_offset 8
+ 162              		.cfi_offset 3, -8
+ 163              		.cfi_offset 14, -4
+  36:APP/scan.c    **** 	if (!scan_active)
+ 164              		.loc 1 36 2 view .LVU21
+ 165              		.loc 1 36 6 is_stmt 0 view .LVU22
+ 166 0002 0E4B     		ldr	r3, .L20
+ 167 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 168              		.loc 1 36 5 view .LVU23
+ 169 0006 03B9     		cbnz	r3, .L18
+ 170              	.L14:
+  37:APP/scan.c    ****         	return;
+  38:APP/scan.c    **** 	uint32_t now = HAL_GetTick();
+  39:APP/scan.c    **** 
+  40:APP/scan.c    **** 	if ((now - scan_start_time) >= SCAN_DURATION_MS)
+  41:APP/scan.c    **** 	{
+  42:APP/scan.c    **** 		SCAN_Stop();
+  43:APP/scan.c    **** 		return;
+  44:APP/scan.c    **** 	}
+  45:APP/scan.c    **** 
+  46:APP/scan.c    **** 	if ((now - last_tx_time) >= SCAN_TX_PERIOD_MS)
+  47:APP/scan.c    **** 	{
+  48:APP/scan.c    **** 		last_tx_time = now;
+  49:APP/scan.c    **** 		COMM_SendScanRequest(0x01);
+  50:APP/scan.c    **** 	}
+  51:APP/scan.c    **** }
+ 171              		.loc 1 51 1 view .LVU24
+ 172 0008 08BD     		pop	{r3, pc}
+ 173              	.L18:
+  38:APP/scan.c    **** 
+ 174              		.loc 1 38 2 is_stmt 1 view .LVU25
+  38:APP/scan.c    **** 
+ 175              		.loc 1 38 17 is_stmt 0 view .LVU26
+ 176 000a FFF7FEFF 		bl	HAL_GetTick
+ 177              	.LVL1:
+  40:APP/scan.c    **** 	{
+ 178              		.loc 1 40 2 is_stmt 1 view .LVU27
+  40:APP/scan.c    **** 	{
+ 179              		.loc 1 40 11 is_stmt 0 view .LVU28
+ 180 000e 0C4B     		ldr	r3, .L20+4
+ 181 0010 1B68     		ldr	r3, [r3]
+ 182 0012 C31A     		subs	r3, r0, r3
+ARM GAS  /tmp/cciOfpHJ.s 			page 5
+
+
+  40:APP/scan.c    **** 	{
+ 183              		.loc 1 40 5 view .LVU29
+ 184 0014 42F20F72 		movw	r2, #9999
+ 185 0018 9342     		cmp	r3, r2
+ 186 001a 0BD8     		bhi	.L19
+  46:APP/scan.c    **** 	{
+ 187              		.loc 1 46 2 is_stmt 1 view .LVU30
+  46:APP/scan.c    **** 	{
+ 188              		.loc 1 46 11 is_stmt 0 view .LVU31
+ 189 001c 094B     		ldr	r3, .L20+8
+ 190 001e 1B68     		ldr	r3, [r3]
+ 191 0020 C31A     		subs	r3, r0, r3
+  46:APP/scan.c    **** 	{
+ 192              		.loc 1 46 5 view .LVU32
+ 193 0022 B3F57A7F 		cmp	r3, #1000
+ 194 0026 EFD3     		bcc	.L14
+  48:APP/scan.c    **** 		COMM_SendScanRequest(0x01);
+ 195              		.loc 1 48 3 is_stmt 1 view .LVU33
+  48:APP/scan.c    **** 		COMM_SendScanRequest(0x01);
+ 196              		.loc 1 48 16 is_stmt 0 view .LVU34
+ 197 0028 064B     		ldr	r3, .L20+8
+ 198 002a 1860     		str	r0, [r3]
+  49:APP/scan.c    **** 	}
+ 199              		.loc 1 49 3 is_stmt 1 view .LVU35
+ 200 002c 0120     		movs	r0, #1
+ 201              	.LVL2:
+  49:APP/scan.c    **** 	}
+ 202              		.loc 1 49 3 is_stmt 0 view .LVU36
+ 203 002e FFF7FEFF 		bl	COMM_SendScanRequest
+ 204              	.LVL3:
+  49:APP/scan.c    **** 	}
+ 205              		.loc 1 49 3 view .LVU37
+ 206 0032 E9E7     		b	.L14
+ 207              	.LVL4:
+ 208              	.L19:
+  42:APP/scan.c    **** 		return;
+ 209              		.loc 1 42 3 is_stmt 1 view .LVU38
+ 210 0034 FFF7FEFF 		bl	SCAN_Stop
+ 211              	.LVL5:
+  43:APP/scan.c    **** 	}
+ 212              		.loc 1 43 3 view .LVU39
+ 213 0038 E6E7     		b	.L14
+ 214              	.L21:
+ 215 003a 00BF     		.align	2
+ 216              	.L20:
+ 217 003c 00000000 		.word	scan_active
+ 218 0040 00000000 		.word	scan_start_time
+ 219 0044 00000000 		.word	last_tx_time
+ 220              		.cfi_endproc
+ 221              	.LFE69:
+ 223              		.section	.bss.last_tx_time,"aw",%nobits
+ 224              		.align	2
+ 227              	last_tx_time:
+ 228 0000 00000000 		.space	4
+ 229              		.section	.bss.scan_start_time,"aw",%nobits
+ 230              		.align	2
+ 233              	scan_start_time:
+ARM GAS  /tmp/cciOfpHJ.s 			page 6
+
+
+ 234 0000 00000000 		.space	4
+ 235              		.section	.bss.scan_active,"aw",%nobits
+ 238              	scan_active:
+ 239 0000 00       		.space	1
+ 240              		.text
+ 241              	.Letext0:
+ 242              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 243              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 244              		.file 4 "APP/comm.h"
+ 245              		.file 5 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ARM GAS  /tmp/cciOfpHJ.s 			page 7
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 scan.c
+     /tmp/cciOfpHJ.s:19     .text.SCAN_Init:00000000 $t
+     /tmp/cciOfpHJ.s:25     .text.SCAN_Init:00000000 SCAN_Init
+     /tmp/cciOfpHJ.s:42     .text.SCAN_Init:00000008 $d
+     /tmp/cciOfpHJ.s:238    .bss.scan_active:00000000 scan_active
+     /tmp/cciOfpHJ.s:47     .text.SCAN_Start:00000000 $t
+     /tmp/cciOfpHJ.s:53     .text.SCAN_Start:00000000 SCAN_Start
+     /tmp/cciOfpHJ.s:86     .text.SCAN_Start:00000018 $d
+     /tmp/cciOfpHJ.s:233    .bss.scan_start_time:00000000 scan_start_time
+     /tmp/cciOfpHJ.s:227    .bss.last_tx_time:00000000 last_tx_time
+     /tmp/cciOfpHJ.s:93     .text.SCAN_Stop:00000000 $t
+     /tmp/cciOfpHJ.s:99     .text.SCAN_Stop:00000000 SCAN_Stop
+     /tmp/cciOfpHJ.s:116    .text.SCAN_Stop:00000008 $d
+     /tmp/cciOfpHJ.s:121    .text.SCAN_IsActive:00000000 $t
+     /tmp/cciOfpHJ.s:127    .text.SCAN_IsActive:00000000 SCAN_IsActive
+     /tmp/cciOfpHJ.s:142    .text.SCAN_IsActive:00000008 $d
+     /tmp/cciOfpHJ.s:147    .text.SCAN_Process:00000000 $t
+     /tmp/cciOfpHJ.s:153    .text.SCAN_Process:00000000 SCAN_Process
+     /tmp/cciOfpHJ.s:217    .text.SCAN_Process:0000003c $d
+     /tmp/cciOfpHJ.s:224    .bss.last_tx_time:00000000 $d
+     /tmp/cciOfpHJ.s:230    .bss.scan_start_time:00000000 $d
+     /tmp/cciOfpHJ.s:239    .bss.scan_active:00000000 $d
 
-NO UNDEFINED SYMBOLS
+UNDEFINED SYMBOLS
+HAL_GetTick
+COMM_SendScanRequest

@@ -344,6 +344,7 @@ void	send_mode(void)
 // ====================APP Init ==========================
 COMM_Init();
 SCAN_Init();
+bool	scan_was_active = false;
 main_screen();
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -354,18 +355,15 @@ main_screen();
 	if (scan_btn_pressed)
 	{
 		scan_btn_pressed = false;
-
-		SCAN_Start();
 		scan_mode();
-		
 
-
+		if (!SCAN_IsActive())
+			SCAN_Start();
+	
 	}
-
 	// SENDING
 	if (send_btn_pressed)
 	{
-
 		send_btn_pressed = false;
 		send_mode();
 		COMM_SendLocation(44.18f, 44.51f, 0x01);
@@ -374,11 +372,32 @@ main_screen();
 		ssd1306_SetCursor(16,16);
 		ssd1306_WriteString("Sent", Font_11x18, White);
 		ssd1306_UpdateScreen();
+		HAL_Delay(500);
+		main_screen();
 	}
 
 	COMM_Process();
-	
 	SCAN_Process();
+
+	if (SCAN_IsActive() && !scan_was_active)
+	{
+		scan_was_active = true;
+
+		ssd1306_Fill(Black);
+        	ssd1306_SetCursor(16, 16);
+		ssd1306_WriteString("Scanning...", Font_11x18, White);
+        	ssd1306_UpdateScreen();
+	}
+	if (!SCAN_IsActive() && scan_was_active)
+	{
+		scan_was_active = false;
+		ssd1306_Fill(Black);
+        	ssd1306_SetCursor(16, 16);
+		ssd1306_WriteString("Scan done", Font_11x18, White);
+        	ssd1306_UpdateScreen();
+		HAL_Delay(500);
+		main_screen();
+	}
 
 	if (COMM_HasPacket())
 	{
