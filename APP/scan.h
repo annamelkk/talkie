@@ -3,13 +3,12 @@
 
 #include <stdbool.h>
 
-void	Scan_init(void);
+void SCAN_Init(void);
+void SCAN_Start(void);
+void SCAN_Stop(void);
+void SCAN_Process(void);
 
-void	scan_start(void);
-void	scan_stop(void);
-
-bool	scan_is_active(void);
-void	scan_process(void);
-
+bool SCAN_IsActive(void);
 
 #endif
+

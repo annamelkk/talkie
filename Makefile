@@ -10,7 +10,6 @@
 #   2015-07-22 - first version
 # ------------------------------------------------
 
-PROJECT_DIR = .
 
 ######################################
 # target
@@ -66,9 +65,9 @@ Drivers/LoRa/LoRa.c \
 Drivers/OLED/ssd1306.c \
 Drivers/OLED/fonts.c \
 Drivers/GPS/gps.c \
-$(PROEJCT_DIR)/APP/comm.c \
-$(PROJECT_DIR)/APP/protocol.c \
-$(PROJECT_DIR)/APP/scan.c
+APP/comm.c \
+APP/protocol.c \
+APP/scan.c
 # ASM sources
 ASM_SOURCES = startup_stm32f103xb.s
 
@@ -137,7 +136,7 @@ C_INCLUDES =  \
 -IDrivers/LoRa \
 -IDrivers/OLED \
 -IDrivers/STM32F1xx_HAL_Driver/Inc/Legacy \
--I$(PROJECT_DIR)/APP
+-IAPP
 
 
 # compile gcc flags

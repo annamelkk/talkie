@@ -33,9 +33,9 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "comm.h"
-#include "protocol.h"
-#include "scan.h"
+#include "../APP/comm.h"
+#include "../APP/protocol.h"
+#include "../APP/scan.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -58,9 +58,13 @@
 /* USER CODE BEGIN PV */
 // i2c for oled
 
-// declaring the object
+// declaring the objects
 LoRa lora;
 GPS_t gps;
+
+
+volatile bool	scan_btn_pressed = false;
+volatile bool	send_btn_pressed = false;
 
 /* USER CODE END PV */
 
@@ -253,12 +257,132 @@ ssd1306_DrawCircle(30, 22, 2, White);
 ssd1306_UpdateScreen();
   /* USER CODE END 2 */
 
+
+// ====================APP Init ==========================
+COMM_Init();
+SCAN_Init();
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
+	// SCANNING
+	if (scan_btn_pressed)
+	{
+		scan_btn_pressed = false;
 
+		SCAN_Start();
+		// Draw filled rectangle (64x64 at position 0,0) - replaces bitmap
+		ssd1306_Fill(Black);	
+		ssd1306_FillRectangle(0, 0, 64, 64, White);
+
+		// Draw "send" text in white (scaled 2x)
+		ssd1306_SetCursor(80, 44);
+		ssd1306_WriteString("send", Font_7x10, White);
+
+		// Draw line (paper airplane part)
+		ssd1306_Line(84, 22, 112, 10, White);
+
+		// Draw "scan" text in black (erases)
+		ssd1306_SetCursor(14, 44);
+		ssd1306_WriteString("scan", Font_7x10, Black);
+
+		// Draw more lines (paper airplane icon - scaled 2x)
+		ssd1306_Line(114, 10, 74, 12, White);
+		ssd1306_Line(114, 10, 98, 32, White);
+		ssd1306_Line(84, 22, 100, 34, White);
+		ssd1306_Line(84, 22, 74, 12, White);
+		ssd1306_Line(80, 20, 84, 32, White);
+		ssd1306_Line(84, 34, 94, 28, White);
+
+		// Draw circles in black (erases the scan icon)
+		ssd1306_DrawCircle(30, 22, 8, Black);
+		ssd1306_DrawCircle(30, 22, 14, Black);
+
+		// Draw center point in white
+		ssd1306_DrawPixel(30, 22, White);
+
+		// Draw small circle in black
+		ssd1306_DrawCircle(30, 22, 2, Black);
+
+		// Update the display
+		ssd1306_UpdateScreen();
+		HAL_Delay(500);
+		ssd1306_Fill(Black);
+		ssd1306_SetCursor(16, 16);
+		ssd1306_WriteString("Scanning...", Font_11x18, White);
+		ssd1306_UpdateScreen();
+	}
+
+	// SENDING
+	if (send_btn_pressed)
+	{
+
+		send_btn_pressed = false;
+
+		COMM_SendLocation(44.18f, 44.51f, 0x01);
+		ssd1306_Fill(Black);
+		// Draw filled rectangle (64x64 at position 64,0) - replaces bitmap
+		ssd1306_FillRectangle(64, 0, 128, 64, White);
+
+		// Draw "send" text in black (erases)
+		ssd1306_SetCursor(80, 44);
+		ssd1306_WriteString("send", Font_7x10, Black);
+
+		// Draw line in black (paper airplane - erased)
+		ssd1306_Line(84, 22, 112, 10, Black);
+
+		// Draw "scan" text in white
+		ssd1306_SetCursor(14, 44);
+		ssd1306_WriteString("scan", Font_7x10, White);
+
+		// Draw more lines in black (paper airplane icon - erased)
+		ssd1306_Line(114, 10, 74, 12, Black);
+		ssd1306_Line(114, 10, 98, 32, Black);
+		ssd1306_Line(84, 22, 100, 34, Black);
+		ssd1306_Line(84, 22, 74, 12, Black);
+		ssd1306_Line(80, 20, 84, 32, Black);
+		ssd1306_Line(84, 34, 94, 28, Black);
+
+		// Draw circles in white (scan/radar icon)
+		ssd1306_DrawCircle(30, 22, 8, White);
+		ssd1306_DrawCircle(30, 22, 14, White);
+
+		// Draw center point in white
+		ssd1306_DrawPixel(30, 22, White);
+
+		// Draw small circle in white
+		ssd1306_DrawCircle(30, 22, 2, White);
+
+		// Update the display
+		ssd1306_UpdateScreen();
+		HAL_Delay(500);
+		ssd1306_Fill(Black);
+		ssd1306_SetCursor(16,16);
+		ssd1306_WriteString("Sent", Font_11x18, White);
+		ssd1306_UpdateScreen();
+	}
+
+	COMM_Process();
+	
+	SCAN_Process();
+
+	if (COMM_HasPacket())
+	{
+		CommPacket_t pkt;
+		if (COMM_GetPacket(&pkt))
+		{
+			if (pkt.type == COMM_LOCATION)
+			{
+				ssd1306_Fill(Black);
+				ssd1306_SetCursor(16,16);
+				ssd1306_WriteString("RX Location", Font_11x18, White);
+				ssd1306_UpdateScreen();
+			}
+		}
+
+	}
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -304,7 +428,13 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void	HAL_GPIO_EXTI_Callback(uint16_t GPIO_pin)
+{
+	if (GPIO_pin == scan_Pin)
+		scan_btn_pressed = true;
+	else if (GPIO_pin == send_Pin)
+		send_btn_pressed = true;
+}
 /* USER CODE END 4 */
 
 /**

@@ -4,21 +4,31 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-typedef	enum
+/* Packet types */
+typedef enum
 {
-	PKT_LOCATION = 0x01,
-	PKT_SCAN_REQUEST = 0x02,
-	PKT_ACK = 0x03,
+    PKT_LOCATION     = 0x01,
+    PKT_SCAN_REQUEST = 0x02,
 } ProtocolPacketType_t;
 
-#define PROTOCOL_MAX_PAYLOAD 32
+/* Encoders */
+uint8_t PROTOCOL_EncodeLocation(uint8_t *buf,
+                                float lat,
+                                float lon,
+                                uint8_t id);
 
-uint16_t	encode_location(uint8_t *buf,
-			 float lat, float lon, uint8_t id);
+uint8_t PROTOCOL_EncodeScanRequest(uint8_t *buf,
+                                   uint8_t id);
 
-bool	decode_location(const uint8_t *buf, uint16_t len,
-		     float *lat, float *lon, uint8_t *id);
+/* Decoders */
+bool PROTOCOL_DecodeLocation(const uint8_t *buf,
+                             uint8_t len,
+                             float *lat,
+                             float *lon,
+                             uint8_t *id);
 
-ProtocolPacketType_t get_type(const uint8_t *buf);
+/* Utilities */
+ProtocolPacketType_t PROTOCOL_GetType(const uint8_t *buf);
 
 #endif
+
