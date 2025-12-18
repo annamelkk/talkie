@@ -230,49 +230,37 @@ HAL_Delay(500);
 
 // ====================== Main screen code ==========================
 
-ssd1306_Fill(Black);
-// Draw text strings (scaled 2x positions)
-ssd1306_SetCursor(80, 44);
-ssd1306_WriteString("send", Font_7x10, White);
+void	main_screen(void)
+{
+	ssd1306_Fill(Black);
+	// Draw text strings (scaled 2x positions)
+	ssd1306_SetCursor(80, 44);
+	ssd1306_WriteString("send", Font_7x10, White);
 
-ssd1306_SetCursor(14, 44);
-ssd1306_WriteString("scan", Font_7x10, White);
+	ssd1306_SetCursor(14, 44);
+	ssd1306_WriteString("scan", Font_7x10, White);
 
-// Draw lines (paper airplane icon - scaled 2x)
-ssd1306_Line(84, 22, 112, 10, White);
-ssd1306_Line(114, 10, 74, 12, White);
-ssd1306_Line(114, 10, 98, 32, White);
-ssd1306_Line(84, 22, 100, 34, White);
-ssd1306_Line(84, 22, 74, 12, White);
-ssd1306_Line(80, 20, 84, 32, White);
-ssd1306_Line(84, 34, 94, 28, White);
+	// Draw lines (paper airplane icon - scaled 2x)
+	ssd1306_Line(84, 22, 112, 10, White);
+	ssd1306_Line(114, 10, 74, 12, White);
+	ssd1306_Line(114, 10, 98, 32, White);
+	ssd1306_Line(84, 22, 100, 34, White);
+	ssd1306_Line(84, 22, 74, 12, White);
+	ssd1306_Line(80, 20, 84, 32, White);
+	ssd1306_Line(84, 34, 94, 28, White);
 
-// Draw circles (scan/radar icon - scaled 2x)
-ssd1306_DrawCircle(30, 22, 8, White);
-ssd1306_DrawCircle(30, 22, 14, White);
-ssd1306_DrawPixel(30, 22, White);
-ssd1306_DrawCircle(30, 22, 2, White);
+	// Draw circles (scan/radar icon - scaled 2x)
+	ssd1306_DrawCircle(30, 22, 8, White);
+	ssd1306_DrawCircle(30, 22, 14, White);
+	ssd1306_DrawPixel(30, 22, White);
+	ssd1306_DrawCircle(30, 22, 2, White);
 
-// Update the display
-ssd1306_UpdateScreen();
-  /* USER CODE END 2 */
+	// Update the display
+	ssd1306_UpdateScreen();
+}
 
-
-// ====================APP Init ==========================
-COMM_Init();
-SCAN_Init();
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-    /* USER CODE END WHILE */
-	// SCANNING
-	if (scan_btn_pressed)
-	{
-		scan_btn_pressed = false;
-
-		SCAN_Start();
+void	scan_mode(void)
+{
 		// Draw filled rectangle (64x64 at position 0,0) - replaces bitmap
 		ssd1306_Fill(Black);	
 		ssd1306_FillRectangle(0, 0, 64, 64, White);
@@ -309,20 +297,11 @@ SCAN_Init();
 		// Update the display
 		ssd1306_UpdateScreen();
 		HAL_Delay(500);
-		ssd1306_Fill(Black);
-		ssd1306_SetCursor(16, 16);
-		ssd1306_WriteString("Scanning...", Font_11x18, White);
-		ssd1306_UpdateScreen();
-	}
+}
 
-	// SENDING
-	if (send_btn_pressed)
-	{
-
-		send_btn_pressed = false;
-
-		COMM_SendLocation(44.18f, 44.51f, 0x01);
-		ssd1306_Fill(Black);
+void	send_mode(void)
+{
+			ssd1306_Fill(Black);
 		// Draw filled rectangle (64x64 at position 64,0) - replaces bitmap
 		ssd1306_FillRectangle(64, 0, 128, 64, White);
 
@@ -358,6 +337,39 @@ SCAN_Init();
 		// Update the display
 		ssd1306_UpdateScreen();
 		HAL_Delay(500);
+}
+  /* USER CODE END 2 */
+
+
+// ====================APP Init ==========================
+COMM_Init();
+SCAN_Init();
+main_screen();
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
+  while (1)
+  {
+    /* USER CODE END WHILE */
+	// SCANNING
+	if (scan_btn_pressed)
+	{
+		scan_btn_pressed = false;
+
+		SCAN_Start();
+		scan_mode();
+		
+
+
+	}
+
+	// SENDING
+	if (send_btn_pressed)
+	{
+
+		send_btn_pressed = false;
+		send_mode();
+		COMM_SendLocation(44.18f, 44.51f, 0x01);
+
 		ssd1306_Fill(Black);
 		ssd1306_SetCursor(16,16);
 		ssd1306_WriteString("Sent", Font_11x18, White);
