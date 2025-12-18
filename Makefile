@@ -66,7 +66,6 @@ Drivers/OLED/ssd1306.c \
 Drivers/OLED/fonts.c \
 Drivers/GPS/gps.c \
 APP/comm.c \
-APP/protocol.c \
 APP/scan.c
 # ASM sources
 ASM_SOURCES = startup_stm32f103xb.s

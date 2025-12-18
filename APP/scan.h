@@ -5,7 +5,6 @@
 
 void SCAN_Init(void);
 void SCAN_Start(void);
-void SCAN_Stop(void);
 void SCAN_Process(void);
 
 bool SCAN_IsActive(void);

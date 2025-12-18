@@ -26,7 +26,7 @@ build/main.o: Core/Src/main.c Core/Inc/main.h \
  Drivers/LoRa/LoRa.h Drivers/GPS/gps.h Drivers/OLED/ssd1306.h \
  Drivers/OLED/ssd1306_conf.h Drivers/OLED/ssd1306_tests.h \
  Drivers/OLED/ssd1306_fonts.h Drivers/OLED/ssd1306.h APP/../APP/comm.h \
- APP/../APP/protocol.h APP/../APP/scan.h
+ APP/../APP/scan.h
 Core/Inc/main.h:
 Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 Core/Inc/stm32f1xx_hal_conf.h:
@@ -66,5 +66,4 @@ Drivers/OLED/ssd1306_tests.h:
 Drivers/OLED/ssd1306_fonts.h:
 Drivers/OLED/ssd1306.h:
 APP/../APP/comm.h:
-APP/../APP/protocol.h:
 APP/../APP/scan.h:

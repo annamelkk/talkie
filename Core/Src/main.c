@@ -34,7 +34,6 @@
 #include <stdio.h>
 
 #include "../APP/comm.h"
-#include "../APP/protocol.h"
 #include "../APP/scan.h"
 /* USER CODE END Includes */
 
@@ -59,9 +58,9 @@
 // i2c for oled
 
 // declaring the objects
-LoRa lora;
 GPS_t gps;
-
+#define NODE_ID	1
+//#define NODE_ID	2
 
 volatile bool	scan_btn_pressed = false;
 volatile bool	send_btn_pressed = false;
@@ -141,18 +140,9 @@ ssd1306_Fill(Black);
 // ====================== LORA SETUP ==========================
 // configuring SPI pins for lora
 
-lora.CS_port		= NSS_GPIO_Port;
-lora.CS_pin		= NSS_Pin;
-lora.reset_port		= LoRa_RST_GPIO_Port;
-lora.reset_pin		= LoRa_RST_Pin;
-lora.DIO0_port		= DIO0_GPIO_Port;
-lora.DIO0_pin		= DIO0_Pin;
-lora.hSPIx		= &hspi1;
+uint16_t	status = COMM_Init();
 
-char		send_data[200];
-uint16_t	status = LoRa_init(&lora);
-
-memset(send_data, 0, 200);
+// `memset(send_data, 0, 200);
 
 if (status == LORA_OK)
 	{
@@ -184,14 +174,6 @@ else if (status == LORA_UNAVAILABLE)
 
 	}
 
-
-lora.frequency      = 434;
-lora.spredingFactor = SF_9;
-lora.bandWidth      = BW_250KHz;
-lora.crcRate        = CR_4_8;
-lora.power          = POWER_17db;
-lora.overCurrentProtection = 130;
-lora.preamble       = 10;
 
 
 // ====================== GPS SETUP ==========================
@@ -301,7 +283,7 @@ void	scan_mode(void)
 
 void	send_mode(void)
 {
-			ssd1306_Fill(Black);
+		ssd1306_Fill(Black);
 		// Draw filled rectangle (64x64 at position 64,0) - replaces bitmap
 		ssd1306_FillRectangle(64, 0, 128, 64, White);
 
@@ -341,79 +323,68 @@ void	send_mode(void)
   /* USER CODE END 2 */
 
 
-// ====================APP Init ==========================
-COMM_Init();
 SCAN_Init();
-bool	scan_was_active = false;
 main_screen();
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
+
+	
+	COMM_Process();
+	SCAN_Process();
+	
 	// SCANNING
 	if (scan_btn_pressed)
 	{
 		scan_btn_pressed = false;
 		scan_mode();
 
-		if (!SCAN_IsActive())
-			SCAN_Start();
-	
+		SCAN_Start();
+
+		ssd1306_Fill(Black);
+		ssd1306_SetCursor(16, 16);
+		ssd1306_WriteString("SCANNING..", Font_11x18, White);
+		ssd1306_UpdateScreen();
 	}
 	// SENDING
 	if (send_btn_pressed)
 	{
 		send_btn_pressed = false;
 		send_mode();
-		COMM_SendLocation(44.18f, 44.51f, 0x01);
+		COMM_SendTest(NODE_ID);
 
 		ssd1306_Fill(Black);
 		ssd1306_SetCursor(16,16);
-		ssd1306_WriteString("Sent", Font_11x18, White);
+		ssd1306_WriteString("Test sent", Font_11x18, White);
 		ssd1306_UpdateScreen();
 		HAL_Delay(500);
 		main_screen();
 	}
 
-	COMM_Process();
-	SCAN_Process();
 
-	if (SCAN_IsActive() && !scan_was_active)
+	if (COMM_HasMessage())
 	{
-		scan_was_active = true;
+		uint8_t	sender;
+		uint8_t	type = COMM_GetMessage(&sender);
 
 		ssd1306_Fill(Black);
-        	ssd1306_SetCursor(16, 16);
-		ssd1306_WriteString("Scanning...", Font_11x18, White);
-        	ssd1306_UpdateScreen();
-	}
-	if (!SCAN_IsActive() && scan_was_active)
-	{
-		scan_was_active = false;
-		ssd1306_Fill(Black);
-        	ssd1306_SetCursor(16, 16);
-		ssd1306_WriteString("Scan done", Font_11x18, White);
-        	ssd1306_UpdateScreen();
-		HAL_Delay(500);
-		main_screen();
-	}
+		ssd1306_SetCursor(16, 16);
+		if (type == MSG_TEST)
+			ssd1306_WriteString("Test RX", Font_11x18, White);
+		else if (type == MSG_SCAN)
+			ssd1306_WriteString("Scan RX", Font_11x18, White);
 
-	if (COMM_HasPacket())
-	{
-		CommPacket_t pkt;
-		if (COMM_GetPacket(&pkt))
-		{
-			if (pkt.type == COMM_LOCATION)
-			{
-				ssd1306_Fill(Black);
-				ssd1306_SetCursor(16,16);
-				ssd1306_WriteString("RX Location", Font_11x18, White);
-				ssd1306_UpdateScreen();
-			}
-		}
+		ssd1306_SetCursor(16, 0);
+		char	buf[16];
+		sprintf(buf, "FROM %d", sender);
+		ssd1306_WriteString(buf, Font_11x18, White);
+		ssd1306_UpdateScreen();
 
 	}
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

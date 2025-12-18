@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cc3UYY3W.s 			page 1
+ARM GAS  /tmp/cc69wAXg.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -18,607 +18,778 @@ ARM GAS  /tmp/cc3UYY3W.s 			page 1
   15              	.Ltext0:
   16              		.cfi_sections	.debug_frame
   17              		.file 1 "APP/comm.c"
-  18              		.section	.text.COMM_Init,"ax",%progbits
+  18              		.section	.text.DEBUG_Log,"ax",%progbits
   19              		.align	1
-  20              		.global	COMM_Init
+  20              		.global	DEBUG_Log
   21              		.syntax unified
   22              		.thumb
   23              		.thumb_func
-  25              	COMM_Init:
-  26              	.LFB65:
+  25              	DEBUG_Log:
+  26              	.LVL0:
+  27              	.LFB68:
    1:APP/comm.c    **** #include "comm.h"
-   2:APP/comm.c    **** #include "protocol.h"
-   3:APP/comm.c    **** #include "LoRa.h"
-   4:APP/comm.c    **** #include "../Core/Inc/main.h"
-   5:APP/comm.c    **** 
-   6:APP/comm.c    **** extern SPI_HandleTypeDef hspi1;
-   7:APP/comm.c    **** 
-   8:APP/comm.c    **** /* LoRa instance */
-   9:APP/comm.c    **** static LoRa lora;
-  10:APP/comm.c    **** 
-  11:APP/comm.c    **** /* RX state */
-  12:APP/comm.c    **** static CommPacket_t rx_pkt;
-  13:APP/comm.c    **** static bool rx_ready = false;
-  14:APP/comm.c    **** 
-  15:APP/comm.c    **** void COMM_Init(void)
-  16:APP/comm.c    **** {
-  27              		.loc 1 16 1 view -0
-  28              		.cfi_startproc
-  29              		@ args = 0, pretend = 0, frame = 0
-  30              		@ frame_needed = 0, uses_anonymous_args = 0
-  31 0000 10B5     		push	{r4, lr}
-  32              	.LCFI0:
-  33              		.cfi_def_cfa_offset 8
-  34              		.cfi_offset 4, -8
-  35              		.cfi_offset 14, -4
-  17:APP/comm.c    **** lora.CS_port		= NSS_GPIO_Port;
-  36              		.loc 1 17 1 view .LVU1
-  37              		.loc 1 17 15 is_stmt 0 view .LVU2
-  38 0002 0A4C     		ldr	r4, .L3
-  39 0004 0A4B     		ldr	r3, .L3+4
-  40 0006 2360     		str	r3, [r4]
-  18:APP/comm.c    **** lora.CS_pin		= NSS_Pin;
-ARM GAS  /tmp/cc3UYY3W.s 			page 2
+   2:APP/comm.c    **** #include "LoRa.h"
+   3:APP/comm.c    **** #include "../Core/Inc/main.h"
+   4:APP/comm.c    **** #include <stdio.h>
+   5:APP/comm.c    **** #include <string.h>
+   6:APP/comm.c    **** 
+   7:APP/comm.c    **** extern SPI_HandleTypeDef hspi1;
+   8:APP/comm.c    **** extern UART_HandleTypeDef huart2; // Use your debug UART
+   9:APP/comm.c    **** 
+  10:APP/comm.c    **** /* LoRa instance */
+  11:APP/comm.c    **** LoRa lora;
+  12:APP/comm.c    **** 
+  13:APP/comm.c    **** /* RX state */
+  14:APP/comm.c    **** static uint8_t rx_type = 0;
+  15:APP/comm.c    **** static uint8_t rx_sender = 0;
+  16:APP/comm.c    **** static bool rx_ready = false;
+  17:APP/comm.c    **** 
+  18:APP/comm.c    **** // Helper to send strings to PC
+  19:APP/comm.c    **** void DEBUG_Log(char* msg) {
+  28              		.loc 1 19 27 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		.loc 1 19 27 is_stmt 0 view .LVU1
+  33 0000 10B5     		push	{r4, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 4, -8
+  37              		.cfi_offset 14, -4
+  38 0002 0446     		mov	r4, r0
+  20:APP/comm.c    ****     HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 100);
+ARM GAS  /tmp/cc69wAXg.s 			page 2
 
 
-  41              		.loc 1 18 1 is_stmt 1 view .LVU3
-  42              		.loc 1 18 14 is_stmt 0 view .LVU4
-  43 0008 1022     		movs	r2, #16
-  44 000a A280     		strh	r2, [r4, #4]	@ movhi
-  19:APP/comm.c    **** lora.reset_port		= LoRa_RST_GPIO_Port;
-  45              		.loc 1 19 1 is_stmt 1 view .LVU5
-  46              		.loc 1 19 18 is_stmt 0 view .LVU6
-  47 000c A360     		str	r3, [r4, #8]
-  20:APP/comm.c    **** lora.reset_pin		= LoRa_RST_Pin;
-  48              		.loc 1 20 1 is_stmt 1 view .LVU7
-  49              		.loc 1 20 17 is_stmt 0 view .LVU8
-  50 000e 4FF48072 		mov	r2, #256
-  51 0012 A281     		strh	r2, [r4, #12]	@ movhi
-  21:APP/comm.c    **** lora.DIO0_port		= DIO0_GPIO_Port;
-  52              		.loc 1 21 1 is_stmt 1 view .LVU9
-  53              		.loc 1 21 17 is_stmt 0 view .LVU10
-  54 0014 2361     		str	r3, [r4, #16]
-  22:APP/comm.c    **** lora.DIO0_pin		= DIO0_Pin;
-  55              		.loc 1 22 1 is_stmt 1 view .LVU11
-  56              		.loc 1 22 16 is_stmt 0 view .LVU12
-  57 0016 0123     		movs	r3, #1
-  58 0018 A382     		strh	r3, [r4, #20]	@ movhi
-  23:APP/comm.c    **** lora.hSPIx		= &hspi1;
-  59              		.loc 1 23 1 is_stmt 1 view .LVU13
-  60              		.loc 1 23 13 is_stmt 0 view .LVU14
-  61 001a 064B     		ldr	r3, .L3+8
-  62 001c A361     		str	r3, [r4, #24]
-  24:APP/comm.c    **** 
-  25:APP/comm.c    ****     LoRa_init(&lora);
-  63              		.loc 1 25 5 is_stmt 1 view .LVU15
-  64 001e 2046     		mov	r0, r4
-  65 0020 FFF7FEFF 		bl	LoRa_init
-  66              	.LVL0:
-  26:APP/comm.c    ****     LoRa_startReceiving(&lora);
-  67              		.loc 1 26 5 view .LVU16
-  68 0024 2046     		mov	r0, r4
-  69 0026 FFF7FEFF 		bl	LoRa_startReceiving
-  70              	.LVL1:
-  27:APP/comm.c    **** }
-  71              		.loc 1 27 1 is_stmt 0 view .LVU17
-  72 002a 10BD     		pop	{r4, pc}
-  73              	.L4:
-  74              		.align	2
-  75              	.L3:
-  76 002c 00000000 		.word	lora
-  77 0030 00080140 		.word	1073809408
-  78 0034 00000000 		.word	hspi1
-  79              		.cfi_endproc
-  80              	.LFE65:
-  82              		.section	.text.COMM_Process,"ax",%progbits
-  83              		.align	1
-  84              		.global	COMM_Process
-  85              		.syntax unified
-  86              		.thumb
-  87              		.thumb_func
-  89              	COMM_Process:
-  90              	.LFB66:
-ARM GAS  /tmp/cc3UYY3W.s 			page 3
+  39              		.loc 1 20 5 is_stmt 1 view .LVU2
+  40              		.loc 1 20 47 is_stmt 0 view .LVU3
+  41 0004 FFF7FEFF 		bl	strlen
+  42              	.LVL1:
+  43              		.loc 1 20 5 discriminator 1 view .LVU4
+  44 0008 6423     		movs	r3, #100
+  45 000a 82B2     		uxth	r2, r0
+  46 000c 2146     		mov	r1, r4
+  47 000e 0248     		ldr	r0, .L3
+  48 0010 FFF7FEFF 		bl	HAL_UART_Transmit
+  49              	.LVL2:
+  21:APP/comm.c    **** }
+  50              		.loc 1 21 1 view .LVU5
+  51 0014 10BD     		pop	{r4, pc}
+  52              	.LVL3:
+  53              	.L4:
+  54              		.loc 1 21 1 view .LVU6
+  55 0016 00BF     		.align	2
+  56              	.L3:
+  57 0018 00000000 		.word	huart2
+  58              		.cfi_endproc
+  59              	.LFE68:
+  61              		.section	.rodata.COMM_Init.str1.4,"aMS",%progbits,1
+  62              		.align	2
+  63              	.LC0:
+  64 0000 44454255 		.ascii	"DEBUG: LoRa Initialized OK\015\012\000"
+  64      473A204C 
+  64      6F526120 
+  64      496E6974 
+  64      69616C69 
+  65 001d 000000   		.align	2
+  66              	.LC1:
+  67 0020 44454255 		.ascii	"DEBUG: LoRa Init Failed Code: %d\015\012\000"
+  67      473A204C 
+  67      6F526120 
+  67      496E6974 
+  67      20466169 
+  68              		.section	.text.COMM_Init,"ax",%progbits
+  69              		.align	1
+  70              		.global	COMM_Init
+  71              		.syntax unified
+  72              		.thumb
+  73              		.thumb_func
+  75              	COMM_Init:
+  76              	.LFB69:
+  22:APP/comm.c    **** 
+  23:APP/comm.c    **** uint16_t COMM_Init(void) {
+  77              		.loc 1 23 26 is_stmt 1 view -0
+  78              		.cfi_startproc
+  79              		@ args = 0, pretend = 0, frame = 56
+  80              		@ frame_needed = 0, uses_anonymous_args = 0
+  81 0000 30B5     		push	{r4, r5, lr}
+  82              	.LCFI1:
+  83              		.cfi_def_cfa_offset 12
+  84              		.cfi_offset 4, -12
+  85              		.cfi_offset 5, -8
+  86              		.cfi_offset 14, -4
+ARM GAS  /tmp/cc69wAXg.s 			page 3
 
 
-  28:APP/comm.c    **** 
-  29:APP/comm.c    **** void COMM_Process(void)
-  30:APP/comm.c    **** {
-  91              		.loc 1 30 1 is_stmt 1 view -0
-  92              		.cfi_startproc
-  93              		@ args = 0, pretend = 0, frame = 32
-  94              		@ frame_needed = 0, uses_anonymous_args = 0
-  95 0000 10B5     		push	{r4, lr}
-  96              	.LCFI1:
-  97              		.cfi_def_cfa_offset 8
-  98              		.cfi_offset 4, -8
-  99              		.cfi_offset 14, -4
- 100 0002 8AB0     		sub	sp, sp, #40
- 101              	.LCFI2:
- 102              		.cfi_def_cfa_offset 48
-  31:APP/comm.c    ****     uint8_t buf[32];
- 103              		.loc 1 31 5 view .LVU19
-  32:APP/comm.c    ****     uint8_t len = LoRa_receive(&lora, buf, sizeof(buf));
- 104              		.loc 1 32 5 view .LVU20
- 105              		.loc 1 32 19 is_stmt 0 view .LVU21
- 106 0004 2022     		movs	r2, #32
- 107 0006 02A9     		add	r1, sp, #8
- 108 0008 1548     		ldr	r0, .L14
- 109 000a FFF7FEFF 		bl	LoRa_receive
- 110              	.LVL2:
-  33:APP/comm.c    **** 
-  34:APP/comm.c    ****     if (len == 0)
- 111              		.loc 1 34 5 is_stmt 1 view .LVU22
- 112              		.loc 1 34 8 is_stmt 0 view .LVU23
- 113 000e 08B9     		cbnz	r0, .L11
- 114              	.LVL3:
- 115              	.L5:
-  35:APP/comm.c    ****         return;
-  36:APP/comm.c    **** 
-  37:APP/comm.c    ****     ProtocolPacketType_t t = PROTOCOL_GetType(buf);
-  38:APP/comm.c    **** 
-  39:APP/comm.c    ****     if (t == PKT_LOCATION)
-  40:APP/comm.c    ****     {
-  41:APP/comm.c    ****         if (PROTOCOL_DecodeLocation(buf, len,
-  42:APP/comm.c    ****                                     &rx_pkt.latitude,
-  43:APP/comm.c    ****                                     &rx_pkt.longitude,
-  44:APP/comm.c    ****                                     &rx_pkt.sender_id))
-  45:APP/comm.c    ****         {
-  46:APP/comm.c    ****             rx_pkt.type = COMM_LOCATION;
-  47:APP/comm.c    ****             rx_ready = true;
-  48:APP/comm.c    ****         }
+  87 0002 8FB0     		sub	sp, sp, #60
+  88              	.LCFI2:
+  89              		.cfi_def_cfa_offset 72
+  24:APP/comm.c    ****     lora.CS_port    = NSS_GPIO_Port;
+  90              		.loc 1 24 5 view .LVU8
+  91              		.loc 1 24 21 is_stmt 0 view .LVU9
+  92 0004 1C48     		ldr	r0, .L10
+  93 0006 1D4B     		ldr	r3, .L10+4
+  94 0008 0360     		str	r3, [r0]
+  25:APP/comm.c    ****     lora.CS_pin     = NSS_Pin;
+  95              		.loc 1 25 5 is_stmt 1 view .LVU10
+  96              		.loc 1 25 21 is_stmt 0 view .LVU11
+  97 000a 1022     		movs	r2, #16
+  98 000c 8280     		strh	r2, [r0, #4]	@ movhi
+  26:APP/comm.c    ****     lora.reset_port = LoRa_RST_GPIO_Port;
+  99              		.loc 1 26 5 is_stmt 1 view .LVU12
+ 100              		.loc 1 26 21 is_stmt 0 view .LVU13
+ 101 000e 8360     		str	r3, [r0, #8]
+  27:APP/comm.c    ****     lora.reset_pin  = LoRa_RST_Pin;
+ 102              		.loc 1 27 5 is_stmt 1 view .LVU14
+ 103              		.loc 1 27 21 is_stmt 0 view .LVU15
+ 104 0010 4FF48072 		mov	r2, #256
+ 105 0014 8281     		strh	r2, [r0, #12]	@ movhi
+  28:APP/comm.c    ****     lora.DIO0_port  = DIO0_GPIO_Port;
+ 106              		.loc 1 28 5 is_stmt 1 view .LVU16
+ 107              		.loc 1 28 21 is_stmt 0 view .LVU17
+ 108 0016 0361     		str	r3, [r0, #16]
+  29:APP/comm.c    ****     lora.DIO0_pin   = DIO0_Pin;
+ 109              		.loc 1 29 5 is_stmt 1 view .LVU18
+ 110              		.loc 1 29 21 is_stmt 0 view .LVU19
+ 111 0018 0123     		movs	r3, #1
+ 112 001a 8382     		strh	r3, [r0, #20]	@ movhi
+  30:APP/comm.c    ****     lora.hSPIx      = &hspi1;
+ 113              		.loc 1 30 5 is_stmt 1 view .LVU20
+ 114              		.loc 1 30 21 is_stmt 0 view .LVU21
+ 115 001c 184B     		ldr	r3, .L10+8
+ 116 001e 8361     		str	r3, [r0, #24]
+  31:APP/comm.c    ****     
+  32:APP/comm.c    ****     lora.frequency      = 434;
+ 117              		.loc 1 32 5 is_stmt 1 view .LVU22
+ 118              		.loc 1 32 25 is_stmt 0 view .LVU23
+ 119 0020 4FF4D973 		mov	r3, #434
+ 120 0024 0362     		str	r3, [r0, #32]
+  33:APP/comm.c    ****     lora.spredingFactor = SF_9;
+ 121              		.loc 1 33 5 is_stmt 1 view .LVU24
+ 122              		.loc 1 33 25 is_stmt 0 view .LVU25
+ 123 0026 0923     		movs	r3, #9
+ 124 0028 80F82430 		strb	r3, [r0, #36]
+  34:APP/comm.c    ****     lora.bandWidth      = BW_250KHz;
+ 125              		.loc 1 34 5 is_stmt 1 view .LVU26
+ 126              		.loc 1 34 25 is_stmt 0 view .LVU27
+ 127 002c 0823     		movs	r3, #8
+ 128 002e 80F82530 		strb	r3, [r0, #37]
+  35:APP/comm.c    ****     lora.crcRate        = CR_4_8;
+ 129              		.loc 1 35 5 is_stmt 1 view .LVU28
+ 130              		.loc 1 35 25 is_stmt 0 view .LVU29
+ 131 0032 0423     		movs	r3, #4
+ARM GAS  /tmp/cc69wAXg.s 			page 4
+
+
+ 132 0034 80F82630 		strb	r3, [r0, #38]
+  36:APP/comm.c    ****     lora.power          = POWER_17db;
+ 133              		.loc 1 36 5 is_stmt 1 view .LVU30
+ 134              		.loc 1 36 25 is_stmt 0 view .LVU31
+ 135 0038 FC23     		movs	r3, #252
+ 136 003a 80F82A30 		strb	r3, [r0, #42]
+  37:APP/comm.c    ****     lora.overCurrentProtection = 130;
+ 137              		.loc 1 37 5 is_stmt 1 view .LVU32
+ 138              		.loc 1 37 32 is_stmt 0 view .LVU33
+ 139 003e 8223     		movs	r3, #130
+ 140 0040 80F82B30 		strb	r3, [r0, #43]
+  38:APP/comm.c    ****     lora.preamble       = 10;
+ 141              		.loc 1 38 5 is_stmt 1 view .LVU34
+ 142              		.loc 1 38 25 is_stmt 0 view .LVU35
+ 143 0044 0A23     		movs	r3, #10
+ 144 0046 0385     		strh	r3, [r0, #40]	@ movhi
+  39:APP/comm.c    **** 
+  40:APP/comm.c    ****     uint16_t status = LoRa_init(&lora);
+ 145              		.loc 1 40 5 is_stmt 1 view .LVU36
+ 146              		.loc 1 40 23 is_stmt 0 view .LVU37
+ 147 0048 FFF7FEFF 		bl	LoRa_init
+ 148              	.LVL4:
+ 149 004c 0446     		mov	r4, r0
+ 150              	.LVL5:
+  41:APP/comm.c    ****     
+  42:APP/comm.c    ****     if (status == LORA_OK) {
+ 151              		.loc 1 42 5 is_stmt 1 view .LVU38
+ 152              		.loc 1 42 8 is_stmt 0 view .LVU39
+ 153 004e C828     		cmp	r0, #200
+ 154 0050 0BD0     		beq	.L9
+ 155              	.LBB2:
+  43:APP/comm.c    ****         DEBUG_Log("DEBUG: LoRa Initialized OK\r\n");
+  44:APP/comm.c    ****         LoRa_startReceiving(&lora);
+  45:APP/comm.c    ****     } else {
+  46:APP/comm.c    ****         char buf[50];
+ 156              		.loc 1 46 9 is_stmt 1 view .LVU40
+  47:APP/comm.c    ****         sprintf(buf, "DEBUG: LoRa Init Failed Code: %d\r\n", status);
+ 157              		.loc 1 47 9 view .LVU41
+ 158 0052 01AD     		add	r5, sp, #4
+ 159 0054 0246     		mov	r2, r0
+ 160 0056 0B49     		ldr	r1, .L10+12
+ 161 0058 2846     		mov	r0, r5
+ 162              	.LVL6:
+ 163              		.loc 1 47 9 is_stmt 0 view .LVU42
+ 164 005a FFF7FEFF 		bl	sprintf
+ 165              	.LVL7:
+  48:APP/comm.c    ****         DEBUG_Log(buf);
+ 166              		.loc 1 48 9 is_stmt 1 view .LVU43
+ 167 005e 2846     		mov	r0, r5
+ 168 0060 FFF7FEFF 		bl	DEBUG_Log
+ 169              	.LVL8:
+ 170              	.L7:
+ 171              	.LBE2:
   49:APP/comm.c    ****     }
-  50:APP/comm.c    ****     else if (t == PKT_SCAN_REQUEST)
-  51:APP/comm.c    ****     {
-  52:APP/comm.c    ****         rx_pkt.type = COMM_SCAN_REQUEST;
-  53:APP/comm.c    ****         rx_pkt.sender_id = buf[1];
-  54:APP/comm.c    ****         rx_ready = true;
-  55:APP/comm.c    ****     }
-  56:APP/comm.c    **** 
-  57:APP/comm.c    ****     LoRa_startReceiving(&lora);
-  58:APP/comm.c    **** }
- 116              		.loc 1 58 1 view .LVU24
-ARM GAS  /tmp/cc3UYY3W.s 			page 4
+  50:APP/comm.c    ****     return status;
+ 172              		.loc 1 50 5 view .LVU44
+  51:APP/comm.c    **** }
+ARM GAS  /tmp/cc69wAXg.s 			page 5
 
 
- 117 0010 0AB0     		add	sp, sp, #40
- 118              	.LCFI3:
- 119              		.cfi_remember_state
- 120              		.cfi_def_cfa_offset 8
- 121              		@ sp needed
- 122 0012 10BD     		pop	{r4, pc}
- 123              	.LVL4:
- 124              	.L11:
- 125              	.LCFI4:
- 126              		.cfi_restore_state
- 127              		.loc 1 58 1 view .LVU25
- 128 0014 0446     		mov	r4, r0
-  37:APP/comm.c    **** 
- 129              		.loc 1 37 5 is_stmt 1 view .LVU26
-  37:APP/comm.c    **** 
- 130              		.loc 1 37 30 is_stmt 0 view .LVU27
- 131 0016 02A8     		add	r0, sp, #8
- 132              	.LVL5:
-  37:APP/comm.c    **** 
- 133              		.loc 1 37 30 view .LVU28
- 134 0018 FFF7FEFF 		bl	PROTOCOL_GetType
- 135              	.LVL6:
-  39:APP/comm.c    ****     {
- 136              		.loc 1 39 5 is_stmt 1 view .LVU29
-  39:APP/comm.c    ****     {
- 137              		.loc 1 39 8 is_stmt 0 view .LVU30
- 138 001c 0128     		cmp	r0, #1
- 139 001e 05D0     		beq	.L12
-  50:APP/comm.c    ****     {
- 140              		.loc 1 50 10 is_stmt 1 view .LVU31
-  50:APP/comm.c    ****     {
- 141              		.loc 1 50 13 is_stmt 0 view .LVU32
- 142 0020 0228     		cmp	r0, #2
- 143 0022 13D0     		beq	.L13
- 144              	.LVL7:
- 145              	.L9:
-  57:APP/comm.c    **** }
- 146              		.loc 1 57 5 is_stmt 1 view .LVU33
- 147 0024 0E48     		ldr	r0, .L14
- 148 0026 FFF7FEFF 		bl	LoRa_startReceiving
- 149              	.LVL8:
- 150 002a F1E7     		b	.L5
- 151              	.LVL9:
- 152              	.L12:
-  41:APP/comm.c    ****                                     &rx_pkt.latitude,
- 153              		.loc 1 41 9 view .LVU34
-  41:APP/comm.c    ****                                     &rx_pkt.latitude,
- 154              		.loc 1 41 13 is_stmt 0 view .LVU35
- 155 002c 0D4B     		ldr	r3, .L14+4
- 156 002e 1A1D     		adds	r2, r3, #4
- 157 0030 0092     		str	r2, [sp]
- 158 0032 1A1F     		subs	r2, r3, #4
- 159 0034 2146     		mov	r1, r4
- 160 0036 02A8     		add	r0, sp, #8
- 161              	.LVL10:
-  41:APP/comm.c    ****                                     &rx_pkt.latitude,
- 162              		.loc 1 41 13 view .LVU36
-ARM GAS  /tmp/cc3UYY3W.s 			page 5
-
-
- 163 0038 FFF7FEFF 		bl	PROTOCOL_DecodeLocation
- 164              	.LVL11:
-  41:APP/comm.c    ****                                     &rx_pkt.latitude,
- 165              		.loc 1 41 12 discriminator 1 view .LVU37
- 166 003c 0028     		cmp	r0, #0
- 167 003e F1D0     		beq	.L9
-  46:APP/comm.c    ****             rx_ready = true;
- 168              		.loc 1 46 13 is_stmt 1 view .LVU38
-  46:APP/comm.c    ****             rx_ready = true;
- 169              		.loc 1 46 25 is_stmt 0 view .LVU39
- 170 0040 0123     		movs	r3, #1
- 171 0042 094A     		ldr	r2, .L14+8
- 172 0044 1370     		strb	r3, [r2]
-  47:APP/comm.c    ****         }
- 173              		.loc 1 47 13 is_stmt 1 view .LVU40
-  47:APP/comm.c    ****         }
- 174              		.loc 1 47 22 is_stmt 0 view .LVU41
- 175 0046 094A     		ldr	r2, .L14+12
- 176 0048 1370     		strb	r3, [r2]
- 177 004a EBE7     		b	.L9
- 178              	.LVL12:
- 179              	.L13:
-  52:APP/comm.c    ****         rx_pkt.sender_id = buf[1];
- 180              		.loc 1 52 9 is_stmt 1 view .LVU42
-  52:APP/comm.c    ****         rx_pkt.sender_id = buf[1];
- 181              		.loc 1 52 21 is_stmt 0 view .LVU43
- 182 004c 064B     		ldr	r3, .L14+8
- 183 004e 0222     		movs	r2, #2
- 184 0050 1A70     		strb	r2, [r3]
-  53:APP/comm.c    ****         rx_ready = true;
- 185              		.loc 1 53 9 is_stmt 1 view .LVU44
-  53:APP/comm.c    ****         rx_ready = true;
- 186              		.loc 1 53 31 is_stmt 0 view .LVU45
- 187 0052 9DF80920 		ldrb	r2, [sp, #9]	@ zero_extendqisi2
-  53:APP/comm.c    ****         rx_ready = true;
- 188              		.loc 1 53 26 view .LVU46
- 189 0056 1A73     		strb	r2, [r3, #12]
-  54:APP/comm.c    ****     }
- 190              		.loc 1 54 9 is_stmt 1 view .LVU47
-  54:APP/comm.c    ****     }
- 191              		.loc 1 54 18 is_stmt 0 view .LVU48
- 192 0058 044B     		ldr	r3, .L14+12
- 193 005a 0122     		movs	r2, #1
- 194 005c 1A70     		strb	r2, [r3]
- 195 005e E1E7     		b	.L9
- 196              	.L15:
+ 173              		.loc 1 51 1 is_stmt 0 view .LVU45
+ 174 0064 2046     		mov	r0, r4
+ 175 0066 0FB0     		add	sp, sp, #60
+ 176              	.LCFI3:
+ 177              		.cfi_remember_state
+ 178              		.cfi_def_cfa_offset 12
+ 179              		@ sp needed
+ 180 0068 30BD     		pop	{r4, r5, pc}
+ 181              	.LVL9:
+ 182              	.L9:
+ 183              	.LCFI4:
+ 184              		.cfi_restore_state
+  43:APP/comm.c    ****         LoRa_startReceiving(&lora);
+ 185              		.loc 1 43 9 is_stmt 1 view .LVU46
+ 186 006a 0748     		ldr	r0, .L10+16
+ 187              	.LVL10:
+  43:APP/comm.c    ****         LoRa_startReceiving(&lora);
+ 188              		.loc 1 43 9 is_stmt 0 view .LVU47
+ 189 006c FFF7FEFF 		bl	DEBUG_Log
+ 190              	.LVL11:
+  44:APP/comm.c    ****     } else {
+ 191              		.loc 1 44 9 is_stmt 1 view .LVU48
+ 192 0070 0148     		ldr	r0, .L10
+ 193 0072 FFF7FEFF 		bl	LoRa_startReceiving
+ 194              	.LVL12:
+ 195 0076 F5E7     		b	.L7
+ 196              	.L11:
  197              		.align	2
- 198              	.L14:
- 199 0060 00000000 		.word	lora
- 200 0064 08000000 		.word	rx_pkt+8
- 201 0068 00000000 		.word	rx_pkt
- 202 006c 00000000 		.word	rx_ready
- 203              		.cfi_endproc
- 204              	.LFE66:
- 206              		.section	.text.COMM_SendLocation,"ax",%progbits
- 207              		.align	1
- 208              		.global	COMM_SendLocation
-ARM GAS  /tmp/cc3UYY3W.s 			page 6
+ 198              	.L10:
+ 199 0078 00000000 		.word	lora
+ 200 007c 00080140 		.word	1073809408
+ 201 0080 00000000 		.word	hspi1
+ 202 0084 20000000 		.word	.LC1
+ 203 0088 00000000 		.word	.LC0
+ 204              		.cfi_endproc
+ 205              	.LFE69:
+ 207              		.section	.rodata.COMM_Process.str1.4,"aMS",%progbits,1
+ 208              		.align	2
+ 209              	.LC2:
+ 210 0000 44454255 		.ascii	"DEBUG: Received %d bytes from ID %d\015\012\000"
+ 210      473A2052 
+ 210      65636569 
+ 210      76656420 
+ 210      25642062 
+ 211              		.section	.text.COMM_Process,"ax",%progbits
+ 212              		.align	1
+ 213              		.global	COMM_Process
+ 214              		.syntax unified
+ 215              		.thumb
+ 216              		.thumb_func
+ 218              	COMM_Process:
+ 219              	.LFB70:
+  52:APP/comm.c    **** 
+  53:APP/comm.c    **** void COMM_Process(void) {
+ 220              		.loc 1 53 25 view -0
+ 221              		.cfi_startproc
+ 222              		@ args = 0, pretend = 0, frame = 64
+ARM GAS  /tmp/cc69wAXg.s 			page 6
 
 
- 209              		.syntax unified
- 210              		.thumb
- 211              		.thumb_func
- 213              	COMM_SendLocation:
- 214              	.LVL13:
- 215              	.LFB67:
-  59:APP/comm.c    **** 
-  60:APP/comm.c    **** bool COMM_SendLocation(float lat, float lon, uint8_t id)
-  61:APP/comm.c    **** {
- 216              		.loc 1 61 1 is_stmt 1 view -0
- 217              		.cfi_startproc
- 218              		@ args = 0, pretend = 0, frame = 32
- 219              		@ frame_needed = 0, uses_anonymous_args = 0
- 220              		.loc 1 61 1 is_stmt 0 view .LVU50
- 221 0000 10B5     		push	{r4, lr}
- 222              	.LCFI5:
- 223              		.cfi_def_cfa_offset 8
- 224              		.cfi_offset 4, -8
- 225              		.cfi_offset 14, -4
- 226 0002 88B0     		sub	sp, sp, #32
- 227              	.LCFI6:
- 228              		.cfi_def_cfa_offset 40
- 229 0004 1346     		mov	r3, r2
-  62:APP/comm.c    ****     uint8_t buf[32];
- 230              		.loc 1 62 5 is_stmt 1 view .LVU51
-  63:APP/comm.c    ****     uint8_t len = PROTOCOL_EncodeLocation(buf, lat, lon, id);
- 231              		.loc 1 63 5 view .LVU52
- 232              		.loc 1 63 19 is_stmt 0 view .LVU53
- 233 0006 0A46     		mov	r2, r1
- 234              	.LVL14:
- 235              		.loc 1 63 19 view .LVU54
- 236 0008 0146     		mov	r1, r0
- 237              	.LVL15:
- 238              		.loc 1 63 19 view .LVU55
- 239 000a 6846     		mov	r0, sp
- 240              	.LVL16:
- 241              		.loc 1 63 19 view .LVU56
- 242 000c FFF7FEFF 		bl	PROTOCOL_EncodeLocation
- 243              	.LVL17:
- 244              		.loc 1 63 19 view .LVU57
- 245 0010 0246     		mov	r2, r0
- 246              	.LVL18:
-  64:APP/comm.c    **** 
-  65:APP/comm.c    ****     return (LoRa_transmit(&lora, buf, len, 100) == 1);
- 247              		.loc 1 65 5 is_stmt 1 view .LVU58
- 248              		.loc 1 65 13 is_stmt 0 view .LVU59
- 249 0012 6423     		movs	r3, #100
- 250 0014 6946     		mov	r1, sp
- 251 0016 0448     		ldr	r0, .L18
- 252 0018 FFF7FEFF 		bl	LoRa_transmit
- 253              	.LVL19:
-  66:APP/comm.c    **** }
- 254              		.loc 1 66 1 view .LVU60
- 255 001c 0128     		cmp	r0, #1
- 256 001e 14BF     		ite	ne
- 257 0020 0020     		movne	r0, #0
- 258 0022 0120     		moveq	r0, #1
-ARM GAS  /tmp/cc3UYY3W.s 			page 7
-
-
- 259 0024 08B0     		add	sp, sp, #32
- 260              	.LCFI7:
- 261              		.cfi_def_cfa_offset 8
- 262              		@ sp needed
- 263 0026 10BD     		pop	{r4, pc}
- 264              	.L19:
- 265              		.align	2
- 266              	.L18:
- 267 0028 00000000 		.word	lora
- 268              		.cfi_endproc
- 269              	.LFE67:
- 271              		.section	.text.COMM_SendScanRequest,"ax",%progbits
- 272              		.align	1
- 273              		.global	COMM_SendScanRequest
- 274              		.syntax unified
- 275              		.thumb
- 276              		.thumb_func
- 278              	COMM_SendScanRequest:
- 279              	.LVL20:
- 280              	.LFB68:
+ 223              		@ frame_needed = 0, uses_anonymous_args = 0
+ 224 0000 30B5     		push	{r4, r5, lr}
+ 225              	.LCFI5:
+ 226              		.cfi_def_cfa_offset 12
+ 227              		.cfi_offset 4, -12
+ 228              		.cfi_offset 5, -8
+ 229              		.cfi_offset 14, -4
+ 230 0002 91B0     		sub	sp, sp, #68
+ 231              	.LCFI6:
+ 232              		.cfi_def_cfa_offset 80
+  54:APP/comm.c    ****     uint8_t buf[8];
+ 233              		.loc 1 54 5 view .LVU50
+  55:APP/comm.c    ****     uint8_t len = LoRa_receive(&lora, buf, sizeof(buf));
+ 234              		.loc 1 55 5 view .LVU51
+ 235              		.loc 1 55 19 is_stmt 0 view .LVU52
+ 236 0004 0822     		movs	r2, #8
+ 237 0006 0EA9     		add	r1, sp, #56
+ 238 0008 1148     		ldr	r0, .L18
+ 239 000a FFF7FEFF 		bl	LoRa_receive
+ 240              	.LVL13:
+  56:APP/comm.c    **** 
+  57:APP/comm.c    ****     if (len > 0) {
+ 241              		.loc 1 57 5 is_stmt 1 view .LVU53
+ 242              		.loc 1 57 8 is_stmt 0 view .LVU54
+ 243 000e 08B9     		cbnz	r0, .L17
+ 244              	.LVL14:
+ 245              	.L12:
+  58:APP/comm.c    ****         char msg[50];
+  59:APP/comm.c    ****         sprintf(msg, "DEBUG: Received %d bytes from ID %d\r\n", len, buf[1]);
+  60:APP/comm.c    ****         DEBUG_Log(msg);
+  61:APP/comm.c    ****         
+  62:APP/comm.c    ****         if (len < 2) return;
+  63:APP/comm.c    **** 
+  64:APP/comm.c    ****         rx_type = buf[0];
+  65:APP/comm.c    ****         rx_sender = buf[1];
+  66:APP/comm.c    ****         rx_ready = true;
   67:APP/comm.c    **** 
-  68:APP/comm.c    **** bool COMM_SendScanRequest(uint8_t id)
-  69:APP/comm.c    **** {
- 281              		.loc 1 69 1 is_stmt 1 view -0
- 282              		.cfi_startproc
- 283              		@ args = 0, pretend = 0, frame = 8
- 284              		@ frame_needed = 0, uses_anonymous_args = 0
- 285              		.loc 1 69 1 is_stmt 0 view .LVU62
- 286 0000 10B5     		push	{r4, lr}
- 287              	.LCFI8:
- 288              		.cfi_def_cfa_offset 8
- 289              		.cfi_offset 4, -8
- 290              		.cfi_offset 14, -4
- 291 0002 82B0     		sub	sp, sp, #8
- 292              	.LCFI9:
- 293              		.cfi_def_cfa_offset 16
- 294 0004 0146     		mov	r1, r0
-  70:APP/comm.c    ****     uint8_t buf[8];
- 295              		.loc 1 70 5 is_stmt 1 view .LVU63
-  71:APP/comm.c    ****     uint8_t len = PROTOCOL_EncodeScanRequest(buf, id);
- 296              		.loc 1 71 5 view .LVU64
- 297              		.loc 1 71 19 is_stmt 0 view .LVU65
- 298 0006 6846     		mov	r0, sp
- 299              	.LVL21:
- 300              		.loc 1 71 19 view .LVU66
- 301 0008 FFF7FEFF 		bl	PROTOCOL_EncodeScanRequest
- 302              	.LVL22:
- 303              		.loc 1 71 19 view .LVU67
- 304 000c 0246     		mov	r2, r0
- 305              	.LVL23:
-  72:APP/comm.c    **** 
-  73:APP/comm.c    ****     return (LoRa_transmit(&lora, buf, len, 100) == 1);
- 306              		.loc 1 73 5 is_stmt 1 view .LVU68
- 307              		.loc 1 73 13 is_stmt 0 view .LVU69
- 308 000e 6423     		movs	r3, #100
- 309 0010 6946     		mov	r1, sp
- 310 0012 0448     		ldr	r0, .L22
-ARM GAS  /tmp/cc3UYY3W.s 			page 8
+  68:APP/comm.c    ****         LoRa_startReceiving(&lora);
+  69:APP/comm.c    ****     }
+  70:APP/comm.c    **** }
+ 246              		.loc 1 70 1 view .LVU55
+ 247 0010 11B0     		add	sp, sp, #68
+ 248              	.LCFI7:
+ 249              		.cfi_remember_state
+ 250              		.cfi_def_cfa_offset 12
+ 251              		@ sp needed
+ 252 0012 30BD     		pop	{r4, r5, pc}
+ 253              	.LVL15:
+ 254              	.L17:
+ 255              	.LCFI8:
+ 256              		.cfi_restore_state
+ 257              		.loc 1 70 1 view .LVU56
+ 258 0014 0446     		mov	r4, r0
+ 259              	.LBB3:
+  58:APP/comm.c    ****         char msg[50];
+ 260              		.loc 1 58 9 is_stmt 1 view .LVU57
+  59:APP/comm.c    ****         DEBUG_Log(msg);
+ARM GAS  /tmp/cc69wAXg.s 			page 7
 
 
- 311 0014 FFF7FEFF 		bl	LoRa_transmit
- 312              	.LVL24:
-  74:APP/comm.c    **** }
- 313              		.loc 1 74 1 view .LVU70
- 314 0018 0128     		cmp	r0, #1
- 315 001a 14BF     		ite	ne
- 316 001c 0020     		movne	r0, #0
- 317 001e 0120     		moveq	r0, #1
- 318 0020 02B0     		add	sp, sp, #8
- 319              	.LCFI10:
- 320              		.cfi_def_cfa_offset 8
- 321              		@ sp needed
- 322 0022 10BD     		pop	{r4, pc}
- 323              	.L23:
- 324              		.align	2
- 325              	.L22:
- 326 0024 00000000 		.word	lora
- 327              		.cfi_endproc
- 328              	.LFE68:
- 330              		.section	.text.COMM_HasPacket,"ax",%progbits
- 331              		.align	1
- 332              		.global	COMM_HasPacket
- 333              		.syntax unified
- 334              		.thumb
- 335              		.thumb_func
- 337              	COMM_HasPacket:
- 338              	.LFB69:
-  75:APP/comm.c    **** 
-  76:APP/comm.c    **** bool COMM_HasPacket(void)
-  77:APP/comm.c    **** {
- 339              		.loc 1 77 1 is_stmt 1 view -0
- 340              		.cfi_startproc
- 341              		@ args = 0, pretend = 0, frame = 0
- 342              		@ frame_needed = 0, uses_anonymous_args = 0
- 343              		@ link register save eliminated.
-  78:APP/comm.c    ****     return rx_ready;
- 344              		.loc 1 78 5 view .LVU72
-  79:APP/comm.c    **** }
- 345              		.loc 1 79 1 is_stmt 0 view .LVU73
- 346 0000 014B     		ldr	r3, .L25
- 347 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
- 348 0004 7047     		bx	lr
- 349              	.L26:
- 350 0006 00BF     		.align	2
- 351              	.L25:
- 352 0008 00000000 		.word	rx_ready
- 353              		.cfi_endproc
- 354              	.LFE69:
- 356              		.section	.text.COMM_GetPacket,"ax",%progbits
- 357              		.align	1
- 358              		.global	COMM_GetPacket
- 359              		.syntax unified
- 360              		.thumb
- 361              		.thumb_func
- 363              	COMM_GetPacket:
- 364              	.LVL25:
- 365              	.LFB70:
-ARM GAS  /tmp/cc3UYY3W.s 			page 9
+ 261              		.loc 1 59 9 view .LVU58
+ 262 0016 01AD     		add	r5, sp, #4
+ 263 0018 9DF83930 		ldrb	r3, [sp, #57]	@ zero_extendqisi2
+ 264 001c 0246     		mov	r2, r0
+ 265 001e 0D49     		ldr	r1, .L18+4
+ 266 0020 2846     		mov	r0, r5
+ 267              	.LVL16:
+  59:APP/comm.c    ****         DEBUG_Log(msg);
+ 268              		.loc 1 59 9 is_stmt 0 view .LVU59
+ 269 0022 FFF7FEFF 		bl	sprintf
+ 270              	.LVL17:
+  60:APP/comm.c    ****         
+ 271              		.loc 1 60 9 is_stmt 1 view .LVU60
+ 272 0026 2846     		mov	r0, r5
+ 273 0028 FFF7FEFF 		bl	DEBUG_Log
+ 274              	.LVL18:
+  62:APP/comm.c    **** 
+ 275              		.loc 1 62 9 view .LVU61
+  62:APP/comm.c    **** 
+ 276              		.loc 1 62 12 is_stmt 0 view .LVU62
+ 277 002c 012C     		cmp	r4, #1
+ 278 002e EFD9     		bls	.L12
+  64:APP/comm.c    ****         rx_sender = buf[1];
+ 279              		.loc 1 64 9 is_stmt 1 view .LVU63
+  64:APP/comm.c    ****         rx_sender = buf[1];
+ 280              		.loc 1 64 22 is_stmt 0 view .LVU64
+ 281 0030 9DF83820 		ldrb	r2, [sp, #56]	@ zero_extendqisi2
+  64:APP/comm.c    ****         rx_sender = buf[1];
+ 282              		.loc 1 64 17 view .LVU65
+ 283 0034 084B     		ldr	r3, .L18+8
+ 284 0036 1A70     		strb	r2, [r3]
+  65:APP/comm.c    ****         rx_ready = true;
+ 285              		.loc 1 65 9 is_stmt 1 view .LVU66
+  65:APP/comm.c    ****         rx_ready = true;
+ 286              		.loc 1 65 24 is_stmt 0 view .LVU67
+ 287 0038 9DF83920 		ldrb	r2, [sp, #57]	@ zero_extendqisi2
+  65:APP/comm.c    ****         rx_ready = true;
+ 288              		.loc 1 65 19 view .LVU68
+ 289 003c 074B     		ldr	r3, .L18+12
+ 290 003e 1A70     		strb	r2, [r3]
+  66:APP/comm.c    **** 
+ 291              		.loc 1 66 9 is_stmt 1 view .LVU69
+  66:APP/comm.c    **** 
+ 292              		.loc 1 66 18 is_stmt 0 view .LVU70
+ 293 0040 074B     		ldr	r3, .L18+16
+ 294 0042 0122     		movs	r2, #1
+ 295 0044 1A70     		strb	r2, [r3]
+  68:APP/comm.c    ****     }
+ 296              		.loc 1 68 9 is_stmt 1 view .LVU71
+ 297 0046 0248     		ldr	r0, .L18
+ 298 0048 FFF7FEFF 		bl	LoRa_startReceiving
+ 299              	.LVL19:
+ 300 004c E0E7     		b	.L12
+ 301              	.L19:
+ 302 004e 00BF     		.align	2
+ 303              	.L18:
+ 304 0050 00000000 		.word	lora
+ARM GAS  /tmp/cc69wAXg.s 			page 8
 
 
-  80:APP/comm.c    **** 
-  81:APP/comm.c    **** bool COMM_GetPacket(CommPacket_t *pkt)
-  82:APP/comm.c    **** {
- 366              		.loc 1 82 1 is_stmt 1 view -0
- 367              		.cfi_startproc
- 368              		@ args = 0, pretend = 0, frame = 0
- 369              		@ frame_needed = 0, uses_anonymous_args = 0
- 370              		@ link register save eliminated.
- 371              		.loc 1 82 1 is_stmt 0 view .LVU75
- 372 0000 30B4     		push	{r4, r5}
- 373              	.LCFI11:
- 374              		.cfi_def_cfa_offset 8
- 375              		.cfi_offset 4, -8
- 376              		.cfi_offset 5, -4
-  83:APP/comm.c    ****     if (!rx_ready || pkt == NULL)
- 377              		.loc 1 83 5 is_stmt 1 view .LVU76
- 378              		.loc 1 83 9 is_stmt 0 view .LVU77
- 379 0002 084B     		ldr	r3, .L31
- 380 0004 1D78     		ldrb	r5, [r3]	@ zero_extendqisi2
- 381              		.loc 1 83 8 view .LVU78
- 382 0006 45B1     		cbz	r5, .L28
- 383 0008 0446     		mov	r4, r0
- 384              		.loc 1 83 19 discriminator 1 view .LVU79
- 385 000a 48B1     		cbz	r0, .L29
-  84:APP/comm.c    ****         return false;
-  85:APP/comm.c    **** 
-  86:APP/comm.c    ****     *pkt = rx_pkt;
- 386              		.loc 1 86 5 is_stmt 1 view .LVU80
- 387              		.loc 1 86 10 is_stmt 0 view .LVU81
- 388 000c 064B     		ldr	r3, .L31+4
- 389 000e 0FCB     		ldm	r3, {r0, r1, r2, r3}
- 390              	.LVL26:
- 391              		.loc 1 86 10 view .LVU82
- 392 0010 84E80F00 		stm	r4, {r0, r1, r2, r3}
-  87:APP/comm.c    ****     rx_ready = false;
- 393              		.loc 1 87 5 is_stmt 1 view .LVU83
- 394              		.loc 1 87 14 is_stmt 0 view .LVU84
- 395 0014 034B     		ldr	r3, .L31
- 396 0016 0022     		movs	r2, #0
- 397 0018 1A70     		strb	r2, [r3]
-  88:APP/comm.c    ****     return true;
- 398              		.loc 1 88 5 is_stmt 1 view .LVU85
- 399              	.LVL27:
- 400              	.L28:
-  89:APP/comm.c    **** }
- 401              		.loc 1 89 1 is_stmt 0 view .LVU86
- 402 001a 2846     		mov	r0, r5
- 403 001c 30BC     		pop	{r4, r5}
- 404              	.LCFI12:
- 405              		.cfi_remember_state
- 406              		.cfi_restore 5
- 407              		.cfi_restore 4
- 408              		.cfi_def_cfa_offset 0
- 409 001e 7047     		bx	lr
- 410              	.LVL28:
- 411              	.L29:
- 412              	.LCFI13:
-ARM GAS  /tmp/cc3UYY3W.s 			page 10
+ 305 0054 00000000 		.word	.LC2
+ 306 0058 00000000 		.word	rx_type
+ 307 005c 00000000 		.word	rx_sender
+ 308 0060 00000000 		.word	rx_ready
+ 309              	.LBE3:
+ 310              		.cfi_endproc
+ 311              	.LFE70:
+ 313              		.section	.rodata.COMM_SendTest.str1.4,"aMS",%progbits,1
+ 314              		.align	2
+ 315              	.LC3:
+ 316 0000 44454255 		.ascii	"DEBUG: Attempting to send TEST packet...\015\012\000"
+ 316      473A2041 
+ 316      7474656D 
+ 316      7074696E 
+ 316      6720746F 
+ 317 002b 00       		.align	2
+ 318              	.LC4:
+ 319 002c 44454255 		.ascii	"DEBUG: Send SUCCESS\015\012\000"
+ 319      473A2053 
+ 319      656E6420 
+ 319      53554343 
+ 319      4553530D 
+ 320 0042 0000     		.align	2
+ 321              	.LC5:
+ 322 0044 44454255 		.ascii	"DEBUG: Send FAILED\015\012\000"
+ 322      473A2053 
+ 322      656E6420 
+ 322      4641494C 
+ 322      45440D0A 
+ 323              		.section	.text.COMM_SendTest,"ax",%progbits
+ 324              		.align	1
+ 325              		.global	COMM_SendTest
+ 326              		.syntax unified
+ 327              		.thumb
+ 328              		.thumb_func
+ 330              	COMM_SendTest:
+ 331              	.LVL20:
+ 332              	.LFB71:
+  71:APP/comm.c    **** 
+  72:APP/comm.c    **** bool COMM_SendTest(uint8_t id) {
+ 333              		.loc 1 72 32 view -0
+ 334              		.cfi_startproc
+ 335              		@ args = 0, pretend = 0, frame = 8
+ 336              		@ frame_needed = 0, uses_anonymous_args = 0
+ 337              		.loc 1 72 32 is_stmt 0 view .LVU73
+ 338 0000 10B5     		push	{r4, lr}
+ 339              	.LCFI9:
+ 340              		.cfi_def_cfa_offset 8
+ 341              		.cfi_offset 4, -8
+ 342              		.cfi_offset 14, -4
+ 343 0002 82B0     		sub	sp, sp, #8
+ 344              	.LCFI10:
+ 345              		.cfi_def_cfa_offset 16
+ 346 0004 0446     		mov	r4, r0
+  73:APP/comm.c    ****     DEBUG_Log("DEBUG: Attempting to send TEST packet...\r\n");
+ 347              		.loc 1 73 5 is_stmt 1 view .LVU74
+ 348 0006 1048     		ldr	r0, .L25
+ARM GAS  /tmp/cc69wAXg.s 			page 9
 
 
- 413              		.cfi_restore_state
-  84:APP/comm.c    **** 
- 414              		.loc 1 84 16 view .LVU87
- 415 0020 0025     		movs	r5, #0
- 416 0022 FAE7     		b	.L28
- 417              	.L32:
- 418              		.align	2
- 419              	.L31:
- 420 0024 00000000 		.word	rx_ready
- 421 0028 00000000 		.word	rx_pkt
- 422              		.cfi_endproc
- 423              	.LFE70:
- 425              		.section	.bss.rx_ready,"aw",%nobits
- 428              	rx_ready:
- 429 0000 00       		.space	1
- 430              		.section	.bss.rx_pkt,"aw",%nobits
- 431              		.align	2
- 434              	rx_pkt:
- 435 0000 00000000 		.space	16
- 435      00000000 
- 435      00000000 
- 435      00000000 
- 436              		.section	.bss.lora,"aw",%nobits
- 437              		.align	2
- 440              	lora:
- 441 0000 00000000 		.space	44
- 441      00000000 
- 441      00000000 
- 441      00000000 
- 441      00000000 
- 442              		.text
- 443              	.Letext0:
- 444              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 445              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
- 446              		.file 4 "APP/comm.h"
- 447              		.file 5 "APP/protocol.h"
- 448              		.file 6 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
- 449              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
- 450              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
- 451              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h"
- 452              		.file 10 "Drivers/LoRa/LoRa.h"
-ARM GAS  /tmp/cc3UYY3W.s 			page 11
+ 349              	.LVL21:
+ 350              		.loc 1 73 5 is_stmt 0 view .LVU75
+ 351 0008 FFF7FEFF 		bl	DEBUG_Log
+ 352              	.LVL22:
+  74:APP/comm.c    ****     uint8_t buf[2] = { MSG_TEST, id };
+ 353              		.loc 1 74 5 is_stmt 1 view .LVU76
+ 354              		.loc 1 74 13 is_stmt 0 view .LVU77
+ 355 000c 0123     		movs	r3, #1
+ 356 000e 8DF80430 		strb	r3, [sp, #4]
+ 357 0012 8DF80540 		strb	r4, [sp, #5]
+  75:APP/comm.c    ****     bool ok = (LoRa_transmit(&lora, buf, 2, 100) == 1);
+ 358              		.loc 1 75 5 is_stmt 1 view .LVU78
+ 359              		.loc 1 75 16 is_stmt 0 view .LVU79
+ 360 0016 6423     		movs	r3, #100
+ 361 0018 0222     		movs	r2, #2
+ 362 001a 01A9     		add	r1, sp, #4
+ 363 001c 0B48     		ldr	r0, .L25+4
+ 364 001e FFF7FEFF 		bl	LoRa_transmit
+ 365              	.LVL23:
+ 366              		.loc 1 75 10 discriminator 1 view .LVU80
+ 367 0022 0128     		cmp	r0, #1
+ 368 0024 0CBF     		ite	eq
+ 369 0026 0124     		moveq	r4, #1
+ 370              	.LVL24:
+ 371              		.loc 1 75 10 discriminator 1 view .LVU81
+ 372 0028 0024     		movne	r4, #0
+ 373              	.LVL25:
+  76:APP/comm.c    ****     
+  77:APP/comm.c    ****     if (ok) DEBUG_Log("DEBUG: Send SUCCESS\r\n");
+ 374              		.loc 1 77 5 is_stmt 1 view .LVU82
+ 375              		.loc 1 77 8 is_stmt 0 view .LVU83
+ 376 002a 08D0     		beq	.L24
+  78:APP/comm.c    ****     else DEBUG_Log("DEBUG: Send FAILED\r\n");
+ 377              		.loc 1 78 10 is_stmt 1 view .LVU84
+ 378 002c 0848     		ldr	r0, .L25+8
+ 379 002e FFF7FEFF 		bl	DEBUG_Log
+ 380              	.LVL26:
+ 381              	.L22:
+  79:APP/comm.c    **** 
+  80:APP/comm.c    ****     LoRa_startReceiving(&lora);
+ 382              		.loc 1 80 5 view .LVU85
+ 383 0032 0648     		ldr	r0, .L25+4
+ 384 0034 FFF7FEFF 		bl	LoRa_startReceiving
+ 385              	.LVL27:
+  81:APP/comm.c    ****     return ok;
+ 386              		.loc 1 81 5 view .LVU86
+  82:APP/comm.c    **** }
+ 387              		.loc 1 82 1 is_stmt 0 view .LVU87
+ 388 0038 2046     		mov	r0, r4
+ 389 003a 02B0     		add	sp, sp, #8
+ 390              	.LCFI11:
+ 391              		.cfi_remember_state
+ 392              		.cfi_def_cfa_offset 8
+ 393              		@ sp needed
+ 394 003c 10BD     		pop	{r4, pc}
+ 395              	.LVL28:
+ 396              	.L24:
+ARM GAS  /tmp/cc69wAXg.s 			page 10
+
+
+ 397              	.LCFI12:
+ 398              		.cfi_restore_state
+  77:APP/comm.c    ****     else DEBUG_Log("DEBUG: Send FAILED\r\n");
+ 399              		.loc 1 77 13 is_stmt 1 discriminator 1 view .LVU88
+ 400 003e 0548     		ldr	r0, .L25+12
+ 401 0040 FFF7FEFF 		bl	DEBUG_Log
+ 402              	.LVL29:
+ 403 0044 F5E7     		b	.L22
+ 404              	.L26:
+ 405 0046 00BF     		.align	2
+ 406              	.L25:
+ 407 0048 00000000 		.word	.LC3
+ 408 004c 00000000 		.word	lora
+ 409 0050 44000000 		.word	.LC5
+ 410 0054 2C000000 		.word	.LC4
+ 411              		.cfi_endproc
+ 412              	.LFE71:
+ 414              		.section	.text.COMM_SendScan,"ax",%progbits
+ 415              		.align	1
+ 416              		.global	COMM_SendScan
+ 417              		.syntax unified
+ 418              		.thumb
+ 419              		.thumb_func
+ 421              	COMM_SendScan:
+ 422              	.LVL30:
+ 423              	.LFB72:
+  83:APP/comm.c    **** 
+  84:APP/comm.c    **** bool COMM_SendScan(uint8_t id)
+  85:APP/comm.c    **** {
+ 424              		.loc 1 85 1 view -0
+ 425              		.cfi_startproc
+ 426              		@ args = 0, pretend = 0, frame = 8
+ 427              		@ frame_needed = 0, uses_anonymous_args = 0
+ 428              		.loc 1 85 1 is_stmt 0 view .LVU90
+ 429 0000 30B5     		push	{r4, r5, lr}
+ 430              	.LCFI13:
+ 431              		.cfi_def_cfa_offset 12
+ 432              		.cfi_offset 4, -12
+ 433              		.cfi_offset 5, -8
+ 434              		.cfi_offset 14, -4
+ 435 0002 83B0     		sub	sp, sp, #12
+ 436              	.LCFI14:
+ 437              		.cfi_def_cfa_offset 24
+  86:APP/comm.c    **** 	uint8_t buf[2] = { MSG_SCAN, id };
+ 438              		.loc 1 86 2 is_stmt 1 view .LVU91
+ 439              		.loc 1 86 10 is_stmt 0 view .LVU92
+ 440 0004 0222     		movs	r2, #2
+ 441 0006 8DF80420 		strb	r2, [sp, #4]
+ 442 000a 8DF80500 		strb	r0, [sp, #5]
+  87:APP/comm.c    **** 	bool ok = (LoRa_transmit(&lora, buf, 2, 100) == 1);
+ 443              		.loc 1 87 2 is_stmt 1 view .LVU93
+ 444              		.loc 1 87 13 is_stmt 0 view .LVU94
+ 445 000e 084D     		ldr	r5, .L29
+ 446 0010 6423     		movs	r3, #100
+ 447 0012 01A9     		add	r1, sp, #4
+ 448 0014 2846     		mov	r0, r5
+ 449              	.LVL31:
+ARM GAS  /tmp/cc69wAXg.s 			page 11
+
+
+ 450              		.loc 1 87 13 view .LVU95
+ 451 0016 FFF7FEFF 		bl	LoRa_transmit
+ 452              	.LVL32:
+ 453              		.loc 1 87 7 discriminator 1 view .LVU96
+ 454 001a 0128     		cmp	r0, #1
+ 455 001c 14BF     		ite	ne
+ 456 001e 0024     		movne	r4, #0
+ 457 0020 0124     		moveq	r4, #1
+ 458              	.LVL33:
+  88:APP/comm.c    **** 	LoRa_startReceiving(&lora);
+ 459              		.loc 1 88 2 is_stmt 1 view .LVU97
+ 460 0022 2846     		mov	r0, r5
+ 461 0024 FFF7FEFF 		bl	LoRa_startReceiving
+ 462              	.LVL34:
+  89:APP/comm.c    **** 	return ok;
+ 463              		.loc 1 89 2 view .LVU98
+  90:APP/comm.c    **** }
+ 464              		.loc 1 90 1 is_stmt 0 view .LVU99
+ 465 0028 2046     		mov	r0, r4
+ 466 002a 03B0     		add	sp, sp, #12
+ 467              	.LCFI15:
+ 468              		.cfi_def_cfa_offset 12
+ 469              		@ sp needed
+ 470 002c 30BD     		pop	{r4, r5, pc}
+ 471              	.LVL35:
+ 472              	.L30:
+ 473              		.loc 1 90 1 view .LVU100
+ 474 002e 00BF     		.align	2
+ 475              	.L29:
+ 476 0030 00000000 		.word	lora
+ 477              		.cfi_endproc
+ 478              	.LFE72:
+ 480              		.section	.text.COMM_HasMessage,"ax",%progbits
+ 481              		.align	1
+ 482              		.global	COMM_HasMessage
+ 483              		.syntax unified
+ 484              		.thumb
+ 485              		.thumb_func
+ 487              	COMM_HasMessage:
+ 488              	.LFB73:
+  91:APP/comm.c    **** 
+  92:APP/comm.c    **** bool COMM_HasMessage(void)
+  93:APP/comm.c    **** {
+ 489              		.loc 1 93 1 is_stmt 1 view -0
+ 490              		.cfi_startproc
+ 491              		@ args = 0, pretend = 0, frame = 0
+ 492              		@ frame_needed = 0, uses_anonymous_args = 0
+ 493              		@ link register save eliminated.
+  94:APP/comm.c    **** 	return rx_ready;
+ 494              		.loc 1 94 2 view .LVU102
+  95:APP/comm.c    **** }
+ 495              		.loc 1 95 1 is_stmt 0 view .LVU103
+ 496 0000 014B     		ldr	r3, .L32
+ 497 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 498 0004 7047     		bx	lr
+ 499              	.L33:
+ 500 0006 00BF     		.align	2
+ARM GAS  /tmp/cc69wAXg.s 			page 12
+
+
+ 501              	.L32:
+ 502 0008 00000000 		.word	rx_ready
+ 503              		.cfi_endproc
+ 504              	.LFE73:
+ 506              		.section	.text.COMM_GetMessage,"ax",%progbits
+ 507              		.align	1
+ 508              		.global	COMM_GetMessage
+ 509              		.syntax unified
+ 510              		.thumb
+ 511              		.thumb_func
+ 513              	COMM_GetMessage:
+ 514              	.LVL36:
+ 515              	.LFB74:
+  96:APP/comm.c    **** 
+  97:APP/comm.c    **** uint8_t COMM_GetMessage(uint8_t *sender_id)
+  98:APP/comm.c    **** {
+ 516              		.loc 1 98 1 is_stmt 1 view -0
+ 517              		.cfi_startproc
+ 518              		@ args = 0, pretend = 0, frame = 0
+ 519              		@ frame_needed = 0, uses_anonymous_args = 0
+ 520              		@ link register save eliminated.
+  99:APP/comm.c    **** 	rx_ready = false;
+ 521              		.loc 1 99 2 view .LVU105
+ 522              		.loc 1 99 11 is_stmt 0 view .LVU106
+ 523 0000 044B     		ldr	r3, .L35
+ 524 0002 0022     		movs	r2, #0
+ 525 0004 1A70     		strb	r2, [r3]
+ 100:APP/comm.c    **** 	*sender_id = rx_sender;
+ 526              		.loc 1 100 2 is_stmt 1 view .LVU107
+ 527              		.loc 1 100 13 is_stmt 0 view .LVU108
+ 528 0006 044B     		ldr	r3, .L35+4
+ 529 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 530 000a 0370     		strb	r3, [r0]
+ 101:APP/comm.c    **** 	return rx_type;
+ 531              		.loc 1 101 2 is_stmt 1 view .LVU109
+ 102:APP/comm.c    **** }
+ 532              		.loc 1 102 1 is_stmt 0 view .LVU110
+ 533 000c 034B     		ldr	r3, .L35+8
+ 534 000e 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 535              	.LVL37:
+ 536              		.loc 1 102 1 view .LVU111
+ 537 0010 7047     		bx	lr
+ 538              	.L36:
+ 539 0012 00BF     		.align	2
+ 540              	.L35:
+ 541 0014 00000000 		.word	rx_ready
+ 542 0018 00000000 		.word	rx_sender
+ 543 001c 00000000 		.word	rx_type
+ 544              		.cfi_endproc
+ 545              	.LFE74:
+ 547              		.section	.bss.rx_ready,"aw",%nobits
+ 550              	rx_ready:
+ 551 0000 00       		.space	1
+ 552              		.section	.bss.rx_sender,"aw",%nobits
+ 555              	rx_sender:
+ 556 0000 00       		.space	1
+ 557              		.section	.bss.rx_type,"aw",%nobits
+ARM GAS  /tmp/cc69wAXg.s 			page 13
+
+
+ 560              	rx_type:
+ 561 0000 00       		.space	1
+ 562              		.global	lora
+ 563              		.section	.bss.lora,"aw",%nobits
+ 564              		.align	2
+ 567              	lora:
+ 568 0000 00000000 		.space	44
+ 568      00000000 
+ 568      00000000 
+ 568      00000000 
+ 568      00000000 
+ 569              		.text
+ 570              	.Letext0:
+ 571              		.file 2 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 572              		.file 3 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 573              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 574              		.file 5 "/usr/lib/gcc/arm-none-eabi/14.2.0/include/stddef.h"
+ 575              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 576              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
+ 577              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h"
+ 578              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h"
+ 579              		.file 10 "Drivers/LoRa/LoRa.h"
+ 580              		.file 11 "/usr/arm-none-eabi/include/stdio.h"
+ 581              		.file 12 "/usr/arm-none-eabi/include/string.h"
+ARM GAS  /tmp/cc69wAXg.s 			page 14
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 comm.c
-     /tmp/cc3UYY3W.s:19     .text.COMM_Init:00000000 $t
-     /tmp/cc3UYY3W.s:25     .text.COMM_Init:00000000 COMM_Init
-     /tmp/cc3UYY3W.s:76     .text.COMM_Init:0000002c $d
-     /tmp/cc3UYY3W.s:440    .bss.lora:00000000 lora
-     /tmp/cc3UYY3W.s:83     .text.COMM_Process:00000000 $t
-     /tmp/cc3UYY3W.s:89     .text.COMM_Process:00000000 COMM_Process
-     /tmp/cc3UYY3W.s:199    .text.COMM_Process:00000060 $d
-     /tmp/cc3UYY3W.s:434    .bss.rx_pkt:00000000 rx_pkt
-     /tmp/cc3UYY3W.s:428    .bss.rx_ready:00000000 rx_ready
-     /tmp/cc3UYY3W.s:207    .text.COMM_SendLocation:00000000 $t
-     /tmp/cc3UYY3W.s:213    .text.COMM_SendLocation:00000000 COMM_SendLocation
-     /tmp/cc3UYY3W.s:267    .text.COMM_SendLocation:00000028 $d
-     /tmp/cc3UYY3W.s:272    .text.COMM_SendScanRequest:00000000 $t
-     /tmp/cc3UYY3W.s:278    .text.COMM_SendScanRequest:00000000 COMM_SendScanRequest
-     /tmp/cc3UYY3W.s:326    .text.COMM_SendScanRequest:00000024 $d
-     /tmp/cc3UYY3W.s:331    .text.COMM_HasPacket:00000000 $t
-     /tmp/cc3UYY3W.s:337    .text.COMM_HasPacket:00000000 COMM_HasPacket
-     /tmp/cc3UYY3W.s:352    .text.COMM_HasPacket:00000008 $d
-     /tmp/cc3UYY3W.s:357    .text.COMM_GetPacket:00000000 $t
-     /tmp/cc3UYY3W.s:363    .text.COMM_GetPacket:00000000 COMM_GetPacket
-     /tmp/cc3UYY3W.s:420    .text.COMM_GetPacket:00000024 $d
-     /tmp/cc3UYY3W.s:429    .bss.rx_ready:00000000 $d
-     /tmp/cc3UYY3W.s:431    .bss.rx_pkt:00000000 $d
-     /tmp/cc3UYY3W.s:437    .bss.lora:00000000 $d
+     /tmp/cc69wAXg.s:19     .text.DEBUG_Log:00000000 $t
+     /tmp/cc69wAXg.s:25     .text.DEBUG_Log:00000000 DEBUG_Log
+     /tmp/cc69wAXg.s:57     .text.DEBUG_Log:00000018 $d
+     /tmp/cc69wAXg.s:62     .rodata.COMM_Init.str1.4:00000000 $d
+     /tmp/cc69wAXg.s:69     .text.COMM_Init:00000000 $t
+     /tmp/cc69wAXg.s:75     .text.COMM_Init:00000000 COMM_Init
+     /tmp/cc69wAXg.s:199    .text.COMM_Init:00000078 $d
+     /tmp/cc69wAXg.s:567    .bss.lora:00000000 lora
+     /tmp/cc69wAXg.s:208    .rodata.COMM_Process.str1.4:00000000 $d
+     /tmp/cc69wAXg.s:212    .text.COMM_Process:00000000 $t
+     /tmp/cc69wAXg.s:218    .text.COMM_Process:00000000 COMM_Process
+     /tmp/cc69wAXg.s:304    .text.COMM_Process:00000050 $d
+     /tmp/cc69wAXg.s:560    .bss.rx_type:00000000 rx_type
+     /tmp/cc69wAXg.s:555    .bss.rx_sender:00000000 rx_sender
+     /tmp/cc69wAXg.s:550    .bss.rx_ready:00000000 rx_ready
+     /tmp/cc69wAXg.s:314    .rodata.COMM_SendTest.str1.4:00000000 $d
+     /tmp/cc69wAXg.s:324    .text.COMM_SendTest:00000000 $t
+     /tmp/cc69wAXg.s:330    .text.COMM_SendTest:00000000 COMM_SendTest
+     /tmp/cc69wAXg.s:407    .text.COMM_SendTest:00000048 $d
+     /tmp/cc69wAXg.s:415    .text.COMM_SendScan:00000000 $t
+     /tmp/cc69wAXg.s:421    .text.COMM_SendScan:00000000 COMM_SendScan
+     /tmp/cc69wAXg.s:476    .text.COMM_SendScan:00000030 $d
+     /tmp/cc69wAXg.s:481    .text.COMM_HasMessage:00000000 $t
+     /tmp/cc69wAXg.s:487    .text.COMM_HasMessage:00000000 COMM_HasMessage
+     /tmp/cc69wAXg.s:502    .text.COMM_HasMessage:00000008 $d
+     /tmp/cc69wAXg.s:507    .text.COMM_GetMessage:00000000 $t
+     /tmp/cc69wAXg.s:513    .text.COMM_GetMessage:00000000 COMM_GetMessage
+     /tmp/cc69wAXg.s:541    .text.COMM_GetMessage:00000014 $d
+     /tmp/cc69wAXg.s:551    .bss.rx_ready:00000000 $d
+     /tmp/cc69wAXg.s:556    .bss.rx_sender:00000000 $d
+     /tmp/cc69wAXg.s:561    .bss.rx_type:00000000 $d
+     /tmp/cc69wAXg.s:564    .bss.lora:00000000 $d
 
 UNDEFINED SYMBOLS
+strlen
+HAL_UART_Transmit
+huart2
 LoRa_init
+sprintf
 LoRa_startReceiving
 hspi1
 LoRa_receive
-PROTOCOL_GetType
-PROTOCOL_DecodeLocation
-PROTOCOL_EncodeLocation
 LoRa_transmit
-PROTOCOL_EncodeScanRequest

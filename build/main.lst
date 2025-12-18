@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccZzrLig.s 			page 1
+ARM GAS  /tmp/ccsooeYj.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
   14:Core/Src/main.c ****   * If no LICENSE file comes with this software, it is provided AS-IS.
   15:Core/Src/main.c ****   *
   16:Core/Src/main.c ****   ******************************************************************************
-ARM GAS  /tmp/ccZzrLig.s 			page 2
+ARM GAS  /tmp/ccsooeYj.s 			page 2
 
 
   17:Core/Src/main.c ****   */
@@ -81,185 +81,167 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
   34:Core/Src/main.c **** #include <stdio.h>
   35:Core/Src/main.c **** 
   36:Core/Src/main.c **** #include "../APP/comm.h"
-  37:Core/Src/main.c **** #include "../APP/protocol.h"
-  38:Core/Src/main.c **** #include "../APP/scan.h"
-  39:Core/Src/main.c **** /* USER CODE END Includes */
-  40:Core/Src/main.c **** 
-  41:Core/Src/main.c **** /* Private typedef -----------------------------------------------------------*/
-  42:Core/Src/main.c **** /* USER CODE BEGIN PTD */
-  43:Core/Src/main.c **** 
-  44:Core/Src/main.c **** /* USER CODE END PTD */
-  45:Core/Src/main.c **** 
-  46:Core/Src/main.c **** /* Private define ------------------------------------------------------------*/
-  47:Core/Src/main.c **** /* USER CODE BEGIN PD */
-  48:Core/Src/main.c **** 
-  49:Core/Src/main.c **** /* USER CODE END PD */
-  50:Core/Src/main.c **** 
-  51:Core/Src/main.c **** /* Private macro -------------------------------------------------------------*/
-  52:Core/Src/main.c **** /* USER CODE BEGIN PM */
-  53:Core/Src/main.c **** 
-  54:Core/Src/main.c **** /* USER CODE END PM */
-  55:Core/Src/main.c **** 
-  56:Core/Src/main.c **** /* Private variables ---------------------------------------------------------*/
-  57:Core/Src/main.c **** 
-  58:Core/Src/main.c **** /* USER CODE BEGIN PV */
-  59:Core/Src/main.c **** // i2c for oled
-  60:Core/Src/main.c **** 
-  61:Core/Src/main.c **** // declaring the objects
-  62:Core/Src/main.c **** LoRa lora;
-  63:Core/Src/main.c **** GPS_t gps;
+  37:Core/Src/main.c **** #include "../APP/scan.h"
+  38:Core/Src/main.c **** /* USER CODE END Includes */
+  39:Core/Src/main.c **** 
+  40:Core/Src/main.c **** /* Private typedef -----------------------------------------------------------*/
+  41:Core/Src/main.c **** /* USER CODE BEGIN PTD */
+  42:Core/Src/main.c **** 
+  43:Core/Src/main.c **** /* USER CODE END PTD */
+  44:Core/Src/main.c **** 
+  45:Core/Src/main.c **** /* Private define ------------------------------------------------------------*/
+  46:Core/Src/main.c **** /* USER CODE BEGIN PD */
+  47:Core/Src/main.c **** 
+  48:Core/Src/main.c **** /* USER CODE END PD */
+  49:Core/Src/main.c **** 
+  50:Core/Src/main.c **** /* Private macro -------------------------------------------------------------*/
+  51:Core/Src/main.c **** /* USER CODE BEGIN PM */
+  52:Core/Src/main.c **** 
+  53:Core/Src/main.c **** /* USER CODE END PM */
+  54:Core/Src/main.c **** 
+  55:Core/Src/main.c **** /* Private variables ---------------------------------------------------------*/
+  56:Core/Src/main.c **** 
+  57:Core/Src/main.c **** /* USER CODE BEGIN PV */
+  58:Core/Src/main.c **** // i2c for oled
+  59:Core/Src/main.c **** 
+  60:Core/Src/main.c **** // declaring the objects
+  61:Core/Src/main.c **** GPS_t gps;
+  62:Core/Src/main.c **** #define NODE_ID	1
+  63:Core/Src/main.c **** //#define NODE_ID	2
   64:Core/Src/main.c **** 
-  65:Core/Src/main.c **** 
-  66:Core/Src/main.c **** volatile bool	scan_btn_pressed = false;
-  67:Core/Src/main.c **** volatile bool	send_btn_pressed = false;
-  68:Core/Src/main.c **** 
-  69:Core/Src/main.c **** /* USER CODE END PV */
-  70:Core/Src/main.c **** 
-  71:Core/Src/main.c **** /* Private function prototypes -----------------------------------------------*/
-  72:Core/Src/main.c **** void SystemClock_Config(void);
-  73:Core/Src/main.c **** /* USER CODE BEGIN PFP */
-ARM GAS  /tmp/ccZzrLig.s 			page 3
+  65:Core/Src/main.c **** volatile bool	scan_btn_pressed = false;
+  66:Core/Src/main.c **** volatile bool	send_btn_pressed = false;
+  67:Core/Src/main.c **** 
+  68:Core/Src/main.c **** /* USER CODE END PV */
+  69:Core/Src/main.c **** 
+  70:Core/Src/main.c **** /* Private function prototypes -----------------------------------------------*/
+  71:Core/Src/main.c **** void SystemClock_Config(void);
+  72:Core/Src/main.c **** /* USER CODE BEGIN PFP */
+  73:Core/Src/main.c **** 
+ARM GAS  /tmp/ccsooeYj.s 			page 3
 
 
-  74:Core/Src/main.c **** 
-  75:Core/Src/main.c **** /* USER CODE END PFP */
-  76:Core/Src/main.c **** 
-  77:Core/Src/main.c **** /* Private user code ---------------------------------------------------------*/
-  78:Core/Src/main.c **** /* USER CODE BEGIN 0 */
-  79:Core/Src/main.c **** 
-  80:Core/Src/main.c **** void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-  81:Core/Src/main.c **** {
-  82:Core/Src/main.c **** 	if(huart == &huart1) GPS_UART_CallBack();
-  83:Core/Src/main.c **** }
+  74:Core/Src/main.c **** /* USER CODE END PFP */
+  75:Core/Src/main.c **** 
+  76:Core/Src/main.c **** /* Private user code ---------------------------------------------------------*/
+  77:Core/Src/main.c **** /* USER CODE BEGIN 0 */
+  78:Core/Src/main.c **** 
+  79:Core/Src/main.c **** void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+  80:Core/Src/main.c **** {
+  81:Core/Src/main.c **** 	if(huart == &huart1) GPS_UART_CallBack();
+  82:Core/Src/main.c **** }
+  83:Core/Src/main.c **** 
   84:Core/Src/main.c **** 
-  85:Core/Src/main.c **** 
-  86:Core/Src/main.c **** /* USER CODE END 0 */
-  87:Core/Src/main.c **** 
-  88:Core/Src/main.c **** /**
-  89:Core/Src/main.c ****   * @brief  The application entry point.
-  90:Core/Src/main.c ****   * @retval int
-  91:Core/Src/main.c ****   */
-  92:Core/Src/main.c **** int main(void)
-  93:Core/Src/main.c **** {
-  94:Core/Src/main.c **** 
-  95:Core/Src/main.c ****   /* USER CODE BEGIN 1 */
-  96:Core/Src/main.c **** 
-  97:Core/Src/main.c ****   /* USER CODE END 1 */
-  98:Core/Src/main.c **** 
-  99:Core/Src/main.c ****   /* MCU Configuration--------------------------------------------------------*/
- 100:Core/Src/main.c **** 
- 101:Core/Src/main.c ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
- 102:Core/Src/main.c ****   HAL_Init();
- 103:Core/Src/main.c **** 
- 104:Core/Src/main.c ****   /* USER CODE BEGIN Init */
- 105:Core/Src/main.c **** 
- 106:Core/Src/main.c ****   /* USER CODE END Init */
- 107:Core/Src/main.c **** 
- 108:Core/Src/main.c ****   /* Configure the system clock */
- 109:Core/Src/main.c ****   SystemClock_Config();
- 110:Core/Src/main.c **** 
- 111:Core/Src/main.c ****   /* USER CODE BEGIN SysInit */
- 112:Core/Src/main.c **** 
- 113:Core/Src/main.c ****   /* USER CODE END SysInit */
- 114:Core/Src/main.c **** 
- 115:Core/Src/main.c ****   /* Initialize all configured peripherals */
- 116:Core/Src/main.c ****   MX_GPIO_Init();
- 117:Core/Src/main.c ****   MX_USART2_UART_Init();
- 118:Core/Src/main.c ****   MX_SPI1_Init();
- 119:Core/Src/main.c ****   MX_I2C1_Init();
- 120:Core/Src/main.c ****   MX_USART1_UART_Init();
- 121:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
+  85:Core/Src/main.c **** /* USER CODE END 0 */
+  86:Core/Src/main.c **** 
+  87:Core/Src/main.c **** /**
+  88:Core/Src/main.c ****   * @brief  The application entry point.
+  89:Core/Src/main.c ****   * @retval int
+  90:Core/Src/main.c ****   */
+  91:Core/Src/main.c **** int main(void)
+  92:Core/Src/main.c **** {
+  93:Core/Src/main.c **** 
+  94:Core/Src/main.c ****   /* USER CODE BEGIN 1 */
+  95:Core/Src/main.c **** 
+  96:Core/Src/main.c ****   /* USER CODE END 1 */
+  97:Core/Src/main.c **** 
+  98:Core/Src/main.c ****   /* MCU Configuration--------------------------------------------------------*/
+  99:Core/Src/main.c **** 
+ 100:Core/Src/main.c ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+ 101:Core/Src/main.c ****   HAL_Init();
+ 102:Core/Src/main.c **** 
+ 103:Core/Src/main.c ****   /* USER CODE BEGIN Init */
+ 104:Core/Src/main.c **** 
+ 105:Core/Src/main.c ****   /* USER CODE END Init */
+ 106:Core/Src/main.c **** 
+ 107:Core/Src/main.c ****   /* Configure the system clock */
+ 108:Core/Src/main.c ****   SystemClock_Config();
+ 109:Core/Src/main.c **** 
+ 110:Core/Src/main.c ****   /* USER CODE BEGIN SysInit */
+ 111:Core/Src/main.c **** 
+ 112:Core/Src/main.c ****   /* USER CODE END SysInit */
+ 113:Core/Src/main.c **** 
+ 114:Core/Src/main.c ****   /* Initialize all configured peripherals */
+ 115:Core/Src/main.c ****   MX_GPIO_Init();
+ 116:Core/Src/main.c ****   MX_USART2_UART_Init();
+ 117:Core/Src/main.c ****   MX_SPI1_Init();
+ 118:Core/Src/main.c ****   MX_I2C1_Init();
+ 119:Core/Src/main.c ****   MX_USART1_UART_Init();
+ 120:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
+ 121:Core/Src/main.c **** 
  122:Core/Src/main.c **** 
- 123:Core/Src/main.c **** 
- 124:Core/Src/main.c **** // ======================OLED SETUP =============================
- 125:Core/Src/main.c **** 
- 126:Core/Src/main.c **** // Initialize the display
- 127:Core/Src/main.c **** ssd1306_Init();
- 128:Core/Src/main.c ****     
- 129:Core/Src/main.c **** // clear the display buffer
- 130:Core/Src/main.c **** ssd1306_Fill(Black);
-ARM GAS  /tmp/ccZzrLig.s 			page 4
+ 123:Core/Src/main.c **** // ======================OLED SETUP =============================
+ 124:Core/Src/main.c **** 
+ 125:Core/Src/main.c **** // Initialize the display
+ 126:Core/Src/main.c **** ssd1306_Init();
+ 127:Core/Src/main.c ****     
+ 128:Core/Src/main.c **** // clear the display buffer
+ 129:Core/Src/main.c **** ssd1306_Fill(Black);
+ 130:Core/Src/main.c ****     
+ARM GAS  /tmp/ccsooeYj.s 			page 4
 
 
- 131:Core/Src/main.c ****     
- 132:Core/Src/main.c **** // set cursor position and write text
- 133:Core/Src/main.c **** ssd1306_SetCursor(16, 16);
- 134:Core/Src/main.c **** ssd1306_WriteString("Startup...", Font_11x18, White);
- 135:Core/Src/main.c **** 
- 136:Core/Src/main.c **** // update the display
- 137:Core/Src/main.c **** ssd1306_UpdateScreen();
- 138:Core/Src/main.c **** HAL_Delay(500);
- 139:Core/Src/main.c **** ssd1306_Fill(Black);
- 140:Core/Src/main.c **** 
- 141:Core/Src/main.c **** // ====================== LORA SETUP ==========================
- 142:Core/Src/main.c **** // configuring SPI pins for lora
- 143:Core/Src/main.c **** 
- 144:Core/Src/main.c **** lora.CS_port		= NSS_GPIO_Port;
- 145:Core/Src/main.c **** lora.CS_pin		= NSS_Pin;
- 146:Core/Src/main.c **** lora.reset_port		= LoRa_RST_GPIO_Port;
- 147:Core/Src/main.c **** lora.reset_pin		= LoRa_RST_Pin;
- 148:Core/Src/main.c **** lora.DIO0_port		= DIO0_GPIO_Port;
- 149:Core/Src/main.c **** lora.DIO0_pin		= DIO0_Pin;
- 150:Core/Src/main.c **** lora.hSPIx		= &hspi1;
- 151:Core/Src/main.c **** 
- 152:Core/Src/main.c **** char		send_data[200];
- 153:Core/Src/main.c **** uint16_t	status = LoRa_init(&lora);
- 154:Core/Src/main.c **** 
- 155:Core/Src/main.c **** memset(send_data, 0, 200);
- 156:Core/Src/main.c **** 
- 157:Core/Src/main.c **** if (status == LORA_OK)
- 158:Core/Src/main.c **** 	{
- 159:Core/Src/main.c **** 		// whatever
- 160:Core/Src/main.c **** 		/*	
- 161:Core/Src/main.c **** 		snprintf(send_data, sizeof(send_data), "\n\r LoRa OK! :)");
- 162:Core/Src/main.c **** 		LoRa_transmit(&lora, (uint8_t*)send_data, 120, 100);
- 163:Core/Src/main.c **** 		HAL_UART_Transmit(&huart1, (uint8_t*)send_data, 200, 200);
- 164:Core/Src/main.c **** 		*/
- 165:Core/Src/main.c **** 		ssd1306_SetCursor(16, 16);
- 166:Core/Src/main.c **** 		ssd1306_WriteString("LoRa OK!", Font_11x18, White);
- 167:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 168:Core/Src/main.c **** 		HAL_Delay(500);
- 169:Core/Src/main.c **** 	}
- 170:Core/Src/main.c **** else if (status == LORA_NOT_FOUND)
- 171:Core/Src/main.c **** 	{
- 172:Core/Src/main.c **** 		// mcu cant communicate with lora	
- 173:Core/Src/main.c **** 		ssd1306_WriteString("LoRa not found, check wiring!", Font_11x18, White);
- 174:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 175:Core/Src/main.c **** 		HAL_Delay(500);
- 176:Core/Src/main.c **** 	}
- 177:Core/Src/main.c **** else if (status == LORA_UNAVAILABLE)
- 178:Core/Src/main.c **** 	{
- 179:Core/Src/main.c **** 		// setup is not correct
- 180:Core/Src/main.c **** 		ssd1306_WriteString("Setup is not correct..", Font_11x18, White);
- 181:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 182:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 183:Core/Src/main.c **** 		HAL_Delay(500);
- 184:Core/Src/main.c **** 
- 185:Core/Src/main.c **** 	}
- 186:Core/Src/main.c **** 
- 187:Core/Src/main.c **** 
-ARM GAS  /tmp/ccZzrLig.s 			page 5
-
-
- 188:Core/Src/main.c **** lora.frequency      = 434;
- 189:Core/Src/main.c **** lora.spredingFactor = SF_9;
- 190:Core/Src/main.c **** lora.bandWidth      = BW_250KHz;
- 191:Core/Src/main.c **** lora.crcRate        = CR_4_8;
- 192:Core/Src/main.c **** lora.power          = POWER_17db;
- 193:Core/Src/main.c **** lora.overCurrentProtection = 130;
- 194:Core/Src/main.c **** lora.preamble       = 10;
- 195:Core/Src/main.c **** 
- 196:Core/Src/main.c **** 
- 197:Core/Src/main.c **** // ====================== GPS SETUP ==========================
- 198:Core/Src/main.c **** GPS_Init();
- 199:Core/Src/main.c **** 
- 200:Core/Src/main.c **** void GPS_display_status(GPS_t *gps)
- 201:Core/Src/main.c **** {
-  37              		.loc 1 201 1 view -0
+ 131:Core/Src/main.c **** // set cursor position and write text
+ 132:Core/Src/main.c **** ssd1306_SetCursor(16, 16);
+ 133:Core/Src/main.c **** ssd1306_WriteString("Startup...", Font_11x18, White);
+ 134:Core/Src/main.c **** 
+ 135:Core/Src/main.c **** // update the display
+ 136:Core/Src/main.c **** ssd1306_UpdateScreen();
+ 137:Core/Src/main.c **** HAL_Delay(500);
+ 138:Core/Src/main.c **** ssd1306_Fill(Black);
+ 139:Core/Src/main.c **** 
+ 140:Core/Src/main.c **** // ====================== LORA SETUP ==========================
+ 141:Core/Src/main.c **** // configuring SPI pins for lora
+ 142:Core/Src/main.c **** 
+ 143:Core/Src/main.c **** uint16_t	status = COMM_Init();
+ 144:Core/Src/main.c **** 
+ 145:Core/Src/main.c **** // `memset(send_data, 0, 200);
+ 146:Core/Src/main.c **** 
+ 147:Core/Src/main.c **** if (status == LORA_OK)
+ 148:Core/Src/main.c **** 	{
+ 149:Core/Src/main.c **** 		// whatever
+ 150:Core/Src/main.c **** 		/*	
+ 151:Core/Src/main.c **** 		snprintf(send_data, sizeof(send_data), "\n\r LoRa OK! :)");
+ 152:Core/Src/main.c **** 		LoRa_transmit(&lora, (uint8_t*)send_data, 120, 100);
+ 153:Core/Src/main.c **** 		HAL_UART_Transmit(&huart1, (uint8_t*)send_data, 200, 200);
+ 154:Core/Src/main.c **** 		*/
+ 155:Core/Src/main.c **** 		ssd1306_SetCursor(16, 16);
+ 156:Core/Src/main.c **** 		ssd1306_WriteString("LoRa OK!", Font_11x18, White);
+ 157:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 158:Core/Src/main.c **** 		HAL_Delay(500);
+ 159:Core/Src/main.c **** 	}
+ 160:Core/Src/main.c **** else if (status == LORA_NOT_FOUND)
+ 161:Core/Src/main.c **** 	{
+ 162:Core/Src/main.c **** 		// mcu cant communicate with lora	
+ 163:Core/Src/main.c **** 		ssd1306_WriteString("LoRa not found, check wiring!", Font_11x18, White);
+ 164:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 165:Core/Src/main.c **** 		HAL_Delay(500);
+ 166:Core/Src/main.c **** 	}
+ 167:Core/Src/main.c **** else if (status == LORA_UNAVAILABLE)
+ 168:Core/Src/main.c **** 	{
+ 169:Core/Src/main.c **** 		// setup is not correct
+ 170:Core/Src/main.c **** 		ssd1306_WriteString("Setup is not correct..", Font_11x18, White);
+ 171:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 172:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 173:Core/Src/main.c **** 		HAL_Delay(500);
+ 174:Core/Src/main.c **** 
+ 175:Core/Src/main.c **** 	}
+ 176:Core/Src/main.c **** 
+ 177:Core/Src/main.c **** 
+ 178:Core/Src/main.c **** 
+ 179:Core/Src/main.c **** // ====================== GPS SETUP ==========================
+ 180:Core/Src/main.c **** GPS_Init();
+ 181:Core/Src/main.c **** 
+ 182:Core/Src/main.c **** void GPS_display_status(GPS_t *gps)
+ 183:Core/Src/main.c **** {
+  37              		.loc 1 183 1 view -0
   38              		.cfi_startproc
   39              		@ args = 0, pretend = 0, frame = 0
   40              		@ frame_needed = 0, uses_anonymous_args = 0
-  41              		.loc 1 201 1 is_stmt 0 view .LVU1
+ARM GAS  /tmp/ccsooeYj.s 			page 5
+
+
+  41              		.loc 1 183 1 is_stmt 0 view .LVU1
   42 0000 10B5     		push	{r4, lr}
   43              	.LCFI0:
   44              		.cfi_def_cfa_offset 8
@@ -269,48 +251,45 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
   48              	.LCFI1:
   49              		.cfi_def_cfa_offset 16
   50 0004 0446     		mov	r4, r0
- 202:Core/Src/main.c **** 	ssd1306_SetCursor(0, 16); // adjust position as needed
-  51              		.loc 1 202 2 is_stmt 1 view .LVU2
+ 184:Core/Src/main.c **** 	ssd1306_SetCursor(0, 16); // adjust position as needed
+  51              		.loc 1 184 2 is_stmt 1 view .LVU2
   52 0006 1021     		movs	r1, #16
   53 0008 0020     		movs	r0, #0
   54              	.LVL1:
-  55              		.loc 1 202 2 is_stmt 0 view .LVU3
+  55              		.loc 1 184 2 is_stmt 0 view .LVU3
   56 000a FFF7FEFF 		bl	ssd1306_SetCursor
   57              	.LVL2:
- 203:Core/Src/main.c **** 
- 204:Core/Src/main.c **** 	if (gps->lock == 0)
-  58              		.loc 1 204 2 is_stmt 1 view .LVU4
-  59              		.loc 1 204 9 is_stmt 0 view .LVU5
+ 185:Core/Src/main.c **** 
+ 186:Core/Src/main.c **** 	if (gps->lock == 0)
+  58              		.loc 1 186 2 is_stmt 1 view .LVU4
+  59              		.loc 1 186 9 is_stmt 0 view .LVU5
   60 000e E369     		ldr	r3, [r4, #28]
-  61              		.loc 1 204 5 view .LVU6
+  61              		.loc 1 186 5 view .LVU6
   62 0010 7BB1     		cbz	r3, .L6
- 205:Core/Src/main.c ****     	{
- 206:Core/Src/main.c **** 		// GPS module is connected but no fix yet
- 207:Core/Src/main.c **** 		ssd1306_WriteString("GPS: no fix", Font_11x18, White);
- 208:Core/Src/main.c **** 	}
- 209:Core/Src/main.c **** 	else if (gps->lock > 0 && gps->satelites >= 3) 
-  63              		.loc 1 209 7 is_stmt 1 view .LVU7
-  64              		.loc 1 209 10 is_stmt 0 view .LVU8
+ 187:Core/Src/main.c ****     	{
+ 188:Core/Src/main.c **** 		// GPS module is connected but no fix yet
+ 189:Core/Src/main.c **** 		ssd1306_WriteString("GPS: no fix", Font_11x18, White);
+ 190:Core/Src/main.c **** 	}
+ 191:Core/Src/main.c **** 	else if (gps->lock > 0 && gps->satelites >= 3) 
+  63              		.loc 1 191 7 is_stmt 1 view .LVU7
+  64              		.loc 1 191 10 is_stmt 0 view .LVU8
   65 0012 002B     		cmp	r3, #0
   66 0014 02DD     		ble	.L4
-  67              		.loc 1 209 31 discriminator 1 view .LVU9
+  67              		.loc 1 191 31 discriminator 1 view .LVU9
   68 0016 236A     		ldr	r3, [r4, #32]
-  69              		.loc 1 209 25 discriminator 1 view .LVU10
+  69              		.loc 1 191 25 discriminator 1 view .LVU10
   70 0018 022B     		cmp	r3, #2
   71 001a 12DC     		bgt	.L7
-ARM GAS  /tmp/ccZzrLig.s 			page 6
-
-
   72              	.L4:
- 210:Core/Src/main.c **** 	{
- 211:Core/Src/main.c **** 		// GPS has a valid fix (3+ satellites)
- 212:Core/Src/main.c **** 		ssd1306_WriteString("GPS OK!", Font_11x18, White);
- 213:Core/Src/main.c **** 	}
- 214:Core/Src/main.c **** 	else
- 215:Core/Src/main.c **** 	{
- 216:Core/Src/main.c **** 		// if GPS string is invalid or module not responding
- 217:Core/Src/main.c **** 		ssd1306_WriteString("GPS not found!", Font_11x18, White);	
-  73              		.loc 1 217 3 is_stmt 1 view .LVU11
+ 192:Core/Src/main.c **** 	{
+ 193:Core/Src/main.c **** 		// GPS has a valid fix (3+ satellites)
+ 194:Core/Src/main.c **** 		ssd1306_WriteString("GPS OK!", Font_11x18, White);
+ 195:Core/Src/main.c **** 	}
+ 196:Core/Src/main.c **** 	else
+ 197:Core/Src/main.c **** 	{
+ 198:Core/Src/main.c **** 		// if GPS string is invalid or module not responding
+ 199:Core/Src/main.c **** 		ssd1306_WriteString("GPS not found!", Font_11x18, White);	
+  73              		.loc 1 199 3 is_stmt 1 view .LVU11
   74 001c 0D4B     		ldr	r3, .L8
   75 001e 0122     		movs	r2, #1
   76 0020 0092     		str	r2, [sp]
@@ -319,14 +298,17 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
   79 0026 FFF7FEFF 		bl	ssd1306_WriteString
   80              	.LVL3:
   81              	.L3:
- 218:Core/Src/main.c **** 	}
- 219:Core/Src/main.c **** 
- 220:Core/Src/main.c ****     ssd1306_UpdateScreen();
-  82              		.loc 1 220 5 view .LVU12
+ARM GAS  /tmp/ccsooeYj.s 			page 6
+
+
+ 200:Core/Src/main.c **** 	}
+ 201:Core/Src/main.c **** 
+ 202:Core/Src/main.c ****     ssd1306_UpdateScreen();
+  82              		.loc 1 202 5 view .LVU12
   83 002a FFF7FEFF 		bl	ssd1306_UpdateScreen
   84              	.LVL4:
- 221:Core/Src/main.c **** }
-  85              		.loc 1 221 1 is_stmt 0 view .LVU13
+ 203:Core/Src/main.c **** }
+  85              		.loc 1 203 1 is_stmt 0 view .LVU13
   86 002e 02B0     		add	sp, sp, #8
   87              	.LCFI2:
   88              		.cfi_remember_state
@@ -337,8 +319,8 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
   93              	.L6:
   94              	.LCFI3:
   95              		.cfi_restore_state
- 207:Core/Src/main.c **** 	}
-  96              		.loc 1 207 3 is_stmt 1 view .LVU14
+ 189:Core/Src/main.c **** 	}
+  96              		.loc 1 189 3 is_stmt 1 view .LVU14
   97 0032 084B     		ldr	r3, .L8
   98 0034 0122     		movs	r2, #1
   99 0036 0092     		str	r2, [sp]
@@ -348,8 +330,8 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  103              	.LVL6:
  104 0040 F3E7     		b	.L3
  105              	.L7:
- 212:Core/Src/main.c **** 	}
- 106              		.loc 1 212 3 view .LVU15
+ 194:Core/Src/main.c **** 	}
+ 106              		.loc 1 194 3 view .LVU15
  107 0042 044B     		ldr	r3, .L8
  108 0044 0122     		movs	r2, #1
  109 0046 0092     		str	r2, [sp]
@@ -358,9 +340,6 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  112 004c FFF7FEFF 		bl	ssd1306_WriteString
  113              	.LVL7:
  114 0050 EBE7     		b	.L3
-ARM GAS  /tmp/ccZzrLig.s 			page 7
-
-
  115              	.L9:
  116 0052 00BF     		.align	2
  117              	.L8:
@@ -379,6 +358,9 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  130              	.LC4:
  131 0008 7363616E 		.ascii	"scan\000"
  131      00
+ARM GAS  /tmp/ccsooeYj.s 			page 7
+
+
  132              		.section	.text.scan_mode.1,"ax",%progbits
  133              		.align	1
  134              		.syntax unified
@@ -386,52 +368,49 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  136              		.thumb_func
  138              	scan_mode.1:
  139              	.LFB72:
- 222:Core/Src/main.c **** 
- 223:Core/Src/main.c **** char gps_buffer[GPSBUFSIZE];
+ 204:Core/Src/main.c **** 
+ 205:Core/Src/main.c **** char gps_buffer[GPSBUFSIZE];
+ 206:Core/Src/main.c **** 
+ 207:Core/Src/main.c **** GPS_parse(gps_buffer); // this fills the gps struct
+ 208:Core/Src/main.c **** 
+ 209:Core/Src/main.c **** GPS_display_status(&gps);
+ 210:Core/Src/main.c **** HAL_Delay(500);
+ 211:Core/Src/main.c **** 
+ 212:Core/Src/main.c **** 
+ 213:Core/Src/main.c **** // ====================== Main screen code ==========================
+ 214:Core/Src/main.c **** 
+ 215:Core/Src/main.c **** void	main_screen(void)
+ 216:Core/Src/main.c **** {
+ 217:Core/Src/main.c **** 	ssd1306_Fill(Black);
+ 218:Core/Src/main.c **** 	// Draw text strings (scaled 2x positions)
+ 219:Core/Src/main.c **** 	ssd1306_SetCursor(80, 44);
+ 220:Core/Src/main.c **** 	ssd1306_WriteString("send", Font_7x10, White);
+ 221:Core/Src/main.c **** 
+ 222:Core/Src/main.c **** 	ssd1306_SetCursor(14, 44);
+ 223:Core/Src/main.c **** 	ssd1306_WriteString("scan", Font_7x10, White);
  224:Core/Src/main.c **** 
- 225:Core/Src/main.c **** GPS_parse(gps_buffer); // this fills the gps struct
- 226:Core/Src/main.c **** 
- 227:Core/Src/main.c **** GPS_display_status(&gps);
- 228:Core/Src/main.c **** HAL_Delay(500);
- 229:Core/Src/main.c **** 
- 230:Core/Src/main.c **** 
- 231:Core/Src/main.c **** // ====================== Main screen code ==========================
- 232:Core/Src/main.c **** 
- 233:Core/Src/main.c **** void	main_screen(void)
- 234:Core/Src/main.c **** {
- 235:Core/Src/main.c **** 	ssd1306_Fill(Black);
- 236:Core/Src/main.c **** 	// Draw text strings (scaled 2x positions)
- 237:Core/Src/main.c **** 	ssd1306_SetCursor(80, 44);
- 238:Core/Src/main.c **** 	ssd1306_WriteString("send", Font_7x10, White);
+ 225:Core/Src/main.c **** 	// Draw lines (paper airplane icon - scaled 2x)
+ 226:Core/Src/main.c **** 	ssd1306_Line(84, 22, 112, 10, White);
+ 227:Core/Src/main.c **** 	ssd1306_Line(114, 10, 74, 12, White);
+ 228:Core/Src/main.c **** 	ssd1306_Line(114, 10, 98, 32, White);
+ 229:Core/Src/main.c **** 	ssd1306_Line(84, 22, 100, 34, White);
+ 230:Core/Src/main.c **** 	ssd1306_Line(84, 22, 74, 12, White);
+ 231:Core/Src/main.c **** 	ssd1306_Line(80, 20, 84, 32, White);
+ 232:Core/Src/main.c **** 	ssd1306_Line(84, 34, 94, 28, White);
+ 233:Core/Src/main.c **** 
+ 234:Core/Src/main.c **** 	// Draw circles (scan/radar icon - scaled 2x)
+ 235:Core/Src/main.c **** 	ssd1306_DrawCircle(30, 22, 8, White);
+ 236:Core/Src/main.c **** 	ssd1306_DrawCircle(30, 22, 14, White);
+ 237:Core/Src/main.c **** 	ssd1306_DrawPixel(30, 22, White);
+ 238:Core/Src/main.c **** 	ssd1306_DrawCircle(30, 22, 2, White);
  239:Core/Src/main.c **** 
- 240:Core/Src/main.c **** 	ssd1306_SetCursor(14, 44);
- 241:Core/Src/main.c **** 	ssd1306_WriteString("scan", Font_7x10, White);
- 242:Core/Src/main.c **** 
- 243:Core/Src/main.c **** 	// Draw lines (paper airplane icon - scaled 2x)
- 244:Core/Src/main.c **** 	ssd1306_Line(84, 22, 112, 10, White);
- 245:Core/Src/main.c **** 	ssd1306_Line(114, 10, 74, 12, White);
- 246:Core/Src/main.c **** 	ssd1306_Line(114, 10, 98, 32, White);
- 247:Core/Src/main.c **** 	ssd1306_Line(84, 22, 100, 34, White);
- 248:Core/Src/main.c **** 	ssd1306_Line(84, 22, 74, 12, White);
- 249:Core/Src/main.c **** 	ssd1306_Line(80, 20, 84, 32, White);
- 250:Core/Src/main.c **** 	ssd1306_Line(84, 34, 94, 28, White);
- 251:Core/Src/main.c **** 
- 252:Core/Src/main.c **** 	// Draw circles (scan/radar icon - scaled 2x)
- 253:Core/Src/main.c **** 	ssd1306_DrawCircle(30, 22, 8, White);
-ARM GAS  /tmp/ccZzrLig.s 			page 8
-
-
- 254:Core/Src/main.c **** 	ssd1306_DrawCircle(30, 22, 14, White);
- 255:Core/Src/main.c **** 	ssd1306_DrawPixel(30, 22, White);
- 256:Core/Src/main.c **** 	ssd1306_DrawCircle(30, 22, 2, White);
- 257:Core/Src/main.c **** 
- 258:Core/Src/main.c **** 	// Update the display
- 259:Core/Src/main.c **** 	ssd1306_UpdateScreen();
- 260:Core/Src/main.c **** }
- 261:Core/Src/main.c **** 
- 262:Core/Src/main.c **** void	scan_mode(void)
- 263:Core/Src/main.c **** {
- 140              		.loc 1 263 1 view -0
+ 240:Core/Src/main.c **** 	// Update the display
+ 241:Core/Src/main.c **** 	ssd1306_UpdateScreen();
+ 242:Core/Src/main.c **** }
+ 243:Core/Src/main.c **** 
+ 244:Core/Src/main.c **** void	scan_mode(void)
+ 245:Core/Src/main.c **** {
+ 140              		.loc 1 245 1 view -0
  141              		.cfi_startproc
  142              		@ args = 0, pretend = 0, frame = 0
  143              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -439,20 +418,23 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  145              	.LCFI4:
  146              		.cfi_def_cfa_offset 16
  147              		.cfi_offset 4, -16
+ARM GAS  /tmp/ccsooeYj.s 			page 8
+
+
  148              		.cfi_offset 5, -12
  149              		.cfi_offset 6, -8
  150              		.cfi_offset 14, -4
  151 0002 82B0     		sub	sp, sp, #8
  152              	.LCFI5:
  153              		.cfi_def_cfa_offset 24
- 264:Core/Src/main.c **** 		// Draw filled rectangle (64x64 at position 0,0) - replaces bitmap
- 265:Core/Src/main.c **** 		ssd1306_Fill(Black);	
- 154              		.loc 1 265 3 view .LVU17
+ 246:Core/Src/main.c **** 		// Draw filled rectangle (64x64 at position 0,0) - replaces bitmap
+ 247:Core/Src/main.c **** 		ssd1306_Fill(Black);	
+ 154              		.loc 1 247 3 view .LVU17
  155 0004 0020     		movs	r0, #0
  156 0006 FFF7FEFF 		bl	ssd1306_Fill
  157              	.LVL8:
- 266:Core/Src/main.c **** 		ssd1306_FillRectangle(0, 0, 64, 64, White);
- 158              		.loc 1 266 3 view .LVU18
+ 248:Core/Src/main.c **** 		ssd1306_FillRectangle(0, 0, 64, 64, White);
+ 158              		.loc 1 248 3 view .LVU18
  159 000a 0124     		movs	r4, #1
  160 000c 0094     		str	r4, [sp]
  161 000e 4023     		movs	r3, #64
@@ -461,29 +443,26 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  164 0014 0846     		mov	r0, r1
  165 0016 FFF7FEFF 		bl	ssd1306_FillRectangle
  166              	.LVL9:
- 267:Core/Src/main.c **** 
- 268:Core/Src/main.c **** 		// Draw "send" text in white (scaled 2x)
- 269:Core/Src/main.c **** 		ssd1306_SetCursor(80, 44);
- 167              		.loc 1 269 3 view .LVU19
+ 249:Core/Src/main.c **** 
+ 250:Core/Src/main.c **** 		// Draw "send" text in white (scaled 2x)
+ 251:Core/Src/main.c **** 		ssd1306_SetCursor(80, 44);
+ 167              		.loc 1 251 3 view .LVU19
  168 001a 2C21     		movs	r1, #44
  169 001c 5020     		movs	r0, #80
  170 001e FFF7FEFF 		bl	ssd1306_SetCursor
  171              	.LVL10:
- 270:Core/Src/main.c **** 		ssd1306_WriteString("send", Font_7x10, White);
- 172              		.loc 1 270 3 view .LVU20
+ 252:Core/Src/main.c **** 		ssd1306_WriteString("send", Font_7x10, White);
+ 172              		.loc 1 252 3 view .LVU20
  173 0022 314D     		ldr	r5, .L12
  174 0024 0094     		str	r4, [sp]
  175 0026 95E80E00 		ldm	r5, {r1, r2, r3}
  176 002a 3048     		ldr	r0, .L12+4
  177 002c FFF7FEFF 		bl	ssd1306_WriteString
  178              	.LVL11:
- 271:Core/Src/main.c **** 
-ARM GAS  /tmp/ccZzrLig.s 			page 9
-
-
- 272:Core/Src/main.c **** 		// Draw line (paper airplane part)
- 273:Core/Src/main.c **** 		ssd1306_Line(84, 22, 112, 10, White);
- 179              		.loc 1 273 3 view .LVU21
+ 253:Core/Src/main.c **** 
+ 254:Core/Src/main.c **** 		// Draw line (paper airplane part)
+ 255:Core/Src/main.c **** 		ssd1306_Line(84, 22, 112, 10, White);
+ 179              		.loc 1 255 3 view .LVU21
  180 0030 0094     		str	r4, [sp]
  181 0032 0A23     		movs	r3, #10
  182 0034 7022     		movs	r2, #112
@@ -491,26 +470,29 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  184 0038 5420     		movs	r0, #84
  185 003a FFF7FEFF 		bl	ssd1306_Line
  186              	.LVL12:
- 274:Core/Src/main.c **** 
- 275:Core/Src/main.c **** 		// Draw "scan" text in black (erases)
- 276:Core/Src/main.c **** 		ssd1306_SetCursor(14, 44);
- 187              		.loc 1 276 3 view .LVU22
+ 256:Core/Src/main.c **** 
+ 257:Core/Src/main.c **** 		// Draw "scan" text in black (erases)
+ 258:Core/Src/main.c **** 		ssd1306_SetCursor(14, 44);
+ 187              		.loc 1 258 3 view .LVU22
  188 003e 2C21     		movs	r1, #44
  189 0040 0E20     		movs	r0, #14
  190 0042 FFF7FEFF 		bl	ssd1306_SetCursor
  191              	.LVL13:
- 277:Core/Src/main.c **** 		ssd1306_WriteString("scan", Font_7x10, Black);
- 192              		.loc 1 277 3 view .LVU23
+ARM GAS  /tmp/ccsooeYj.s 			page 9
+
+
+ 259:Core/Src/main.c **** 		ssd1306_WriteString("scan", Font_7x10, Black);
+ 192              		.loc 1 259 3 view .LVU23
  193 0046 0026     		movs	r6, #0
  194 0048 0096     		str	r6, [sp]
  195 004a 95E80E00 		ldm	r5, {r1, r2, r3}
  196 004e 2848     		ldr	r0, .L12+8
  197 0050 FFF7FEFF 		bl	ssd1306_WriteString
  198              	.LVL14:
- 278:Core/Src/main.c **** 
- 279:Core/Src/main.c **** 		// Draw more lines (paper airplane icon - scaled 2x)
- 280:Core/Src/main.c **** 		ssd1306_Line(114, 10, 74, 12, White);
- 199              		.loc 1 280 3 view .LVU24
+ 260:Core/Src/main.c **** 
+ 261:Core/Src/main.c **** 		// Draw more lines (paper airplane icon - scaled 2x)
+ 262:Core/Src/main.c **** 		ssd1306_Line(114, 10, 74, 12, White);
+ 199              		.loc 1 262 3 view .LVU24
  200 0054 0094     		str	r4, [sp]
  201 0056 0C23     		movs	r3, #12
  202 0058 4A22     		movs	r2, #74
@@ -518,8 +500,8 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  204 005c 7220     		movs	r0, #114
  205 005e FFF7FEFF 		bl	ssd1306_Line
  206              	.LVL15:
- 281:Core/Src/main.c **** 		ssd1306_Line(114, 10, 98, 32, White);
- 207              		.loc 1 281 3 view .LVU25
+ 263:Core/Src/main.c **** 		ssd1306_Line(114, 10, 98, 32, White);
+ 207              		.loc 1 263 3 view .LVU25
  208 0062 0094     		str	r4, [sp]
  209 0064 2023     		movs	r3, #32
  210 0066 6222     		movs	r2, #98
@@ -527,8 +509,8 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  212 006a 7220     		movs	r0, #114
  213 006c FFF7FEFF 		bl	ssd1306_Line
  214              	.LVL16:
- 282:Core/Src/main.c **** 		ssd1306_Line(84, 22, 100, 34, White);
- 215              		.loc 1 282 3 view .LVU26
+ 264:Core/Src/main.c **** 		ssd1306_Line(84, 22, 100, 34, White);
+ 215              		.loc 1 264 3 view .LVU26
  216 0070 0094     		str	r4, [sp]
  217 0072 2223     		movs	r3, #34
  218 0074 6422     		movs	r2, #100
@@ -536,11 +518,8 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  220 0078 5420     		movs	r0, #84
  221 007a FFF7FEFF 		bl	ssd1306_Line
  222              	.LVL17:
- 283:Core/Src/main.c **** 		ssd1306_Line(84, 22, 74, 12, White);
- 223              		.loc 1 283 3 view .LVU27
-ARM GAS  /tmp/ccZzrLig.s 			page 10
-
-
+ 265:Core/Src/main.c **** 		ssd1306_Line(84, 22, 74, 12, White);
+ 223              		.loc 1 265 3 view .LVU27
  224 007e 0094     		str	r4, [sp]
  225 0080 0C23     		movs	r3, #12
  226 0082 4A22     		movs	r2, #74
@@ -548,8 +527,8 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  228 0086 5420     		movs	r0, #84
  229 0088 FFF7FEFF 		bl	ssd1306_Line
  230              	.LVL18:
- 284:Core/Src/main.c **** 		ssd1306_Line(80, 20, 84, 32, White);
- 231              		.loc 1 284 3 view .LVU28
+ 266:Core/Src/main.c **** 		ssd1306_Line(80, 20, 84, 32, White);
+ 231              		.loc 1 266 3 view .LVU28
  232 008c 0094     		str	r4, [sp]
  233 008e 2023     		movs	r3, #32
  234 0090 5422     		movs	r2, #84
@@ -557,8 +536,11 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  236 0094 5020     		movs	r0, #80
  237 0096 FFF7FEFF 		bl	ssd1306_Line
  238              	.LVL19:
- 285:Core/Src/main.c **** 		ssd1306_Line(84, 34, 94, 28, White);
- 239              		.loc 1 285 3 view .LVU29
+ 267:Core/Src/main.c **** 		ssd1306_Line(84, 34, 94, 28, White);
+ 239              		.loc 1 267 3 view .LVU29
+ARM GAS  /tmp/ccsooeYj.s 			page 10
+
+
  240 009a 0094     		str	r4, [sp]
  241 009c 1C23     		movs	r3, #28
  242 009e 5E22     		movs	r2, #94
@@ -566,59 +548,59 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  244 00a2 5420     		movs	r0, #84
  245 00a4 FFF7FEFF 		bl	ssd1306_Line
  246              	.LVL20:
- 286:Core/Src/main.c **** 
- 287:Core/Src/main.c **** 		// Draw circles in black (erases the scan icon)
- 288:Core/Src/main.c **** 		ssd1306_DrawCircle(30, 22, 8, Black);
- 247              		.loc 1 288 3 view .LVU30
+ 268:Core/Src/main.c **** 
+ 269:Core/Src/main.c **** 		// Draw circles in black (erases the scan icon)
+ 270:Core/Src/main.c **** 		ssd1306_DrawCircle(30, 22, 8, Black);
+ 247              		.loc 1 270 3 view .LVU30
  248 00a8 3346     		mov	r3, r6
  249 00aa 0822     		movs	r2, #8
  250 00ac 1621     		movs	r1, #22
  251 00ae 1E20     		movs	r0, #30
  252 00b0 FFF7FEFF 		bl	ssd1306_DrawCircle
  253              	.LVL21:
- 289:Core/Src/main.c **** 		ssd1306_DrawCircle(30, 22, 14, Black);
- 254              		.loc 1 289 3 view .LVU31
+ 271:Core/Src/main.c **** 		ssd1306_DrawCircle(30, 22, 14, Black);
+ 254              		.loc 1 271 3 view .LVU31
  255 00b4 3346     		mov	r3, r6
  256 00b6 0E22     		movs	r2, #14
  257 00b8 1621     		movs	r1, #22
  258 00ba 1E20     		movs	r0, #30
  259 00bc FFF7FEFF 		bl	ssd1306_DrawCircle
  260              	.LVL22:
- 290:Core/Src/main.c **** 
- 291:Core/Src/main.c **** 		// Draw center point in white
- 292:Core/Src/main.c **** 		ssd1306_DrawPixel(30, 22, White);
- 261              		.loc 1 292 3 view .LVU32
+ 272:Core/Src/main.c **** 
+ 273:Core/Src/main.c **** 		// Draw center point in white
+ 274:Core/Src/main.c **** 		ssd1306_DrawPixel(30, 22, White);
+ 261              		.loc 1 274 3 view .LVU32
  262 00c0 2246     		mov	r2, r4
  263 00c2 1621     		movs	r1, #22
  264 00c4 1E20     		movs	r0, #30
  265 00c6 FFF7FEFF 		bl	ssd1306_DrawPixel
  266              	.LVL23:
- 293:Core/Src/main.c **** 
- 294:Core/Src/main.c **** 		// Draw small circle in black
- 295:Core/Src/main.c **** 		ssd1306_DrawCircle(30, 22, 2, Black);
- 267              		.loc 1 295 3 view .LVU33
+ 275:Core/Src/main.c **** 
+ 276:Core/Src/main.c **** 		// Draw small circle in black
+ 277:Core/Src/main.c **** 		ssd1306_DrawCircle(30, 22, 2, Black);
+ 267              		.loc 1 277 3 view .LVU33
  268 00ca 3346     		mov	r3, r6
-ARM GAS  /tmp/ccZzrLig.s 			page 11
-
-
  269 00cc 0222     		movs	r2, #2
  270 00ce 1621     		movs	r1, #22
  271 00d0 1E20     		movs	r0, #30
  272 00d2 FFF7FEFF 		bl	ssd1306_DrawCircle
  273              	.LVL24:
- 296:Core/Src/main.c **** 
- 297:Core/Src/main.c **** 		// Update the display
- 298:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 274              		.loc 1 298 3 view .LVU34
+ 278:Core/Src/main.c **** 
+ 279:Core/Src/main.c **** 		// Update the display
+ 280:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 274              		.loc 1 280 3 view .LVU34
  275 00d6 FFF7FEFF 		bl	ssd1306_UpdateScreen
  276              	.LVL25:
- 299:Core/Src/main.c **** 		HAL_Delay(500);
- 277              		.loc 1 299 3 view .LVU35
+ 281:Core/Src/main.c **** 		HAL_Delay(500);
+ 277              		.loc 1 281 3 view .LVU35
  278 00da 4FF4FA70 		mov	r0, #500
  279 00de FFF7FEFF 		bl	HAL_Delay
  280              	.LVL26:
- 300:Core/Src/main.c **** }
- 281              		.loc 1 300 1 is_stmt 0 view .LVU36
+ 282:Core/Src/main.c **** }
+ 281              		.loc 1 282 1 is_stmt 0 view .LVU36
+ARM GAS  /tmp/ccsooeYj.s 			page 11
+
+
  282 00e2 02B0     		add	sp, sp, #8
  283              	.LCFI6:
  284              		.cfi_def_cfa_offset 16
@@ -639,10 +621,10 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  300              		.thumb_func
  302              	send_mode.2:
  303              	.LFB73:
- 301:Core/Src/main.c **** 
- 302:Core/Src/main.c **** void	send_mode(void)
- 303:Core/Src/main.c **** {
- 304              		.loc 1 303 1 is_stmt 1 view -0
+ 283:Core/Src/main.c **** 
+ 284:Core/Src/main.c **** void	send_mode(void)
+ 285:Core/Src/main.c **** {
+ 304              		.loc 1 285 1 is_stmt 1 view -0
  305              		.cfi_startproc
  306              		@ args = 0, pretend = 0, frame = 0
  307              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -656,17 +638,14 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  315 0002 82B0     		sub	sp, sp, #8
  316              	.LCFI8:
  317              		.cfi_def_cfa_offset 24
- 304:Core/Src/main.c **** 			ssd1306_Fill(Black);
- 318              		.loc 1 304 4 view .LVU38
-ARM GAS  /tmp/ccZzrLig.s 			page 12
-
-
+ 286:Core/Src/main.c **** 		ssd1306_Fill(Black);
+ 318              		.loc 1 286 3 view .LVU38
  319 0004 0020     		movs	r0, #0
  320 0006 FFF7FEFF 		bl	ssd1306_Fill
  321              	.LVL27:
- 305:Core/Src/main.c **** 		// Draw filled rectangle (64x64 at position 64,0) - replaces bitmap
- 306:Core/Src/main.c **** 		ssd1306_FillRectangle(64, 0, 128, 64, White);
- 322              		.loc 1 306 3 view .LVU39
+ 287:Core/Src/main.c **** 		// Draw filled rectangle (64x64 at position 64,0) - replaces bitmap
+ 288:Core/Src/main.c **** 		ssd1306_FillRectangle(64, 0, 128, 64, White);
+ 322              		.loc 1 288 3 view .LVU39
  323 000a 0125     		movs	r5, #1
  324 000c 0095     		str	r5, [sp]
  325 000e 4023     		movs	r3, #64
@@ -675,16 +654,19 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  328 0014 1846     		mov	r0, r3
  329 0016 FFF7FEFF 		bl	ssd1306_FillRectangle
  330              	.LVL28:
- 307:Core/Src/main.c **** 
- 308:Core/Src/main.c **** 		// Draw "send" text in black (erases)
- 309:Core/Src/main.c **** 		ssd1306_SetCursor(80, 44);
- 331              		.loc 1 309 3 view .LVU40
+ 289:Core/Src/main.c **** 
+ 290:Core/Src/main.c **** 		// Draw "send" text in black (erases)
+ 291:Core/Src/main.c **** 		ssd1306_SetCursor(80, 44);
+ 331              		.loc 1 291 3 view .LVU40
+ARM GAS  /tmp/ccsooeYj.s 			page 12
+
+
  332 001a 2C21     		movs	r1, #44
  333 001c 5020     		movs	r0, #80
  334 001e FFF7FEFF 		bl	ssd1306_SetCursor
  335              	.LVL29:
- 310:Core/Src/main.c **** 		ssd1306_WriteString("send", Font_7x10, Black);
- 336              		.loc 1 310 3 view .LVU41
+ 292:Core/Src/main.c **** 		ssd1306_WriteString("send", Font_7x10, Black);
+ 336              		.loc 1 292 3 view .LVU41
  337 0022 314E     		ldr	r6, .L16
  338 0024 0024     		movs	r4, #0
  339 0026 0094     		str	r4, [sp]
@@ -692,10 +674,10 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  341 002c 2F48     		ldr	r0, .L16+4
  342 002e FFF7FEFF 		bl	ssd1306_WriteString
  343              	.LVL30:
- 311:Core/Src/main.c **** 
- 312:Core/Src/main.c **** 		// Draw line in black (paper airplane - erased)
- 313:Core/Src/main.c **** 		ssd1306_Line(84, 22, 112, 10, Black);
- 344              		.loc 1 313 3 view .LVU42
+ 293:Core/Src/main.c **** 
+ 294:Core/Src/main.c **** 		// Draw line in black (paper airplane - erased)
+ 295:Core/Src/main.c **** 		ssd1306_Line(84, 22, 112, 10, Black);
+ 344              		.loc 1 295 3 view .LVU42
  345 0032 0094     		str	r4, [sp]
  346 0034 0A23     		movs	r3, #10
  347 0036 7022     		movs	r2, #112
@@ -703,28 +685,25 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  349 003a 5420     		movs	r0, #84
  350 003c FFF7FEFF 		bl	ssd1306_Line
  351              	.LVL31:
- 314:Core/Src/main.c **** 
- 315:Core/Src/main.c **** 		// Draw "scan" text in white
- 316:Core/Src/main.c **** 		ssd1306_SetCursor(14, 44);
- 352              		.loc 1 316 3 view .LVU43
+ 296:Core/Src/main.c **** 
+ 297:Core/Src/main.c **** 		// Draw "scan" text in white
+ 298:Core/Src/main.c **** 		ssd1306_SetCursor(14, 44);
+ 352              		.loc 1 298 3 view .LVU43
  353 0040 2C21     		movs	r1, #44
  354 0042 0E20     		movs	r0, #14
  355 0044 FFF7FEFF 		bl	ssd1306_SetCursor
  356              	.LVL32:
- 317:Core/Src/main.c **** 		ssd1306_WriteString("scan", Font_7x10, White);
- 357              		.loc 1 317 3 view .LVU44
+ 299:Core/Src/main.c **** 		ssd1306_WriteString("scan", Font_7x10, White);
+ 357              		.loc 1 299 3 view .LVU44
  358 0048 0095     		str	r5, [sp]
  359 004a 96E80E00 		ldm	r6, {r1, r2, r3}
  360 004e 2848     		ldr	r0, .L16+8
  361 0050 FFF7FEFF 		bl	ssd1306_WriteString
  362              	.LVL33:
-ARM GAS  /tmp/ccZzrLig.s 			page 13
-
-
- 318:Core/Src/main.c **** 
- 319:Core/Src/main.c **** 		// Draw more lines in black (paper airplane icon - erased)
- 320:Core/Src/main.c **** 		ssd1306_Line(114, 10, 74, 12, Black);
- 363              		.loc 1 320 3 view .LVU45
+ 300:Core/Src/main.c **** 
+ 301:Core/Src/main.c **** 		// Draw more lines in black (paper airplane icon - erased)
+ 302:Core/Src/main.c **** 		ssd1306_Line(114, 10, 74, 12, Black);
+ 363              		.loc 1 302 3 view .LVU45
  364 0054 0094     		str	r4, [sp]
  365 0056 0C23     		movs	r3, #12
  366 0058 4A22     		movs	r2, #74
@@ -732,17 +711,20 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  368 005c 7220     		movs	r0, #114
  369 005e FFF7FEFF 		bl	ssd1306_Line
  370              	.LVL34:
- 321:Core/Src/main.c **** 		ssd1306_Line(114, 10, 98, 32, Black);
- 371              		.loc 1 321 3 view .LVU46
+ 303:Core/Src/main.c **** 		ssd1306_Line(114, 10, 98, 32, Black);
+ 371              		.loc 1 303 3 view .LVU46
  372 0062 0094     		str	r4, [sp]
  373 0064 2023     		movs	r3, #32
  374 0066 6222     		movs	r2, #98
  375 0068 0A21     		movs	r1, #10
  376 006a 7220     		movs	r0, #114
+ARM GAS  /tmp/ccsooeYj.s 			page 13
+
+
  377 006c FFF7FEFF 		bl	ssd1306_Line
  378              	.LVL35:
- 322:Core/Src/main.c **** 		ssd1306_Line(84, 22, 100, 34, Black);
- 379              		.loc 1 322 3 view .LVU47
+ 304:Core/Src/main.c **** 		ssd1306_Line(84, 22, 100, 34, Black);
+ 379              		.loc 1 304 3 view .LVU47
  380 0070 0094     		str	r4, [sp]
  381 0072 2223     		movs	r3, #34
  382 0074 6422     		movs	r2, #100
@@ -750,8 +732,8 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  384 0078 5420     		movs	r0, #84
  385 007a FFF7FEFF 		bl	ssd1306_Line
  386              	.LVL36:
- 323:Core/Src/main.c **** 		ssd1306_Line(84, 22, 74, 12, Black);
- 387              		.loc 1 323 3 view .LVU48
+ 305:Core/Src/main.c **** 		ssd1306_Line(84, 22, 74, 12, Black);
+ 387              		.loc 1 305 3 view .LVU48
  388 007e 0094     		str	r4, [sp]
  389 0080 0C23     		movs	r3, #12
  390 0082 4A22     		movs	r2, #74
@@ -759,8 +741,8 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  392 0086 5420     		movs	r0, #84
  393 0088 FFF7FEFF 		bl	ssd1306_Line
  394              	.LVL37:
- 324:Core/Src/main.c **** 		ssd1306_Line(80, 20, 84, 32, Black);
- 395              		.loc 1 324 3 view .LVU49
+ 306:Core/Src/main.c **** 		ssd1306_Line(80, 20, 84, 32, Black);
+ 395              		.loc 1 306 3 view .LVU49
  396 008c 0094     		str	r4, [sp]
  397 008e 2023     		movs	r3, #32
  398 0090 5422     		movs	r2, #84
@@ -768,8 +750,8 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  400 0094 5020     		movs	r0, #80
  401 0096 FFF7FEFF 		bl	ssd1306_Line
  402              	.LVL38:
- 325:Core/Src/main.c **** 		ssd1306_Line(84, 34, 94, 28, Black);
- 403              		.loc 1 325 3 view .LVU50
+ 307:Core/Src/main.c **** 		ssd1306_Line(84, 34, 94, 28, Black);
+ 403              		.loc 1 307 3 view .LVU50
  404 009a 0094     		str	r4, [sp]
  405 009c 1C23     		movs	r3, #28
  406 009e 5E22     		movs	r2, #94
@@ -777,59 +759,59 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  408 00a2 5420     		movs	r0, #84
  409 00a4 FFF7FEFF 		bl	ssd1306_Line
  410              	.LVL39:
- 326:Core/Src/main.c **** 
-ARM GAS  /tmp/ccZzrLig.s 			page 14
-
-
- 327:Core/Src/main.c **** 		// Draw circles in white (scan/radar icon)
- 328:Core/Src/main.c **** 		ssd1306_DrawCircle(30, 22, 8, White);
- 411              		.loc 1 328 3 view .LVU51
+ 308:Core/Src/main.c **** 
+ 309:Core/Src/main.c **** 		// Draw circles in white (scan/radar icon)
+ 310:Core/Src/main.c **** 		ssd1306_DrawCircle(30, 22, 8, White);
+ 411              		.loc 1 310 3 view .LVU51
  412 00a8 2B46     		mov	r3, r5
  413 00aa 0822     		movs	r2, #8
  414 00ac 1621     		movs	r1, #22
  415 00ae 1E20     		movs	r0, #30
  416 00b0 FFF7FEFF 		bl	ssd1306_DrawCircle
  417              	.LVL40:
- 329:Core/Src/main.c **** 		ssd1306_DrawCircle(30, 22, 14, White);
- 418              		.loc 1 329 3 view .LVU52
+ 311:Core/Src/main.c **** 		ssd1306_DrawCircle(30, 22, 14, White);
+ 418              		.loc 1 311 3 view .LVU52
  419 00b4 2B46     		mov	r3, r5
  420 00b6 0E22     		movs	r2, #14
  421 00b8 1621     		movs	r1, #22
  422 00ba 1E20     		movs	r0, #30
  423 00bc FFF7FEFF 		bl	ssd1306_DrawCircle
  424              	.LVL41:
- 330:Core/Src/main.c **** 
- 331:Core/Src/main.c **** 		// Draw center point in white
- 332:Core/Src/main.c **** 		ssd1306_DrawPixel(30, 22, White);
- 425              		.loc 1 332 3 view .LVU53
+ 312:Core/Src/main.c **** 
+ARM GAS  /tmp/ccsooeYj.s 			page 14
+
+
+ 313:Core/Src/main.c **** 		// Draw center point in white
+ 314:Core/Src/main.c **** 		ssd1306_DrawPixel(30, 22, White);
+ 425              		.loc 1 314 3 view .LVU53
  426 00c0 2A46     		mov	r2, r5
  427 00c2 1621     		movs	r1, #22
  428 00c4 1E20     		movs	r0, #30
  429 00c6 FFF7FEFF 		bl	ssd1306_DrawPixel
  430              	.LVL42:
- 333:Core/Src/main.c **** 
- 334:Core/Src/main.c **** 		// Draw small circle in white
- 335:Core/Src/main.c **** 		ssd1306_DrawCircle(30, 22, 2, White);
- 431              		.loc 1 335 3 view .LVU54
+ 315:Core/Src/main.c **** 
+ 316:Core/Src/main.c **** 		// Draw small circle in white
+ 317:Core/Src/main.c **** 		ssd1306_DrawCircle(30, 22, 2, White);
+ 431              		.loc 1 317 3 view .LVU54
  432 00ca 2B46     		mov	r3, r5
  433 00cc 0222     		movs	r2, #2
  434 00ce 1621     		movs	r1, #22
  435 00d0 1E20     		movs	r0, #30
  436 00d2 FFF7FEFF 		bl	ssd1306_DrawCircle
  437              	.LVL43:
- 336:Core/Src/main.c **** 
- 337:Core/Src/main.c **** 		// Update the display
- 338:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 438              		.loc 1 338 3 view .LVU55
+ 318:Core/Src/main.c **** 
+ 319:Core/Src/main.c **** 		// Update the display
+ 320:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 438              		.loc 1 320 3 view .LVU55
  439 00d6 FFF7FEFF 		bl	ssd1306_UpdateScreen
  440              	.LVL44:
- 339:Core/Src/main.c **** 		HAL_Delay(500);
- 441              		.loc 1 339 3 view .LVU56
+ 321:Core/Src/main.c **** 		HAL_Delay(500);
+ 441              		.loc 1 321 3 view .LVU56
  442 00da 4FF4FA70 		mov	r0, #500
  443 00de FFF7FEFF 		bl	HAL_Delay
  444              	.LVL45:
- 340:Core/Src/main.c **** }
- 445              		.loc 1 340 1 is_stmt 0 view .LVU57
+ 322:Core/Src/main.c **** }
+ 445              		.loc 1 322 1 is_stmt 0 view .LVU57
  446 00e2 02B0     		add	sp, sp, #8
  447              	.LCFI9:
  448              		.cfi_def_cfa_offset 16
@@ -838,9 +820,6 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  451              	.L17:
  452 00e6 00BF     		.align	2
  453              	.L16:
-ARM GAS  /tmp/ccZzrLig.s 			page 15
-
-
  454 00e8 00000000 		.word	Font_7x10
  455 00ec 00000000 		.word	.LC3
  456 00f0 08000000 		.word	.LC4
@@ -853,12 +832,15 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  464              		.thumb_func
  466              	main_screen.3:
  467              	.LFB71:
- 234:Core/Src/main.c **** 	ssd1306_Fill(Black);
- 468              		.loc 1 234 1 is_stmt 1 view -0
+ 216:Core/Src/main.c **** 	ssd1306_Fill(Black);
+ 468              		.loc 1 216 1 is_stmt 1 view -0
  469              		.cfi_startproc
  470              		@ args = 0, pretend = 0, frame = 0
  471              		@ frame_needed = 0, uses_anonymous_args = 0
  472 0000 30B5     		push	{r4, r5, lr}
+ARM GAS  /tmp/ccsooeYj.s 			page 15
+
+
  473              	.LCFI10:
  474              		.cfi_def_cfa_offset 12
  475              		.cfi_offset 4, -12
@@ -867,19 +849,19 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  478 0002 83B0     		sub	sp, sp, #12
  479              	.LCFI11:
  480              		.cfi_def_cfa_offset 24
- 235:Core/Src/main.c **** 	// Draw text strings (scaled 2x positions)
- 481              		.loc 1 235 2 view .LVU59
+ 217:Core/Src/main.c **** 	// Draw text strings (scaled 2x positions)
+ 481              		.loc 1 217 2 view .LVU59
  482 0004 0020     		movs	r0, #0
  483 0006 FFF7FEFF 		bl	ssd1306_Fill
  484              	.LVL46:
- 237:Core/Src/main.c **** 	ssd1306_WriteString("send", Font_7x10, White);
- 485              		.loc 1 237 2 view .LVU60
+ 219:Core/Src/main.c **** 	ssd1306_WriteString("send", Font_7x10, White);
+ 485              		.loc 1 219 2 view .LVU60
  486 000a 2C21     		movs	r1, #44
  487 000c 5020     		movs	r0, #80
  488 000e FFF7FEFF 		bl	ssd1306_SetCursor
  489              	.LVL47:
- 238:Core/Src/main.c **** 
- 490              		.loc 1 238 2 view .LVU61
+ 220:Core/Src/main.c **** 
+ 490              		.loc 1 220 2 view .LVU61
  491 0012 2F4D     		ldr	r5, .L20
  492 0014 0124     		movs	r4, #1
  493 0016 0094     		str	r4, [sp]
@@ -887,24 +869,21 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  495 001c 2D48     		ldr	r0, .L20+4
  496 001e FFF7FEFF 		bl	ssd1306_WriteString
  497              	.LVL48:
- 240:Core/Src/main.c **** 	ssd1306_WriteString("scan", Font_7x10, White);
- 498              		.loc 1 240 2 view .LVU62
+ 222:Core/Src/main.c **** 	ssd1306_WriteString("scan", Font_7x10, White);
+ 498              		.loc 1 222 2 view .LVU62
  499 0022 2C21     		movs	r1, #44
  500 0024 0E20     		movs	r0, #14
  501 0026 FFF7FEFF 		bl	ssd1306_SetCursor
  502              	.LVL49:
- 241:Core/Src/main.c **** 
- 503              		.loc 1 241 2 view .LVU63
+ 223:Core/Src/main.c **** 
+ 503              		.loc 1 223 2 view .LVU63
  504 002a 0094     		str	r4, [sp]
  505 002c 95E80E00 		ldm	r5, {r1, r2, r3}
  506 0030 2948     		ldr	r0, .L20+8
-ARM GAS  /tmp/ccZzrLig.s 			page 16
-
-
  507 0032 FFF7FEFF 		bl	ssd1306_WriteString
  508              	.LVL50:
- 244:Core/Src/main.c **** 	ssd1306_Line(114, 10, 74, 12, White);
- 509              		.loc 1 244 2 view .LVU64
+ 226:Core/Src/main.c **** 	ssd1306_Line(114, 10, 74, 12, White);
+ 509              		.loc 1 226 2 view .LVU64
  510 0036 0094     		str	r4, [sp]
  511 0038 0A23     		movs	r3, #10
  512 003a 7022     		movs	r2, #112
@@ -912,17 +891,20 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  514 003e 5420     		movs	r0, #84
  515 0040 FFF7FEFF 		bl	ssd1306_Line
  516              	.LVL51:
- 245:Core/Src/main.c **** 	ssd1306_Line(114, 10, 98, 32, White);
- 517              		.loc 1 245 2 view .LVU65
+ 227:Core/Src/main.c **** 	ssd1306_Line(114, 10, 98, 32, White);
+ 517              		.loc 1 227 2 view .LVU65
  518 0044 0094     		str	r4, [sp]
  519 0046 0C23     		movs	r3, #12
  520 0048 4A22     		movs	r2, #74
  521 004a 0A21     		movs	r1, #10
  522 004c 7220     		movs	r0, #114
+ARM GAS  /tmp/ccsooeYj.s 			page 16
+
+
  523 004e FFF7FEFF 		bl	ssd1306_Line
  524              	.LVL52:
- 246:Core/Src/main.c **** 	ssd1306_Line(84, 22, 100, 34, White);
- 525              		.loc 1 246 2 view .LVU66
+ 228:Core/Src/main.c **** 	ssd1306_Line(84, 22, 100, 34, White);
+ 525              		.loc 1 228 2 view .LVU66
  526 0052 0094     		str	r4, [sp]
  527 0054 2023     		movs	r3, #32
  528 0056 6222     		movs	r2, #98
@@ -930,8 +912,8 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  530 005a 7220     		movs	r0, #114
  531 005c FFF7FEFF 		bl	ssd1306_Line
  532              	.LVL53:
- 247:Core/Src/main.c **** 	ssd1306_Line(84, 22, 74, 12, White);
- 533              		.loc 1 247 2 view .LVU67
+ 229:Core/Src/main.c **** 	ssd1306_Line(84, 22, 74, 12, White);
+ 533              		.loc 1 229 2 view .LVU67
  534 0060 0094     		str	r4, [sp]
  535 0062 2223     		movs	r3, #34
  536 0064 6422     		movs	r2, #100
@@ -939,8 +921,8 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  538 0068 5420     		movs	r0, #84
  539 006a FFF7FEFF 		bl	ssd1306_Line
  540              	.LVL54:
- 248:Core/Src/main.c **** 	ssd1306_Line(80, 20, 84, 32, White);
- 541              		.loc 1 248 2 view .LVU68
+ 230:Core/Src/main.c **** 	ssd1306_Line(80, 20, 84, 32, White);
+ 541              		.loc 1 230 2 view .LVU68
  542 006e 0094     		str	r4, [sp]
  543 0070 0C23     		movs	r3, #12
  544 0072 4A22     		movs	r2, #74
@@ -948,8 +930,8 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  546 0076 5420     		movs	r0, #84
  547 0078 FFF7FEFF 		bl	ssd1306_Line
  548              	.LVL55:
- 249:Core/Src/main.c **** 	ssd1306_Line(84, 34, 94, 28, White);
- 549              		.loc 1 249 2 view .LVU69
+ 231:Core/Src/main.c **** 	ssd1306_Line(84, 34, 94, 28, White);
+ 549              		.loc 1 231 2 view .LVU69
  550 007c 0094     		str	r4, [sp]
  551 007e 2023     		movs	r3, #32
  552 0080 5422     		movs	r2, #84
@@ -957,11 +939,8 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  554 0084 5020     		movs	r0, #80
  555 0086 FFF7FEFF 		bl	ssd1306_Line
  556              	.LVL56:
- 250:Core/Src/main.c **** 
-ARM GAS  /tmp/ccZzrLig.s 			page 17
-
-
- 557              		.loc 1 250 2 view .LVU70
+ 232:Core/Src/main.c **** 
+ 557              		.loc 1 232 2 view .LVU70
  558 008a 0094     		str	r4, [sp]
  559 008c 1C23     		movs	r3, #28
  560 008e 5E22     		movs	r2, #94
@@ -969,43 +948,46 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  562 0092 5420     		movs	r0, #84
  563 0094 FFF7FEFF 		bl	ssd1306_Line
  564              	.LVL57:
- 253:Core/Src/main.c **** 	ssd1306_DrawCircle(30, 22, 14, White);
- 565              		.loc 1 253 2 view .LVU71
+ 235:Core/Src/main.c **** 	ssd1306_DrawCircle(30, 22, 14, White);
+ 565              		.loc 1 235 2 view .LVU71
  566 0098 2346     		mov	r3, r4
  567 009a 0822     		movs	r2, #8
  568 009c 1621     		movs	r1, #22
  569 009e 1E20     		movs	r0, #30
  570 00a0 FFF7FEFF 		bl	ssd1306_DrawCircle
  571              	.LVL58:
- 254:Core/Src/main.c **** 	ssd1306_DrawPixel(30, 22, White);
- 572              		.loc 1 254 2 view .LVU72
+ 236:Core/Src/main.c **** 	ssd1306_DrawPixel(30, 22, White);
+ 572              		.loc 1 236 2 view .LVU72
+ARM GAS  /tmp/ccsooeYj.s 			page 17
+
+
  573 00a4 2346     		mov	r3, r4
  574 00a6 0E22     		movs	r2, #14
  575 00a8 1621     		movs	r1, #22
  576 00aa 1E20     		movs	r0, #30
  577 00ac FFF7FEFF 		bl	ssd1306_DrawCircle
  578              	.LVL59:
- 255:Core/Src/main.c **** 	ssd1306_DrawCircle(30, 22, 2, White);
- 579              		.loc 1 255 2 view .LVU73
+ 237:Core/Src/main.c **** 	ssd1306_DrawCircle(30, 22, 2, White);
+ 579              		.loc 1 237 2 view .LVU73
  580 00b0 2246     		mov	r2, r4
  581 00b2 1621     		movs	r1, #22
  582 00b4 1E20     		movs	r0, #30
  583 00b6 FFF7FEFF 		bl	ssd1306_DrawPixel
  584              	.LVL60:
- 256:Core/Src/main.c **** 
- 585              		.loc 1 256 2 view .LVU74
+ 238:Core/Src/main.c **** 
+ 585              		.loc 1 238 2 view .LVU74
  586 00ba 2346     		mov	r3, r4
  587 00bc 0222     		movs	r2, #2
  588 00be 1621     		movs	r1, #22
  589 00c0 1E20     		movs	r0, #30
  590 00c2 FFF7FEFF 		bl	ssd1306_DrawCircle
  591              	.LVL61:
- 259:Core/Src/main.c **** }
- 592              		.loc 1 259 2 view .LVU75
+ 241:Core/Src/main.c **** }
+ 592              		.loc 1 241 2 view .LVU75
  593 00c6 FFF7FEFF 		bl	ssd1306_UpdateScreen
  594              	.LVL62:
- 260:Core/Src/main.c **** 
- 595              		.loc 1 260 1 is_stmt 0 view .LVU76
+ 242:Core/Src/main.c **** 
+ 595              		.loc 1 242 1 is_stmt 0 view .LVU76
  596 00ca 03B0     		add	sp, sp, #12
  597              	.LCFI12:
  598              		.cfi_def_cfa_offset 12
@@ -1018,9 +1000,6 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  605 00d4 00000000 		.word	.LC3
  606 00d8 08000000 		.word	.LC4
  607              		.cfi_endproc
-ARM GAS  /tmp/ccZzrLig.s 			page 18
-
-
  608              	.LFE71:
  610              		.section	.text.HAL_UART_RxCpltCallback,"ax",%progbits
  611              		.align	1
@@ -1031,38 +1010,41 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  617              	HAL_UART_RxCpltCallback:
  618              	.LVL63:
  619              	.LFB68:
-  81:Core/Src/main.c **** 	if(huart == &huart1) GPS_UART_CallBack();
- 620              		.loc 1 81 1 is_stmt 1 view -0
+  80:Core/Src/main.c **** 	if(huart == &huart1) GPS_UART_CallBack();
+ 620              		.loc 1 80 1 is_stmt 1 view -0
  621              		.cfi_startproc
  622              		@ args = 0, pretend = 0, frame = 0
  623              		@ frame_needed = 0, uses_anonymous_args = 0
-  81:Core/Src/main.c **** 	if(huart == &huart1) GPS_UART_CallBack();
- 624              		.loc 1 81 1 is_stmt 0 view .LVU78
+  80:Core/Src/main.c **** 	if(huart == &huart1) GPS_UART_CallBack();
+ 624              		.loc 1 80 1 is_stmt 0 view .LVU78
  625 0000 08B5     		push	{r3, lr}
+ARM GAS  /tmp/ccsooeYj.s 			page 18
+
+
  626              	.LCFI13:
  627              		.cfi_def_cfa_offset 8
  628              		.cfi_offset 3, -8
  629              		.cfi_offset 14, -4
-  82:Core/Src/main.c **** }
- 630              		.loc 1 82 2 is_stmt 1 view .LVU79
-  82:Core/Src/main.c **** }
- 631              		.loc 1 82 4 is_stmt 0 view .LVU80
+  81:Core/Src/main.c **** }
+ 630              		.loc 1 81 2 is_stmt 1 view .LVU79
+  81:Core/Src/main.c **** }
+ 631              		.loc 1 81 4 is_stmt 0 view .LVU80
  632 0002 034B     		ldr	r3, .L26
  633 0004 8342     		cmp	r3, r0
  634 0006 00D0     		beq	.L25
  635              	.LVL64:
  636              	.L22:
-  83:Core/Src/main.c **** 
- 637              		.loc 1 83 1 view .LVU81
+  82:Core/Src/main.c **** 
+ 637              		.loc 1 82 1 view .LVU81
  638 0008 08BD     		pop	{r3, pc}
  639              	.LVL65:
  640              	.L25:
-  82:Core/Src/main.c **** }
- 641              		.loc 1 82 23 is_stmt 1 discriminator 1 view .LVU82
+  81:Core/Src/main.c **** }
+ 641              		.loc 1 81 23 is_stmt 1 discriminator 1 view .LVU82
  642 000a FFF7FEFF 		bl	GPS_UART_CallBack
  643              	.LVL66:
-  83:Core/Src/main.c **** 
- 644              		.loc 1 83 1 is_stmt 0 view .LVU83
+  82:Core/Src/main.c **** 
+ 644              		.loc 1 82 1 is_stmt 0 view .LVU83
  645 000e FBE7     		b	.L22
  646              	.L27:
  647              		.align	2
@@ -1078,177 +1060,167 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  658              		.thumb_func
  660              	HAL_GPIO_EXTI_Callback:
  661              	.LVL67:
-ARM GAS  /tmp/ccZzrLig.s 			page 19
-
-
  662              	.LFB75:
- 341:Core/Src/main.c ****   /* USER CODE END 2 */
- 342:Core/Src/main.c **** 
- 343:Core/Src/main.c **** 
- 344:Core/Src/main.c **** // ====================APP Init ==========================
- 345:Core/Src/main.c **** COMM_Init();
- 346:Core/Src/main.c **** SCAN_Init();
- 347:Core/Src/main.c **** bool	scan_was_active = false;
- 348:Core/Src/main.c **** main_screen();
- 349:Core/Src/main.c ****   /* Infinite loop */
- 350:Core/Src/main.c ****   /* USER CODE BEGIN WHILE */
- 351:Core/Src/main.c ****   while (1)
- 352:Core/Src/main.c ****   {
- 353:Core/Src/main.c ****     /* USER CODE END WHILE */
- 354:Core/Src/main.c **** 	// SCANNING
- 355:Core/Src/main.c **** 	if (scan_btn_pressed)
- 356:Core/Src/main.c **** 	{
- 357:Core/Src/main.c **** 		scan_btn_pressed = false;
- 358:Core/Src/main.c **** 		scan_mode();
- 359:Core/Src/main.c **** 
- 360:Core/Src/main.c **** 		if (!SCAN_IsActive())
- 361:Core/Src/main.c **** 			SCAN_Start();
- 362:Core/Src/main.c **** 	
- 363:Core/Src/main.c **** 	}
- 364:Core/Src/main.c **** 	// SENDING
- 365:Core/Src/main.c **** 	if (send_btn_pressed)
- 366:Core/Src/main.c **** 	{
+ 323:Core/Src/main.c ****   /* USER CODE END 2 */
+ 324:Core/Src/main.c **** 
+ 325:Core/Src/main.c **** 
+ 326:Core/Src/main.c **** SCAN_Init();
+ 327:Core/Src/main.c **** main_screen();
+ 328:Core/Src/main.c **** 
+ 329:Core/Src/main.c ****   /* Infinite loop */
+ 330:Core/Src/main.c ****   /* USER CODE BEGIN WHILE */
+ 331:Core/Src/main.c ****   while (1)
+ 332:Core/Src/main.c ****   {
+ 333:Core/Src/main.c ****     /* USER CODE END WHILE */
+ 334:Core/Src/main.c **** 
+ 335:Core/Src/main.c **** 	
+ 336:Core/Src/main.c **** 	COMM_Process();
+ 337:Core/Src/main.c **** 	SCAN_Process();
+ 338:Core/Src/main.c **** 	
+ 339:Core/Src/main.c **** 	// SCANNING
+ARM GAS  /tmp/ccsooeYj.s 			page 19
+
+
+ 340:Core/Src/main.c **** 	if (scan_btn_pressed)
+ 341:Core/Src/main.c **** 	{
+ 342:Core/Src/main.c **** 		scan_btn_pressed = false;
+ 343:Core/Src/main.c **** 		scan_mode();
+ 344:Core/Src/main.c **** 
+ 345:Core/Src/main.c **** 		SCAN_Start();
+ 346:Core/Src/main.c **** 
+ 347:Core/Src/main.c **** 		ssd1306_Fill(Black);
+ 348:Core/Src/main.c **** 		ssd1306_SetCursor(16, 16);
+ 349:Core/Src/main.c **** 		ssd1306_WriteString("SCANNING..", Font_11x18, White);
+ 350:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 351:Core/Src/main.c **** 	}
+ 352:Core/Src/main.c **** 	// SENDING
+ 353:Core/Src/main.c **** 	if (send_btn_pressed)
+ 354:Core/Src/main.c **** 	{
+ 355:Core/Src/main.c **** 		send_btn_pressed = false;
+ 356:Core/Src/main.c **** 		send_mode();
+ 357:Core/Src/main.c **** 		COMM_SendTest(NODE_ID);
+ 358:Core/Src/main.c **** 
+ 359:Core/Src/main.c **** 		ssd1306_Fill(Black);
+ 360:Core/Src/main.c **** 		ssd1306_SetCursor(16,16);
+ 361:Core/Src/main.c **** 		ssd1306_WriteString("Test sent", Font_11x18, White);
+ 362:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 363:Core/Src/main.c **** 		HAL_Delay(500);
+ 364:Core/Src/main.c **** 		main_screen();
+ 365:Core/Src/main.c **** 	}
+ 366:Core/Src/main.c **** 
  367:Core/Src/main.c **** 
- 368:Core/Src/main.c **** 		send_btn_pressed = false;
- 369:Core/Src/main.c **** 		send_mode();
- 370:Core/Src/main.c **** 		COMM_SendLocation(44.18f, 44.51f, 0x01);
- 371:Core/Src/main.c **** 
- 372:Core/Src/main.c **** 		ssd1306_Fill(Black);
- 373:Core/Src/main.c **** 		ssd1306_SetCursor(16,16);
- 374:Core/Src/main.c **** 		ssd1306_WriteString("Sent", Font_11x18, White);
- 375:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 376:Core/Src/main.c **** 	}
- 377:Core/Src/main.c **** 
- 378:Core/Src/main.c **** 	COMM_Process();
- 379:Core/Src/main.c **** 	SCAN_Process();
- 380:Core/Src/main.c **** 
- 381:Core/Src/main.c **** 	if (SCAN_IsActive() && !scan_was_active)
- 382:Core/Src/main.c **** 	{
- 383:Core/Src/main.c **** 		scan_was_active = true;
- 384:Core/Src/main.c **** 
- 385:Core/Src/main.c **** 		ssd1306_Fill(Black);
- 386:Core/Src/main.c ****         	ssd1306_SetCursor(16, 16);
- 387:Core/Src/main.c **** 		ssd1306_WriteString("Scanning...", Font_11x18, White);
- 388:Core/Src/main.c ****         	ssd1306_UpdateScreen();
- 389:Core/Src/main.c **** 	}
- 390:Core/Src/main.c **** 	if (!SCAN_IsActive() && scan_was_active)
- 391:Core/Src/main.c **** 	{
- 392:Core/Src/main.c **** 		scan_was_active = false;
- 393:Core/Src/main.c **** 		ssd1306_Fill(Black);
- 394:Core/Src/main.c ****         	ssd1306_SetCursor(16, 16);
- 395:Core/Src/main.c **** 		ssd1306_WriteString("Scan done", Font_11x18, White);
- 396:Core/Src/main.c ****         	ssd1306_UpdateScreen();
-ARM GAS  /tmp/ccZzrLig.s 			page 20
+ 368:Core/Src/main.c **** 	if (COMM_HasMessage())
+ 369:Core/Src/main.c **** 	{
+ 370:Core/Src/main.c **** 		uint8_t	sender;
+ 371:Core/Src/main.c **** 		uint8_t	type = COMM_GetMessage(&sender);
+ 372:Core/Src/main.c **** 
+ 373:Core/Src/main.c **** 		ssd1306_Fill(Black);
+ 374:Core/Src/main.c **** 		ssd1306_SetCursor(16, 16);
+ 375:Core/Src/main.c **** 		if (type == MSG_TEST)
+ 376:Core/Src/main.c **** 			ssd1306_WriteString("Test RX", Font_11x18, White);
+ 377:Core/Src/main.c **** 		else if (type == MSG_SCAN)
+ 378:Core/Src/main.c **** 			ssd1306_WriteString("Scan RX", Font_11x18, White);
+ 379:Core/Src/main.c **** 
+ 380:Core/Src/main.c **** 		ssd1306_SetCursor(16, 0);
+ 381:Core/Src/main.c **** 		char	buf[16];
+ 382:Core/Src/main.c **** 		sprintf(buf, "FROM %d", sender);
+ 383:Core/Src/main.c **** 		ssd1306_WriteString(buf, Font_11x18, White);
+ 384:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 385:Core/Src/main.c **** 
+ 386:Core/Src/main.c **** 	}
+ 387:Core/Src/main.c **** 
+ 388:Core/Src/main.c ****     /* USER CODE BEGIN 3 */
+ 389:Core/Src/main.c ****   }
+ 390:Core/Src/main.c ****   /* USER CODE END 3 */
+ 391:Core/Src/main.c **** }
+ 392:Core/Src/main.c **** 
+ 393:Core/Src/main.c **** /**
+ 394:Core/Src/main.c ****   * @brief System Clock Configuration
+ 395:Core/Src/main.c ****   * @retval None
+ 396:Core/Src/main.c ****   */
+ARM GAS  /tmp/ccsooeYj.s 			page 20
 
 
- 397:Core/Src/main.c **** 		HAL_Delay(500);
- 398:Core/Src/main.c **** 		main_screen();
- 399:Core/Src/main.c **** 	}
- 400:Core/Src/main.c **** 
- 401:Core/Src/main.c **** 	if (COMM_HasPacket())
- 402:Core/Src/main.c **** 	{
- 403:Core/Src/main.c **** 		CommPacket_t pkt;
- 404:Core/Src/main.c **** 		if (COMM_GetPacket(&pkt))
- 405:Core/Src/main.c **** 		{
- 406:Core/Src/main.c **** 			if (pkt.type == COMM_LOCATION)
- 407:Core/Src/main.c **** 			{
- 408:Core/Src/main.c **** 				ssd1306_Fill(Black);
- 409:Core/Src/main.c **** 				ssd1306_SetCursor(16,16);
- 410:Core/Src/main.c **** 				ssd1306_WriteString("RX Location", Font_11x18, White);
- 411:Core/Src/main.c **** 				ssd1306_UpdateScreen();
- 412:Core/Src/main.c **** 			}
- 413:Core/Src/main.c **** 		}
- 414:Core/Src/main.c **** 
- 415:Core/Src/main.c **** 	}
- 416:Core/Src/main.c ****     /* USER CODE BEGIN 3 */
- 417:Core/Src/main.c ****   }
- 418:Core/Src/main.c ****   /* USER CODE END 3 */
- 419:Core/Src/main.c **** }
- 420:Core/Src/main.c **** 
- 421:Core/Src/main.c **** /**
- 422:Core/Src/main.c ****   * @brief System Clock Configuration
- 423:Core/Src/main.c ****   * @retval None
- 424:Core/Src/main.c ****   */
- 425:Core/Src/main.c **** void SystemClock_Config(void)
- 426:Core/Src/main.c **** {
- 427:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
- 428:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
- 429:Core/Src/main.c **** 
- 430:Core/Src/main.c ****   /** Initializes the RCC Oscillators according to the specified parameters
- 431:Core/Src/main.c ****   * in the RCC_OscInitTypeDef structure.
- 432:Core/Src/main.c ****   */
- 433:Core/Src/main.c ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
- 434:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
- 435:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
- 436:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
- 437:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
- 438:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
- 439:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
- 440:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 441:Core/Src/main.c ****   {
- 442:Core/Src/main.c ****     Error_Handler();
- 443:Core/Src/main.c ****   }
- 444:Core/Src/main.c **** 
- 445:Core/Src/main.c ****   /** Initializes the CPU, AHB and APB buses clocks
- 446:Core/Src/main.c ****   */
- 447:Core/Src/main.c ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
- 448:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
- 449:Core/Src/main.c ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
- 450:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 451:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
- 452:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
- 453:Core/Src/main.c **** 
-ARM GAS  /tmp/ccZzrLig.s 			page 21
-
-
- 454:Core/Src/main.c ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
- 455:Core/Src/main.c ****   {
- 456:Core/Src/main.c ****     Error_Handler();
- 457:Core/Src/main.c ****   }
- 458:Core/Src/main.c **** }
- 459:Core/Src/main.c **** 
- 460:Core/Src/main.c **** /* USER CODE BEGIN 4 */
- 461:Core/Src/main.c **** void	HAL_GPIO_EXTI_Callback(uint16_t GPIO_pin)
- 462:Core/Src/main.c **** {
- 663              		.loc 1 462 1 is_stmt 1 view -0
+ 397:Core/Src/main.c **** void SystemClock_Config(void)
+ 398:Core/Src/main.c **** {
+ 399:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+ 400:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+ 401:Core/Src/main.c **** 
+ 402:Core/Src/main.c ****   /** Initializes the RCC Oscillators according to the specified parameters
+ 403:Core/Src/main.c ****   * in the RCC_OscInitTypeDef structure.
+ 404:Core/Src/main.c ****   */
+ 405:Core/Src/main.c ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+ 406:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+ 407:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+ 408:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ 409:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 410:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 411:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+ 412:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 413:Core/Src/main.c ****   {
+ 414:Core/Src/main.c ****     Error_Handler();
+ 415:Core/Src/main.c ****   }
+ 416:Core/Src/main.c **** 
+ 417:Core/Src/main.c ****   /** Initializes the CPU, AHB and APB buses clocks
+ 418:Core/Src/main.c ****   */
+ 419:Core/Src/main.c ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+ 420:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 421:Core/Src/main.c ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+ 422:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 423:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 424:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 425:Core/Src/main.c **** 
+ 426:Core/Src/main.c ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+ 427:Core/Src/main.c ****   {
+ 428:Core/Src/main.c ****     Error_Handler();
+ 429:Core/Src/main.c ****   }
+ 430:Core/Src/main.c **** }
+ 431:Core/Src/main.c **** 
+ 432:Core/Src/main.c **** /* USER CODE BEGIN 4 */
+ 433:Core/Src/main.c **** void	HAL_GPIO_EXTI_Callback(uint16_t GPIO_pin)
+ 434:Core/Src/main.c **** {
+ 663              		.loc 1 434 1 is_stmt 1 view -0
  664              		.cfi_startproc
  665              		@ args = 0, pretend = 0, frame = 0
  666              		@ frame_needed = 0, uses_anonymous_args = 0
  667              		@ link register save eliminated.
- 463:Core/Src/main.c **** 	if (GPIO_pin == scan_Pin)
- 668              		.loc 1 463 2 view .LVU85
- 669              		.loc 1 463 5 is_stmt 0 view .LVU86
+ 435:Core/Src/main.c **** 	if (GPIO_pin == scan_Pin)
+ 668              		.loc 1 435 2 view .LVU85
+ 669              		.loc 1 435 5 is_stmt 0 view .LVU86
  670 0000 0428     		cmp	r0, #4
  671 0002 02D0     		beq	.L31
- 464:Core/Src/main.c **** 		scan_btn_pressed = true;
- 465:Core/Src/main.c **** 	else if (GPIO_pin == send_Pin)
- 672              		.loc 1 465 7 is_stmt 1 view .LVU87
- 673              		.loc 1 465 10 is_stmt 0 view .LVU88
+ 436:Core/Src/main.c **** 		scan_btn_pressed = true;
+ 437:Core/Src/main.c **** 	else if (GPIO_pin == send_Pin)
+ 672              		.loc 1 437 7 is_stmt 1 view .LVU87
+ 673              		.loc 1 437 10 is_stmt 0 view .LVU88
  674 0004 0228     		cmp	r0, #2
  675 0006 04D0     		beq	.L32
  676              	.L28:
- 466:Core/Src/main.c **** 		send_btn_pressed = true;
- 467:Core/Src/main.c **** }
- 677              		.loc 1 467 1 view .LVU89
+ 438:Core/Src/main.c **** 		send_btn_pressed = true;
+ 439:Core/Src/main.c **** }
+ARM GAS  /tmp/ccsooeYj.s 			page 21
+
+
+ 677              		.loc 1 439 1 view .LVU89
  678 0008 7047     		bx	lr
  679              	.L31:
- 464:Core/Src/main.c **** 		scan_btn_pressed = true;
- 680              		.loc 1 464 3 is_stmt 1 view .LVU90
- 464:Core/Src/main.c **** 		scan_btn_pressed = true;
- 681              		.loc 1 464 20 is_stmt 0 view .LVU91
+ 436:Core/Src/main.c **** 		scan_btn_pressed = true;
+ 680              		.loc 1 436 3 is_stmt 1 view .LVU90
+ 436:Core/Src/main.c **** 		scan_btn_pressed = true;
+ 681              		.loc 1 436 20 is_stmt 0 view .LVU91
  682 000a 044B     		ldr	r3, .L33
  683 000c 0122     		movs	r2, #1
  684 000e 1A70     		strb	r2, [r3]
  685 0010 7047     		bx	lr
  686              	.L32:
- 466:Core/Src/main.c **** 		send_btn_pressed = true;
- 687              		.loc 1 466 3 is_stmt 1 view .LVU92
- 466:Core/Src/main.c **** 		send_btn_pressed = true;
- 688              		.loc 1 466 20 is_stmt 0 view .LVU93
+ 438:Core/Src/main.c **** 		send_btn_pressed = true;
+ 687              		.loc 1 438 3 is_stmt 1 view .LVU92
+ 438:Core/Src/main.c **** 		send_btn_pressed = true;
+ 688              		.loc 1 438 20 is_stmt 0 view .LVU93
  689 0012 034B     		ldr	r3, .L33+4
  690 0014 0122     		movs	r2, #1
  691 0016 1A70     		strb	r2, [r3]
- 692              		.loc 1 467 1 view .LVU94
+ 692              		.loc 1 439 1 view .LVU94
  693 0018 F6E7     		b	.L28
  694              	.L34:
  695 001a 00BF     		.align	2
@@ -1258,9 +1230,6 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  699              		.cfi_endproc
  700              	.LFE75:
  702              		.section	.text.Error_Handler,"ax",%progbits
-ARM GAS  /tmp/ccZzrLig.s 			page 22
-
-
  703              		.align	1
  704              		.global	Error_Handler
  705              		.syntax unified
@@ -1268,27 +1237,30 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  707              		.thumb_func
  709              	Error_Handler:
  710              	.LFB76:
- 468:Core/Src/main.c **** /* USER CODE END 4 */
- 469:Core/Src/main.c **** 
- 470:Core/Src/main.c **** /**
- 471:Core/Src/main.c ****   * @brief  This function is executed in case of error occurrence.
- 472:Core/Src/main.c ****   * @retval None
- 473:Core/Src/main.c ****   */
- 474:Core/Src/main.c **** void Error_Handler(void)
- 475:Core/Src/main.c **** {
- 711              		.loc 1 475 1 is_stmt 1 view -0
+ 440:Core/Src/main.c **** /* USER CODE END 4 */
+ 441:Core/Src/main.c **** 
+ 442:Core/Src/main.c **** /**
+ 443:Core/Src/main.c ****   * @brief  This function is executed in case of error occurrence.
+ 444:Core/Src/main.c ****   * @retval None
+ 445:Core/Src/main.c ****   */
+ 446:Core/Src/main.c **** void Error_Handler(void)
+ 447:Core/Src/main.c **** {
+ 711              		.loc 1 447 1 is_stmt 1 view -0
  712              		.cfi_startproc
  713              		@ Volatile: function does not return.
  714              		@ args = 0, pretend = 0, frame = 0
  715              		@ frame_needed = 0, uses_anonymous_args = 0
  716              		@ link register save eliminated.
- 476:Core/Src/main.c ****   /* USER CODE BEGIN Error_Handler_Debug */
- 477:Core/Src/main.c ****   /* User can add his own implementation to report the HAL error return state */
- 478:Core/Src/main.c ****   __disable_irq();
- 717              		.loc 1 478 3 view .LVU96
+ 448:Core/Src/main.c ****   /* USER CODE BEGIN Error_Handler_Debug */
+ 449:Core/Src/main.c ****   /* User can add his own implementation to report the HAL error return state */
+ 450:Core/Src/main.c ****   __disable_irq();
+ 717              		.loc 1 450 3 view .LVU96
  718              	.LBB4:
  719              	.LBI4:
  720              		.file 2 "Drivers/CMSIS/Include/cmsis_gcc.h"
+ARM GAS  /tmp/ccsooeYj.s 			page 22
+
+
    1:Drivers/CMSIS/Include/cmsis_gcc.h **** /**************************************************************************//**
    2:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @file     cmsis_gcc.h
    3:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @brief    CMSIS compiler GCC header file
@@ -1318,9 +1290,6 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
   27:Drivers/CMSIS/Include/cmsis_gcc.h **** 
   28:Drivers/CMSIS/Include/cmsis_gcc.h **** /* ignore some GCC warnings */
   29:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic push
-ARM GAS  /tmp/ccZzrLig.s 			page 23
-
-
   30:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wsign-conversion"
   31:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wconversion"
   32:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wunused-parameter"
@@ -1349,6 +1318,9 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
   55:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __USED
   56:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __USED                                 __attribute__((used))
   57:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ARM GAS  /tmp/ccsooeYj.s 			page 23
+
+
   58:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __WEAK
   59:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __WEAK                                 __attribute__((weak))
   60:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
@@ -1378,9 +1350,6 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
   84:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_WRITE(addr, val)    (void)((((struct T_UINT16_WRITE *)(void *)(addr))-
   85:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
   86:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_READ
-ARM GAS  /tmp/ccZzrLig.s 			page 24
-
-
   87:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
   88:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
   89:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
@@ -1409,6 +1378,9 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  112:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
  113:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __RESTRICT
  114:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __RESTRICT                             __restrict
+ARM GAS  /tmp/ccsooeYj.s 			page 24
+
+
  115:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
  116:Drivers/CMSIS/Include/cmsis_gcc.h **** 
  117:Drivers/CMSIS/Include/cmsis_gcc.h **** 
@@ -1438,9 +1410,6 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  721              		.loc 2 140 27 view .LVU97
  722              	.LBB5:
  141:Drivers/CMSIS/Include/cmsis_gcc.h **** {
-ARM GAS  /tmp/ccZzrLig.s 			page 25
-
-
  142:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsid i" : : : "memory");
  723              		.loc 2 142 3 view .LVU98
  724              		.syntax unified
@@ -1452,13 +1421,13 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  730              	.L36:
  731              	.LBE5:
  732              	.LBE4:
- 479:Core/Src/main.c ****   while (1)
- 733              		.loc 1 479 3 view .LVU99
- 480:Core/Src/main.c ****   {
- 481:Core/Src/main.c ****   }
- 734              		.loc 1 481 3 view .LVU100
- 479:Core/Src/main.c ****   while (1)
- 735              		.loc 1 479 9 view .LVU101
+ 451:Core/Src/main.c ****   while (1)
+ 733              		.loc 1 451 3 view .LVU99
+ 452:Core/Src/main.c ****   {
+ 453:Core/Src/main.c ****   }
+ 734              		.loc 1 453 3 view .LVU100
+ 451:Core/Src/main.c ****   while (1)
+ 735              		.loc 1 451 9 view .LVU101
  736 0002 FEE7     		b	.L36
  737              		.cfi_endproc
  738              	.LFE76:
@@ -1469,9 +1438,12 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  744              		.thumb
  745              		.thumb_func
  747              	SystemClock_Config:
+ARM GAS  /tmp/ccsooeYj.s 			page 25
+
+
  748              	.LFB74:
- 426:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
- 749              		.loc 1 426 1 view -0
+ 398:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+ 749              		.loc 1 398 1 view -0
  750              		.cfi_startproc
  751              		@ args = 0, pretend = 0, frame = 64
  752              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -1483,119 +1455,119 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  758 0002 90B0     		sub	sp, sp, #64
  759              	.LCFI15:
  760              		.cfi_def_cfa_offset 72
- 427:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
- 761              		.loc 1 427 3 view .LVU103
- 427:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
- 762              		.loc 1 427 22 is_stmt 0 view .LVU104
+ 399:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+ 761              		.loc 1 399 3 view .LVU103
+ 399:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+ 762              		.loc 1 399 22 is_stmt 0 view .LVU104
  763 0004 06AC     		add	r4, sp, #24
  764 0006 2822     		movs	r2, #40
  765 0008 0021     		movs	r1, #0
  766 000a 2046     		mov	r0, r4
  767 000c FFF7FEFF 		bl	memset
  768              	.LVL68:
- 428:Core/Src/main.c **** 
- 769              		.loc 1 428 3 is_stmt 1 view .LVU105
- 428:Core/Src/main.c **** 
- 770              		.loc 1 428 22 is_stmt 0 view .LVU106
+ 400:Core/Src/main.c **** 
+ 769              		.loc 1 400 3 is_stmt 1 view .LVU105
+ 400:Core/Src/main.c **** 
+ 770              		.loc 1 400 22 is_stmt 0 view .LVU106
  771 0010 0023     		movs	r3, #0
-ARM GAS  /tmp/ccZzrLig.s 			page 26
-
-
  772 0012 0193     		str	r3, [sp, #4]
  773 0014 0293     		str	r3, [sp, #8]
  774 0016 0393     		str	r3, [sp, #12]
  775 0018 0493     		str	r3, [sp, #16]
  776 001a 0593     		str	r3, [sp, #20]
- 433:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
- 777              		.loc 1 433 3 is_stmt 1 view .LVU107
- 433:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
- 778              		.loc 1 433 36 is_stmt 0 view .LVU108
+ 405:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+ 777              		.loc 1 405 3 is_stmt 1 view .LVU107
+ 405:Core/Src/main.c ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+ 778              		.loc 1 405 36 is_stmt 0 view .LVU108
  779 001c 0122     		movs	r2, #1
  780 001e 0692     		str	r2, [sp, #24]
- 434:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
- 781              		.loc 1 434 3 is_stmt 1 view .LVU109
- 434:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
- 782              		.loc 1 434 30 is_stmt 0 view .LVU110
+ 406:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+ 781              		.loc 1 406 3 is_stmt 1 view .LVU109
+ 406:Core/Src/main.c ****   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
+ 782              		.loc 1 406 30 is_stmt 0 view .LVU110
  783 0020 4FF48033 		mov	r3, #65536
  784 0024 0793     		str	r3, [sp, #28]
- 435:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
- 785              		.loc 1 435 3 is_stmt 1 view .LVU111
- 436:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
- 786              		.loc 1 436 3 view .LVU112
- 436:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
- 787              		.loc 1 436 30 is_stmt 0 view .LVU113
+ 407:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ 785              		.loc 1 407 3 is_stmt 1 view .LVU111
+ 408:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 786              		.loc 1 408 3 view .LVU112
+ 408:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 787              		.loc 1 408 30 is_stmt 0 view .LVU113
  788 0026 0A92     		str	r2, [sp, #40]
- 437:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
- 789              		.loc 1 437 3 is_stmt 1 view .LVU114
- 437:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
- 790              		.loc 1 437 34 is_stmt 0 view .LVU115
+ 409:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 789              		.loc 1 409 3 is_stmt 1 view .LVU114
+ 409:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 790              		.loc 1 409 34 is_stmt 0 view .LVU115
+ARM GAS  /tmp/ccsooeYj.s 			page 26
+
+
  791 0028 0222     		movs	r2, #2
  792 002a 0D92     		str	r2, [sp, #52]
- 438:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
- 793              		.loc 1 438 3 is_stmt 1 view .LVU116
- 438:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
- 794              		.loc 1 438 35 is_stmt 0 view .LVU117
+ 410:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+ 793              		.loc 1 410 3 is_stmt 1 view .LVU116
+ 410:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+ 794              		.loc 1 410 35 is_stmt 0 view .LVU117
  795 002c 0E93     		str	r3, [sp, #56]
- 439:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 796              		.loc 1 439 3 is_stmt 1 view .LVU118
- 439:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 797              		.loc 1 439 32 is_stmt 0 view .LVU119
+ 411:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 796              		.loc 1 411 3 is_stmt 1 view .LVU118
+ 411:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 797              		.loc 1 411 32 is_stmt 0 view .LVU119
  798 002e 4FF4E013 		mov	r3, #1835008
  799 0032 0F93     		str	r3, [sp, #60]
- 440:Core/Src/main.c ****   {
- 800              		.loc 1 440 3 is_stmt 1 view .LVU120
- 440:Core/Src/main.c ****   {
- 801              		.loc 1 440 7 is_stmt 0 view .LVU121
+ 412:Core/Src/main.c ****   {
+ 800              		.loc 1 412 3 is_stmt 1 view .LVU120
+ 412:Core/Src/main.c ****   {
+ 801              		.loc 1 412 7 is_stmt 0 view .LVU121
  802 0034 2046     		mov	r0, r4
  803 0036 FFF7FEFF 		bl	HAL_RCC_OscConfig
  804              	.LVL69:
- 440:Core/Src/main.c ****   {
- 805              		.loc 1 440 6 discriminator 1 view .LVU122
+ 412:Core/Src/main.c ****   {
+ 805              		.loc 1 412 6 discriminator 1 view .LVU122
  806 003a 78B9     		cbnz	r0, .L41
- 447:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
- 807              		.loc 1 447 3 is_stmt 1 view .LVU123
- 447:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
- 808              		.loc 1 447 31 is_stmt 0 view .LVU124
+ 419:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 807              		.loc 1 419 3 is_stmt 1 view .LVU123
+ 419:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+ 808              		.loc 1 419 31 is_stmt 0 view .LVU124
  809 003c 0F23     		movs	r3, #15
  810 003e 0193     		str	r3, [sp, #4]
-ARM GAS  /tmp/ccZzrLig.s 			page 27
-
-
- 449:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 811              		.loc 1 449 3 is_stmt 1 view .LVU125
- 449:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 812              		.loc 1 449 34 is_stmt 0 view .LVU126
+ 421:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 811              		.loc 1 421 3 is_stmt 1 view .LVU125
+ 421:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 812              		.loc 1 421 34 is_stmt 0 view .LVU126
  813 0040 0221     		movs	r1, #2
  814 0042 0291     		str	r1, [sp, #8]
- 450:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
- 815              		.loc 1 450 3 is_stmt 1 view .LVU127
- 450:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
- 816              		.loc 1 450 35 is_stmt 0 view .LVU128
+ 422:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 815              		.loc 1 422 3 is_stmt 1 view .LVU127
+ 422:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+ 816              		.loc 1 422 35 is_stmt 0 view .LVU128
  817 0044 0023     		movs	r3, #0
  818 0046 0393     		str	r3, [sp, #12]
- 451:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
- 819              		.loc 1 451 3 is_stmt 1 view .LVU129
- 451:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
- 820              		.loc 1 451 36 is_stmt 0 view .LVU130
+ 423:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 819              		.loc 1 423 3 is_stmt 1 view .LVU129
+ 423:Core/Src/main.c ****   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+ 820              		.loc 1 423 36 is_stmt 0 view .LVU130
  821 0048 4FF48062 		mov	r2, #1024
  822 004c 0492     		str	r2, [sp, #16]
- 452:Core/Src/main.c **** 
- 823              		.loc 1 452 3 is_stmt 1 view .LVU131
- 452:Core/Src/main.c **** 
- 824              		.loc 1 452 36 is_stmt 0 view .LVU132
+ 424:Core/Src/main.c **** 
+ 823              		.loc 1 424 3 is_stmt 1 view .LVU131
+ 424:Core/Src/main.c **** 
+ 824              		.loc 1 424 36 is_stmt 0 view .LVU132
  825 004e 0593     		str	r3, [sp, #20]
- 454:Core/Src/main.c ****   {
- 826              		.loc 1 454 3 is_stmt 1 view .LVU133
- 454:Core/Src/main.c ****   {
- 827              		.loc 1 454 7 is_stmt 0 view .LVU134
+ 426:Core/Src/main.c ****   {
+ 826              		.loc 1 426 3 is_stmt 1 view .LVU133
+ 426:Core/Src/main.c ****   {
+ 827              		.loc 1 426 7 is_stmt 0 view .LVU134
  828 0050 01A8     		add	r0, sp, #4
+ARM GAS  /tmp/ccsooeYj.s 			page 27
+
+
  829 0052 FFF7FEFF 		bl	HAL_RCC_ClockConfig
  830              	.LVL70:
- 454:Core/Src/main.c ****   {
- 831              		.loc 1 454 6 discriminator 1 view .LVU135
+ 426:Core/Src/main.c ****   {
+ 831              		.loc 1 426 6 discriminator 1 view .LVU135
  832 0056 18B9     		cbnz	r0, .L42
- 458:Core/Src/main.c **** 
- 833              		.loc 1 458 1 view .LVU136
+ 430:Core/Src/main.c **** 
+ 833              		.loc 1 430 1 view .LVU136
  834 0058 10B0     		add	sp, sp, #64
  835              	.LCFI16:
  836              		.cfi_remember_state
@@ -1605,22 +1577,19 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  840              	.L41:
  841              	.LCFI17:
  842              		.cfi_restore_state
- 442:Core/Src/main.c ****   }
- 843              		.loc 1 442 5 is_stmt 1 view .LVU137
+ 414:Core/Src/main.c ****   }
+ 843              		.loc 1 414 5 is_stmt 1 view .LVU137
  844 005c FFF7FEFF 		bl	Error_Handler
  845              	.LVL71:
  846              	.L42:
- 456:Core/Src/main.c ****   }
- 847              		.loc 1 456 5 view .LVU138
+ 428:Core/Src/main.c ****   }
+ 847              		.loc 1 428 5 view .LVU138
  848 0060 FFF7FEFF 		bl	Error_Handler
  849              	.LVL72:
  850              		.cfi_endproc
  851              	.LFE74:
  853              		.section	.rodata.main.str1.4,"aMS",%progbits,1
  854              		.align	2
-ARM GAS  /tmp/ccZzrLig.s 			page 28
-
-
  855              	.LC5:
  856 0000 53746172 		.ascii	"Startup...\000"
  856      7475702E 
@@ -1646,768 +1615,613 @@ ARM GAS  /tmp/ccZzrLig.s 			page 1
  865      72656374 
  866 004f 00       		.align	2
  867              	.LC9:
- 868 0050 53656E74 		.ascii	"Sent\000"
- 868      00
- 869 0055 000000   		.align	2
+ 868 0050 5343414E 		.ascii	"SCANNING..\000"
+ 868      4E494E47 
+ 868      2E2E00
+ARM GAS  /tmp/ccsooeYj.s 			page 28
+
+
+ 869 005b 00       		.align	2
  870              	.LC10:
- 871 0058 5363616E 		.ascii	"Scanning...\000"
- 871      6E696E67 
- 871      2E2E2E00 
- 872              		.align	2
+ 871 005c 54657374 		.ascii	"Test sent\000"
+ 871      2073656E 
+ 871      7400
+ 872 0066 0000     		.align	2
  873              	.LC11:
- 874 0064 5363616E 		.ascii	"Scan done\000"
- 874      20646F6E 
- 874      6500
- 875 006e 0000     		.align	2
+ 874 0068 54657374 		.ascii	"Test RX\000"
+ 874      20525800 
+ 875              		.align	2
  876              	.LC12:
- 877 0070 5258204C 		.ascii	"RX Location\000"
- 877      6F636174 
- 877      696F6E00 
- 878              		.section	.text.main,"ax",%progbits
- 879              		.align	1
- 880              		.global	main
- 881              		.syntax unified
- 882              		.thumb
- 883              		.thumb_func
- 885              	main:
- 886              	.LFB69:
-  93:Core/Src/main.c **** 
- 887              		.loc 1 93 1 view -0
- 888              		.cfi_startproc
- 889              		@ args = 0, pretend = 0, frame = 344
- 890              		@ frame_needed = 0, uses_anonymous_args = 0
- 891 0000 30B5     		push	{r4, r5, lr}
- 892              	.LCFI18:
-ARM GAS  /tmp/ccZzrLig.s 			page 29
+ 877 0070 5363616E 		.ascii	"Scan RX\000"
+ 877      20525800 
+ 878              		.align	2
+ 879              	.LC13:
+ 880 0078 46524F4D 		.ascii	"FROM %d\000"
+ 880      20256400 
+ 881              		.section	.text.main,"ax",%progbits
+ 882              		.align	1
+ 883              		.global	main
+ 884              		.syntax unified
+ 885              		.thumb
+ 886              		.thumb_func
+ 888              	main:
+ 889              	.LFB69:
+  92:Core/Src/main.c **** 
+ 890              		.loc 1 92 1 view -0
+ 891              		.cfi_startproc
+ 892              		@ args = 0, pretend = 0, frame = 152
+ 893              		@ frame_needed = 0, uses_anonymous_args = 0
+ 894 0000 10B5     		push	{r4, lr}
+ 895              	.LCFI18:
+ 896              		.cfi_def_cfa_offset 8
+ 897              		.cfi_offset 4, -8
+ 898              		.cfi_offset 14, -4
+ 899 0002 A8B0     		sub	sp, sp, #160
+ 900              	.LCFI19:
+ 901              		.cfi_def_cfa_offset 168
+ 101:Core/Src/main.c **** 
+ 902              		.loc 1 101 3 view .LVU140
+ 903 0004 FFF7FEFF 		bl	HAL_Init
+ 904              	.LVL73:
+ 108:Core/Src/main.c **** 
+ 905              		.loc 1 108 3 view .LVU141
+ 906 0008 FFF7FEFF 		bl	SystemClock_Config
+ 907              	.LVL74:
+ 115:Core/Src/main.c ****   MX_USART2_UART_Init();
+ 908              		.loc 1 115 3 view .LVU142
+ 909 000c FFF7FEFF 		bl	MX_GPIO_Init
+ 910              	.LVL75:
+ 116:Core/Src/main.c ****   MX_SPI1_Init();
+ 911              		.loc 1 116 3 view .LVU143
+ 912 0010 FFF7FEFF 		bl	MX_USART2_UART_Init
+ 913              	.LVL76:
+ 117:Core/Src/main.c ****   MX_I2C1_Init();
+ 914              		.loc 1 117 3 view .LVU144
+ 915 0014 FFF7FEFF 		bl	MX_SPI1_Init
+ARM GAS  /tmp/ccsooeYj.s 			page 29
 
 
- 893              		.cfi_def_cfa_offset 12
- 894              		.cfi_offset 4, -12
- 895              		.cfi_offset 5, -8
- 896              		.cfi_offset 14, -4
- 897 0002 D9B0     		sub	sp, sp, #356
- 898              	.LCFI19:
- 899              		.cfi_def_cfa_offset 368
- 102:Core/Src/main.c **** 
- 900              		.loc 1 102 3 view .LVU140
- 901 0004 FFF7FEFF 		bl	HAL_Init
- 902              	.LVL73:
- 109:Core/Src/main.c **** 
- 903              		.loc 1 109 3 view .LVU141
- 904 0008 FFF7FEFF 		bl	SystemClock_Config
- 905              	.LVL74:
- 116:Core/Src/main.c ****   MX_USART2_UART_Init();
- 906              		.loc 1 116 3 view .LVU142
- 907 000c FFF7FEFF 		bl	MX_GPIO_Init
- 908              	.LVL75:
- 117:Core/Src/main.c ****   MX_SPI1_Init();
- 909              		.loc 1 117 3 view .LVU143
- 910 0010 FFF7FEFF 		bl	MX_USART2_UART_Init
- 911              	.LVL76:
- 118:Core/Src/main.c ****   MX_I2C1_Init();
- 912              		.loc 1 118 3 view .LVU144
- 913 0014 FFF7FEFF 		bl	MX_SPI1_Init
- 914              	.LVL77:
- 119:Core/Src/main.c ****   MX_USART1_UART_Init();
- 915              		.loc 1 119 3 view .LVU145
- 916 0018 FFF7FEFF 		bl	MX_I2C1_Init
- 917              	.LVL78:
- 120:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
- 918              		.loc 1 120 3 view .LVU146
- 919 001c FFF7FEFF 		bl	MX_USART1_UART_Init
- 920              	.LVL79:
- 127:Core/Src/main.c ****     
- 921              		.loc 1 127 1 view .LVU147
- 922 0020 FFF7FEFF 		bl	ssd1306_Init
- 923              	.LVL80:
- 130:Core/Src/main.c ****     
- 924              		.loc 1 130 1 view .LVU148
- 925 0024 0020     		movs	r0, #0
- 926 0026 FFF7FEFF 		bl	ssd1306_Fill
- 927              	.LVL81:
- 133:Core/Src/main.c **** ssd1306_WriteString("Startup...", Font_11x18, White);
- 928              		.loc 1 133 1 view .LVU149
- 929 002a 1021     		movs	r1, #16
- 930 002c 0846     		mov	r0, r1
- 931 002e FFF7FEFF 		bl	ssd1306_SetCursor
- 932              	.LVL82:
- 134:Core/Src/main.c **** 
- 933              		.loc 1 134 1 view .LVU150
- 934 0032 864B     		ldr	r3, .L62
- 935 0034 0124     		movs	r4, #1
- 936 0036 0094     		str	r4, [sp]
- 937 0038 0ECB     		ldm	r3, {r1, r2, r3}
- 938 003a 8548     		ldr	r0, .L62+4
-ARM GAS  /tmp/ccZzrLig.s 			page 30
+ 916              	.LVL77:
+ 118:Core/Src/main.c ****   MX_USART1_UART_Init();
+ 917              		.loc 1 118 3 view .LVU145
+ 918 0018 FFF7FEFF 		bl	MX_I2C1_Init
+ 919              	.LVL78:
+ 119:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
+ 920              		.loc 1 119 3 view .LVU146
+ 921 001c FFF7FEFF 		bl	MX_USART1_UART_Init
+ 922              	.LVL79:
+ 126:Core/Src/main.c ****     
+ 923              		.loc 1 126 1 view .LVU147
+ 924 0020 FFF7FEFF 		bl	ssd1306_Init
+ 925              	.LVL80:
+ 129:Core/Src/main.c ****     
+ 926              		.loc 1 129 1 view .LVU148
+ 927 0024 0020     		movs	r0, #0
+ 928 0026 FFF7FEFF 		bl	ssd1306_Fill
+ 929              	.LVL81:
+ 132:Core/Src/main.c **** ssd1306_WriteString("Startup...", Font_11x18, White);
+ 930              		.loc 1 132 1 view .LVU149
+ 931 002a 1021     		movs	r1, #16
+ 932 002c 0846     		mov	r0, r1
+ 933 002e FFF7FEFF 		bl	ssd1306_SetCursor
+ 934              	.LVL82:
+ 133:Core/Src/main.c **** 
+ 935              		.loc 1 133 1 view .LVU150
+ 936 0032 6B4B     		ldr	r3, .L61
+ 937 0034 0122     		movs	r2, #1
+ 938 0036 0092     		str	r2, [sp]
+ 939 0038 0ECB     		ldm	r3, {r1, r2, r3}
+ 940 003a 6A48     		ldr	r0, .L61+4
+ 941 003c FFF7FEFF 		bl	ssd1306_WriteString
+ 942              	.LVL83:
+ 136:Core/Src/main.c **** HAL_Delay(500);
+ 943              		.loc 1 136 1 view .LVU151
+ 944 0040 FFF7FEFF 		bl	ssd1306_UpdateScreen
+ 945              	.LVL84:
+ 137:Core/Src/main.c **** ssd1306_Fill(Black);
+ 946              		.loc 1 137 1 view .LVU152
+ 947 0044 4FF4FA70 		mov	r0, #500
+ 948 0048 FFF7FEFF 		bl	HAL_Delay
+ 949              	.LVL85:
+ 138:Core/Src/main.c **** 
+ 950              		.loc 1 138 1 view .LVU153
+ 951 004c 0020     		movs	r0, #0
+ 952 004e FFF7FEFF 		bl	ssd1306_Fill
+ 953              	.LVL86:
+ 143:Core/Src/main.c **** 
+ 954              		.loc 1 143 1 view .LVU154
+ 143:Core/Src/main.c **** 
+ 955              		.loc 1 143 19 is_stmt 0 view .LVU155
+ 956 0052 FFF7FEFF 		bl	COMM_Init
+ 957              	.LVL87:
+ 147:Core/Src/main.c **** 	{
+ 958              		.loc 1 147 1 is_stmt 1 view .LVU156
+ 147:Core/Src/main.c **** 	{
+ 959              		.loc 1 147 4 is_stmt 0 view .LVU157
+ARM GAS  /tmp/ccsooeYj.s 			page 30
 
 
- 939 003c FFF7FEFF 		bl	ssd1306_WriteString
- 940              	.LVL83:
- 137:Core/Src/main.c **** HAL_Delay(500);
- 941              		.loc 1 137 1 view .LVU151
- 942 0040 FFF7FEFF 		bl	ssd1306_UpdateScreen
- 943              	.LVL84:
- 138:Core/Src/main.c **** ssd1306_Fill(Black);
- 944              		.loc 1 138 1 view .LVU152
- 945 0044 4FF4FA70 		mov	r0, #500
- 946 0048 FFF7FEFF 		bl	HAL_Delay
- 947              	.LVL85:
- 139:Core/Src/main.c **** 
- 948              		.loc 1 139 1 view .LVU153
- 949 004c 0020     		movs	r0, #0
- 950 004e FFF7FEFF 		bl	ssd1306_Fill
- 951              	.LVL86:
- 144:Core/Src/main.c **** lora.CS_pin		= NSS_Pin;
- 952              		.loc 1 144 1 view .LVU154
- 144:Core/Src/main.c **** lora.CS_pin		= NSS_Pin;
- 953              		.loc 1 144 15 is_stmt 0 view .LVU155
- 954 0052 8048     		ldr	r0, .L62+8
- 955 0054 804B     		ldr	r3, .L62+12
- 956 0056 0360     		str	r3, [r0]
- 145:Core/Src/main.c **** lora.reset_port		= LoRa_RST_GPIO_Port;
- 957              		.loc 1 145 1 is_stmt 1 view .LVU156
- 145:Core/Src/main.c **** lora.reset_port		= LoRa_RST_GPIO_Port;
- 958              		.loc 1 145 14 is_stmt 0 view .LVU157
- 959 0058 1022     		movs	r2, #16
- 960 005a 8280     		strh	r2, [r0, #4]	@ movhi
- 146:Core/Src/main.c **** lora.reset_pin		= LoRa_RST_Pin;
- 961              		.loc 1 146 1 is_stmt 1 view .LVU158
- 146:Core/Src/main.c **** lora.reset_pin		= LoRa_RST_Pin;
- 962              		.loc 1 146 18 is_stmt 0 view .LVU159
- 963 005c 8360     		str	r3, [r0, #8]
- 147:Core/Src/main.c **** lora.DIO0_port		= DIO0_GPIO_Port;
- 964              		.loc 1 147 1 is_stmt 1 view .LVU160
- 147:Core/Src/main.c **** lora.DIO0_port		= DIO0_GPIO_Port;
- 965              		.loc 1 147 17 is_stmt 0 view .LVU161
- 966 005e 4FF48072 		mov	r2, #256
- 967 0062 8281     		strh	r2, [r0, #12]	@ movhi
- 148:Core/Src/main.c **** lora.DIO0_pin		= DIO0_Pin;
- 968              		.loc 1 148 1 is_stmt 1 view .LVU162
- 148:Core/Src/main.c **** lora.DIO0_pin		= DIO0_Pin;
- 969              		.loc 1 148 17 is_stmt 0 view .LVU163
- 970 0064 0361     		str	r3, [r0, #16]
- 149:Core/Src/main.c **** lora.hSPIx		= &hspi1;
- 971              		.loc 1 149 1 is_stmt 1 view .LVU164
- 149:Core/Src/main.c **** lora.hSPIx		= &hspi1;
- 972              		.loc 1 149 16 is_stmt 0 view .LVU165
- 973 0066 8482     		strh	r4, [r0, #20]	@ movhi
- 150:Core/Src/main.c **** 
- 974              		.loc 1 150 1 is_stmt 1 view .LVU166
- 150:Core/Src/main.c **** 
- 975              		.loc 1 150 13 is_stmt 0 view .LVU167
- 976 0068 7C4B     		ldr	r3, .L62+16
- 977 006a 8361     		str	r3, [r0, #24]
- 152:Core/Src/main.c **** uint16_t	status = LoRa_init(&lora);
-ARM GAS  /tmp/ccZzrLig.s 			page 31
+ 960 0056 C828     		cmp	r0, #200
+ 961 0058 17D0     		beq	.L54
+ 160:Core/Src/main.c **** 	{
+ 962              		.loc 1 160 6 is_stmt 1 view .LVU158
+ 160:Core/Src/main.c **** 	{
+ 963              		.loc 1 160 9 is_stmt 0 view .LVU159
+ 964 005a B0F5CA7F 		cmp	r0, #404
+ 965 005e 26D0     		beq	.L55
+ 167:Core/Src/main.c **** 	{
+ 966              		.loc 1 167 6 is_stmt 1 view .LVU160
+ 167:Core/Src/main.c **** 	{
+ 967              		.loc 1 167 9 is_stmt 0 view .LVU161
+ 968 0060 40F2F712 		movw	r2, #503
+ 969 0064 9042     		cmp	r0, r2
+ 970 0066 30D0     		beq	.L56
+ 971              	.LVL88:
+ 972              	.L45:
+ 180:Core/Src/main.c **** 
+ 973              		.loc 1 180 1 is_stmt 1 view .LVU162
+ 974 0068 FFF7FEFF 		bl	GPS_Init
+ 975              	.LVL89:
+ 182:Core/Src/main.c **** {
+ 976              		.loc 1 182 1 view .LVU163
+ 205:Core/Src/main.c **** 
+ 977              		.loc 1 205 1 view .LVU164
+ 207:Core/Src/main.c **** 
+ 978              		.loc 1 207 1 view .LVU165
+ 979 006c 08A8     		add	r0, sp, #32
+ 980 006e FFF7FEFF 		bl	GPS_parse
+ 981              	.LVL90:
+ 209:Core/Src/main.c **** HAL_Delay(500);
+ 982              		.loc 1 209 1 view .LVU166
+ 983 0072 5D48     		ldr	r0, .L61+8
+ 984 0074 FFF7FEFF 		bl	GPS_display_status.0
+ 985              	.LVL91:
+ 210:Core/Src/main.c **** 
+ 986              		.loc 1 210 1 view .LVU167
+ 987 0078 4FF4FA70 		mov	r0, #500
+ 988 007c FFF7FEFF 		bl	HAL_Delay
+ 989              	.LVL92:
+ 215:Core/Src/main.c **** {
+ 990              		.loc 1 215 1 view .LVU168
+ 244:Core/Src/main.c **** {
+ 991              		.loc 1 244 1 view .LVU169
+ 284:Core/Src/main.c **** {
+ 992              		.loc 1 284 1 view .LVU170
+ 326:Core/Src/main.c **** main_screen();
+ 993              		.loc 1 326 1 view .LVU171
+ 994 0080 FFF7FEFF 		bl	SCAN_Init
+ 995              	.LVL93:
+ 327:Core/Src/main.c **** 
+ 996              		.loc 1 327 1 view .LVU172
+ 997 0084 FFF7FEFF 		bl	main_screen.3
+ 998              	.LVL94:
+ 999 0088 4AE0     		b	.L49
+ 1000              	.LVL95:
+ 1001              	.L54:
+ARM GAS  /tmp/ccsooeYj.s 			page 31
 
 
- 978              		.loc 1 152 1 is_stmt 1 view .LVU168
- 153:Core/Src/main.c **** 
- 979              		.loc 1 153 1 view .LVU169
- 153:Core/Src/main.c **** 
- 980              		.loc 1 153 19 is_stmt 0 view .LVU170
- 981 006c FFF7FEFF 		bl	LoRa_init
- 982              	.LVL87:
- 983 0070 0446     		mov	r4, r0
- 984              	.LVL88:
- 155:Core/Src/main.c **** 
- 985              		.loc 1 155 1 is_stmt 1 view .LVU171
- 986 0072 C822     		movs	r2, #200
- 987 0074 0021     		movs	r1, #0
- 988 0076 26A8     		add	r0, sp, #152
- 989 0078 FFF7FEFF 		bl	memset
- 990              	.LVL89:
- 157:Core/Src/main.c **** 	{
- 991              		.loc 1 157 1 view .LVU172
- 157:Core/Src/main.c **** 	{
- 992              		.loc 1 157 4 is_stmt 0 view .LVU173
- 993 007c C82C     		cmp	r4, #200
- 994 007e 65D0     		beq	.L55
- 170:Core/Src/main.c **** 	{
- 995              		.loc 1 170 6 is_stmt 1 view .LVU174
- 170:Core/Src/main.c **** 	{
- 996              		.loc 1 170 9 is_stmt 0 view .LVU175
- 997 0080 B4F5CA7F 		cmp	r4, #404
- 998 0084 74D0     		beq	.L56
- 177:Core/Src/main.c **** 	{
- 999              		.loc 1 177 6 is_stmt 1 view .LVU176
- 177:Core/Src/main.c **** 	{
- 1000              		.loc 1 177 9 is_stmt 0 view .LVU177
- 1001 0086 40F2F713 		movw	r3, #503
- 1002 008a 9C42     		cmp	r4, r3
- 1003 008c 7ED0     		beq	.L57
- 1004              	.L45:
- 188:Core/Src/main.c **** lora.spredingFactor = SF_9;
- 1005              		.loc 1 188 1 is_stmt 1 view .LVU178
- 188:Core/Src/main.c **** lora.spredingFactor = SF_9;
- 1006              		.loc 1 188 21 is_stmt 0 view .LVU179
- 1007 008e 714B     		ldr	r3, .L62+8
- 1008 0090 4FF4D972 		mov	r2, #434
- 1009 0094 1A62     		str	r2, [r3, #32]
- 189:Core/Src/main.c **** lora.bandWidth      = BW_250KHz;
- 1010              		.loc 1 189 1 is_stmt 1 view .LVU180
- 189:Core/Src/main.c **** lora.bandWidth      = BW_250KHz;
- 1011              		.loc 1 189 21 is_stmt 0 view .LVU181
- 1012 0096 0922     		movs	r2, #9
- 1013 0098 83F82420 		strb	r2, [r3, #36]
- 190:Core/Src/main.c **** lora.crcRate        = CR_4_8;
- 1014              		.loc 1 190 1 is_stmt 1 view .LVU182
- 190:Core/Src/main.c **** lora.crcRate        = CR_4_8;
- 1015              		.loc 1 190 21 is_stmt 0 view .LVU183
- 1016 009c 0822     		movs	r2, #8
- 1017 009e 83F82520 		strb	r2, [r3, #37]
- 191:Core/Src/main.c **** lora.power          = POWER_17db;
- 1018              		.loc 1 191 1 is_stmt 1 view .LVU184
-ARM GAS  /tmp/ccZzrLig.s 			page 32
+ 155:Core/Src/main.c **** 		ssd1306_WriteString("LoRa OK!", Font_11x18, White);
+ 1002              		.loc 1 155 3 view .LVU173
+ 1003 008a 1021     		movs	r1, #16
+ 1004 008c 0846     		mov	r0, r1
+ 1005              	.LVL96:
+ 155:Core/Src/main.c **** 		ssd1306_WriteString("LoRa OK!", Font_11x18, White);
+ 1006              		.loc 1 155 3 is_stmt 0 view .LVU174
+ 1007 008e FFF7FEFF 		bl	ssd1306_SetCursor
+ 1008              	.LVL97:
+ 156:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 1009              		.loc 1 156 3 is_stmt 1 view .LVU175
+ 1010 0092 534B     		ldr	r3, .L61
+ 1011 0094 0122     		movs	r2, #1
+ 1012 0096 0092     		str	r2, [sp]
+ 1013 0098 0ECB     		ldm	r3, {r1, r2, r3}
+ 1014 009a 5448     		ldr	r0, .L61+12
+ 1015 009c FFF7FEFF 		bl	ssd1306_WriteString
+ 1016              	.LVL98:
+ 157:Core/Src/main.c **** 		HAL_Delay(500);
+ 1017              		.loc 1 157 3 view .LVU176
+ 1018 00a0 FFF7FEFF 		bl	ssd1306_UpdateScreen
+ 1019              	.LVL99:
+ 158:Core/Src/main.c **** 	}
+ 1020              		.loc 1 158 3 view .LVU177
+ 1021 00a4 4FF4FA70 		mov	r0, #500
+ 1022 00a8 FFF7FEFF 		bl	HAL_Delay
+ 1023              	.LVL100:
+ 1024 00ac DCE7     		b	.L45
+ 1025              	.LVL101:
+ 1026              	.L55:
+ 163:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 1027              		.loc 1 163 3 view .LVU178
+ 1028 00ae 4C4B     		ldr	r3, .L61
+ 1029 00b0 0122     		movs	r2, #1
+ 1030 00b2 0092     		str	r2, [sp]
+ 1031 00b4 0ECB     		ldm	r3, {r1, r2, r3}
+ 1032 00b6 4E48     		ldr	r0, .L61+16
+ 1033              	.LVL102:
+ 163:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 1034              		.loc 1 163 3 is_stmt 0 view .LVU179
+ 1035 00b8 FFF7FEFF 		bl	ssd1306_WriteString
+ 1036              	.LVL103:
+ 164:Core/Src/main.c **** 		HAL_Delay(500);
+ 1037              		.loc 1 164 3 is_stmt 1 view .LVU180
+ 1038 00bc FFF7FEFF 		bl	ssd1306_UpdateScreen
+ 1039              	.LVL104:
+ 165:Core/Src/main.c **** 	}
+ 1040              		.loc 1 165 3 view .LVU181
+ 1041 00c0 4FF4FA70 		mov	r0, #500
+ 1042 00c4 FFF7FEFF 		bl	HAL_Delay
+ 1043              	.LVL105:
+ 1044 00c8 CEE7     		b	.L45
+ 1045              	.LVL106:
+ 1046              	.L56:
+ 170:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 1047              		.loc 1 170 3 view .LVU182
+ 1048 00ca 454B     		ldr	r3, .L61
+ARM GAS  /tmp/ccsooeYj.s 			page 32
 
 
- 191:Core/Src/main.c **** lora.power          = POWER_17db;
- 1019              		.loc 1 191 21 is_stmt 0 view .LVU185
- 1020 00a2 0422     		movs	r2, #4
- 1021 00a4 83F82620 		strb	r2, [r3, #38]
- 192:Core/Src/main.c **** lora.overCurrentProtection = 130;
- 1022              		.loc 1 192 1 is_stmt 1 view .LVU186
- 192:Core/Src/main.c **** lora.overCurrentProtection = 130;
- 1023              		.loc 1 192 21 is_stmt 0 view .LVU187
- 1024 00a8 FC22     		movs	r2, #252
- 1025 00aa 83F82A20 		strb	r2, [r3, #42]
- 193:Core/Src/main.c **** lora.preamble       = 10;
- 1026              		.loc 1 193 1 is_stmt 1 view .LVU188
- 193:Core/Src/main.c **** lora.preamble       = 10;
- 1027              		.loc 1 193 28 is_stmt 0 view .LVU189
- 1028 00ae 8222     		movs	r2, #130
- 1029 00b0 83F82B20 		strb	r2, [r3, #43]
- 194:Core/Src/main.c **** 
- 1030              		.loc 1 194 1 is_stmt 1 view .LVU190
- 194:Core/Src/main.c **** 
- 1031              		.loc 1 194 21 is_stmt 0 view .LVU191
- 1032 00b4 0A22     		movs	r2, #10
- 1033 00b6 1A85     		strh	r2, [r3, #40]	@ movhi
- 198:Core/Src/main.c **** 
- 1034              		.loc 1 198 1 is_stmt 1 view .LVU192
- 1035 00b8 FFF7FEFF 		bl	GPS_Init
- 1036              	.LVL90:
- 200:Core/Src/main.c **** {
- 1037              		.loc 1 200 1 view .LVU193
- 223:Core/Src/main.c **** 
- 1038              		.loc 1 223 1 view .LVU194
- 225:Core/Src/main.c **** 
- 1039              		.loc 1 225 1 view .LVU195
- 1040 00bc 06A8     		add	r0, sp, #24
- 1041 00be FFF7FEFF 		bl	GPS_parse
- 1042              	.LVL91:
- 227:Core/Src/main.c **** HAL_Delay(500);
- 1043              		.loc 1 227 1 view .LVU196
- 1044 00c2 6748     		ldr	r0, .L62+20
- 1045 00c4 FFF7FEFF 		bl	GPS_display_status.0
- 1046              	.LVL92:
- 228:Core/Src/main.c **** 
- 1047              		.loc 1 228 1 view .LVU197
- 1048 00c8 4FF4FA70 		mov	r0, #500
- 1049 00cc FFF7FEFF 		bl	HAL_Delay
- 1050              	.LVL93:
- 233:Core/Src/main.c **** {
- 1051              		.loc 1 233 1 view .LVU198
- 262:Core/Src/main.c **** {
- 1052              		.loc 1 262 1 view .LVU199
- 302:Core/Src/main.c **** {
- 1053              		.loc 1 302 1 view .LVU200
- 345:Core/Src/main.c **** SCAN_Init();
- 1054              		.loc 1 345 1 view .LVU201
- 1055 00d0 FFF7FEFF 		bl	COMM_Init
- 1056              	.LVL94:
- 346:Core/Src/main.c **** bool	scan_was_active = false;
- 1057              		.loc 1 346 1 view .LVU202
-ARM GAS  /tmp/ccZzrLig.s 			page 33
+ 1049 00cc 0122     		movs	r2, #1
+ 1050 00ce 0092     		str	r2, [sp]
+ 1051 00d0 0ECB     		ldm	r3, {r1, r2, r3}
+ 1052 00d2 4848     		ldr	r0, .L61+20
+ 1053              	.LVL107:
+ 170:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 1054              		.loc 1 170 3 is_stmt 0 view .LVU183
+ 1055 00d4 FFF7FEFF 		bl	ssd1306_WriteString
+ 1056              	.LVL108:
+ 171:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 1057              		.loc 1 171 3 is_stmt 1 view .LVU184
+ 1058 00d8 FFF7FEFF 		bl	ssd1306_UpdateScreen
+ 1059              	.LVL109:
+ 172:Core/Src/main.c **** 		HAL_Delay(500);
+ 1060              		.loc 1 172 3 view .LVU185
+ 1061 00dc FFF7FEFF 		bl	ssd1306_UpdateScreen
+ 1062              	.LVL110:
+ 173:Core/Src/main.c **** 
+ 1063              		.loc 1 173 3 view .LVU186
+ 1064 00e0 4FF4FA70 		mov	r0, #500
+ 1065 00e4 FFF7FEFF 		bl	HAL_Delay
+ 1066              	.LVL111:
+ 1067 00e8 BEE7     		b	.L45
+ 1068              	.L58:
+ 342:Core/Src/main.c **** 		scan_mode();
+ 1069              		.loc 1 342 3 view .LVU187
+ 342:Core/Src/main.c **** 		scan_mode();
+ 1070              		.loc 1 342 20 is_stmt 0 view .LVU188
+ 1071 00ea 0024     		movs	r4, #0
+ 1072 00ec 424B     		ldr	r3, .L61+24
+ 1073 00ee 1C70     		strb	r4, [r3]
+ 343:Core/Src/main.c **** 
+ 1074              		.loc 1 343 3 is_stmt 1 view .LVU189
+ 1075 00f0 FFF7FEFF 		bl	scan_mode.1
+ 1076              	.LVL112:
+ 345:Core/Src/main.c **** 
+ 1077              		.loc 1 345 3 view .LVU190
+ 1078 00f4 FFF7FEFF 		bl	SCAN_Start
+ 1079              	.LVL113:
+ 347:Core/Src/main.c **** 		ssd1306_SetCursor(16, 16);
+ 1080              		.loc 1 347 3 view .LVU191
+ 1081 00f8 2046     		mov	r0, r4
+ 1082 00fa FFF7FEFF 		bl	ssd1306_Fill
+ 1083              	.LVL114:
+ 348:Core/Src/main.c **** 		ssd1306_WriteString("SCANNING..", Font_11x18, White);
+ 1084              		.loc 1 348 3 view .LVU192
+ 1085 00fe 1021     		movs	r1, #16
+ 1086 0100 0846     		mov	r0, r1
+ 1087 0102 FFF7FEFF 		bl	ssd1306_SetCursor
+ 1088              	.LVL115:
+ 349:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 1089              		.loc 1 349 3 view .LVU193
+ 1090 0106 364B     		ldr	r3, .L61
+ 1091 0108 0122     		movs	r2, #1
+ 1092 010a 0092     		str	r2, [sp]
+ 1093 010c 0ECB     		ldm	r3, {r1, r2, r3}
+ 1094 010e 3B48     		ldr	r0, .L61+28
+ARM GAS  /tmp/ccsooeYj.s 			page 33
 
 
- 1058 00d4 FFF7FEFF 		bl	SCAN_Init
- 1059              	.LVL95:
- 347:Core/Src/main.c **** main_screen();
- 1060              		.loc 1 347 1 view .LVU203
- 348:Core/Src/main.c ****   /* Infinite loop */
- 1061              		.loc 1 348 1 view .LVU204
- 1062 00d8 FFF7FEFF 		bl	main_screen.3
- 1063              	.LVL96:
- 347:Core/Src/main.c **** main_screen();
- 1064              		.loc 1 347 6 is_stmt 0 view .LVU205
- 1065 00dc 0024     		movs	r4, #0
- 1066              	.LVL97:
- 1067              	.L47:
- 351:Core/Src/main.c ****   {
- 1068              		.loc 1 351 3 is_stmt 1 view .LVU206
- 355:Core/Src/main.c **** 	{
- 1069              		.loc 1 355 2 view .LVU207
- 355:Core/Src/main.c **** 	{
- 1070              		.loc 1 355 6 is_stmt 0 view .LVU208
- 1071 00de 614B     		ldr	r3, .L62+24
- 1072 00e0 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 355:Core/Src/main.c **** 	{
- 1073              		.loc 1 355 5 view .LVU209
- 1074 00e2 002B     		cmp	r3, #0
- 1075 00e4 62D1     		bne	.L58
- 1076              	.L48:
- 365:Core/Src/main.c **** 	{
- 1077              		.loc 1 365 2 is_stmt 1 view .LVU210
- 365:Core/Src/main.c **** 	{
- 1078              		.loc 1 365 6 is_stmt 0 view .LVU211
- 1079 00e6 604B     		ldr	r3, .L62+28
- 1080 00e8 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 365:Core/Src/main.c **** 	{
- 1081              		.loc 1 365 5 view .LVU212
- 1082 00ea 002B     		cmp	r3, #0
- 1083 00ec 6AD1     		bne	.L59
- 1084              	.L49:
- 378:Core/Src/main.c **** 	SCAN_Process();
- 1085              		.loc 1 378 2 is_stmt 1 view .LVU213
- 1086 00ee FFF7FEFF 		bl	COMM_Process
- 1087              	.LVL98:
- 379:Core/Src/main.c **** 
- 1088              		.loc 1 379 2 view .LVU214
- 1089 00f2 FFF7FEFF 		bl	SCAN_Process
- 1090              	.LVL99:
- 381:Core/Src/main.c **** 	{
- 1091              		.loc 1 381 2 view .LVU215
- 381:Core/Src/main.c **** 	{
- 1092              		.loc 1 381 6 is_stmt 0 view .LVU216
- 1093 00f6 FFF7FEFF 		bl	SCAN_IsActive
- 1094              	.LVL100:
- 381:Core/Src/main.c **** 	{
- 1095              		.loc 1 381 5 discriminator 1 view .LVU217
- 1096 00fa 0546     		mov	r5, r0
- 1097 00fc 08B1     		cbz	r0, .L50
- 381:Core/Src/main.c **** 	{
- 1098              		.loc 1 381 22 discriminator 1 view .LVU218
-ARM GAS  /tmp/ccZzrLig.s 			page 34
+ 1095 0110 FFF7FEFF 		bl	ssd1306_WriteString
+ 1096              	.LVL116:
+ 350:Core/Src/main.c **** 	}
+ 1097              		.loc 1 350 3 view .LVU194
+ 1098 0114 FFF7FEFF 		bl	ssd1306_UpdateScreen
+ 1099              	.LVL117:
+ 1100 0118 0AE0     		b	.L47
+ 1101              	.L48:
+ 368:Core/Src/main.c **** 	{
+ 1102              		.loc 1 368 2 view .LVU195
+ 368:Core/Src/main.c **** 	{
+ 1103              		.loc 1 368 6 is_stmt 0 view .LVU196
+ 1104 011a FFF7FEFF 		bl	COMM_HasMessage
+ 1105              	.LVL118:
+ 368:Core/Src/main.c **** 	{
+ 1106              		.loc 1 368 5 discriminator 1 view .LVU197
+ 1107 011e 50BB     		cbnz	r0, .L57
+ 1108              	.L49:
+ 331:Core/Src/main.c ****   {
+ 1109              		.loc 1 331 3 is_stmt 1 view .LVU198
+ 336:Core/Src/main.c **** 	SCAN_Process();
+ 1110              		.loc 1 336 2 view .LVU199
+ 1111 0120 FFF7FEFF 		bl	COMM_Process
+ 1112              	.LVL119:
+ 337:Core/Src/main.c **** 	
+ 1113              		.loc 1 337 2 view .LVU200
+ 1114 0124 FFF7FEFF 		bl	SCAN_Process
+ 1115              	.LVL120:
+ 340:Core/Src/main.c **** 	{
+ 1116              		.loc 1 340 2 view .LVU201
+ 340:Core/Src/main.c **** 	{
+ 1117              		.loc 1 340 6 is_stmt 0 view .LVU202
+ 1118 0128 334B     		ldr	r3, .L61+24
+ 1119 012a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 340:Core/Src/main.c **** 	{
+ 1120              		.loc 1 340 5 view .LVU203
+ 1121 012c 002B     		cmp	r3, #0
+ 1122 012e DCD1     		bne	.L58
+ 1123              	.L47:
+ 353:Core/Src/main.c **** 	{
+ 1124              		.loc 1 353 2 is_stmt 1 view .LVU204
+ 353:Core/Src/main.c **** 	{
+ 1125              		.loc 1 353 6 is_stmt 0 view .LVU205
+ 1126 0130 334B     		ldr	r3, .L61+32
+ 1127 0132 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 353:Core/Src/main.c **** 	{
+ 1128              		.loc 1 353 5 view .LVU206
+ 1129 0134 002B     		cmp	r3, #0
+ 1130 0136 F0D0     		beq	.L48
+ 355:Core/Src/main.c **** 		send_mode();
+ 1131              		.loc 1 355 3 is_stmt 1 view .LVU207
+ 355:Core/Src/main.c **** 		send_mode();
+ 1132              		.loc 1 355 20 is_stmt 0 view .LVU208
+ 1133 0138 0024     		movs	r4, #0
+ 1134 013a 314B     		ldr	r3, .L61+32
+ 1135 013c 1C70     		strb	r4, [r3]
+ 356:Core/Src/main.c **** 		COMM_SendTest(NODE_ID);
+ARM GAS  /tmp/ccsooeYj.s 			page 34
 
 
- 1099 00fe 002C     		cmp	r4, #0
- 1100 0100 7BD0     		beq	.L60
- 1101              	.LVL101:
- 1102              	.L50:
- 390:Core/Src/main.c **** 	{
- 1103              		.loc 1 390 2 is_stmt 1 view .LVU219
- 390:Core/Src/main.c **** 	{
- 1104              		.loc 1 390 7 is_stmt 0 view .LVU220
- 1105 0102 FFF7FEFF 		bl	SCAN_IsActive
- 1106              	.LVL102:
- 390:Core/Src/main.c **** 	{
- 1107              		.loc 1 390 5 discriminator 1 view .LVU221
- 1108 0106 0546     		mov	r5, r0
- 1109 0108 10B9     		cbnz	r0, .L51
- 390:Core/Src/main.c **** 	{
- 1110              		.loc 1 390 23 discriminator 1 view .LVU222
- 1111 010a 002C     		cmp	r4, #0
- 1112 010c 40F08780 		bne	.L61
- 1113              	.LVL103:
- 1114              	.L51:
- 401:Core/Src/main.c **** 	{
- 1115              		.loc 1 401 2 is_stmt 1 view .LVU223
- 401:Core/Src/main.c **** 	{
- 1116              		.loc 1 401 6 is_stmt 0 view .LVU224
- 1117 0110 FFF7FEFF 		bl	COMM_HasPacket
- 1118              	.LVL104:
- 401:Core/Src/main.c **** 	{
- 1119              		.loc 1 401 5 discriminator 1 view .LVU225
- 1120 0114 0028     		cmp	r0, #0
- 1121 0116 E2D0     		beq	.L47
- 1122              	.LBB6:
- 403:Core/Src/main.c **** 		if (COMM_GetPacket(&pkt))
- 1123              		.loc 1 403 3 is_stmt 1 view .LVU226
- 404:Core/Src/main.c **** 		{
- 1124              		.loc 1 404 3 view .LVU227
- 404:Core/Src/main.c **** 		{
- 1125              		.loc 1 404 7 is_stmt 0 view .LVU228
- 1126 0118 02A8     		add	r0, sp, #8
- 1127 011a FFF7FEFF 		bl	COMM_GetPacket
- 1128              	.LVL105:
- 404:Core/Src/main.c **** 		{
- 1129              		.loc 1 404 6 discriminator 1 view .LVU229
- 1130 011e 0028     		cmp	r0, #0
- 1131 0120 DDD0     		beq	.L47
- 406:Core/Src/main.c **** 			{
- 1132              		.loc 1 406 4 is_stmt 1 view .LVU230
- 406:Core/Src/main.c **** 			{
- 1133              		.loc 1 406 11 is_stmt 0 view .LVU231
- 1134 0122 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
- 406:Core/Src/main.c **** 			{
- 1135              		.loc 1 406 7 view .LVU232
- 1136 0126 012B     		cmp	r3, #1
- 1137 0128 D9D1     		bne	.L47
- 408:Core/Src/main.c **** 				ssd1306_SetCursor(16,16);
- 1138              		.loc 1 408 5 is_stmt 1 view .LVU233
- 1139 012a 0020     		movs	r0, #0
- 1140 012c FFF7FEFF 		bl	ssd1306_Fill
-ARM GAS  /tmp/ccZzrLig.s 			page 35
+ 1136              		.loc 1 356 3 is_stmt 1 view .LVU209
+ 1137 013e FFF7FEFF 		bl	send_mode.2
+ 1138              	.LVL121:
+ 357:Core/Src/main.c **** 
+ 1139              		.loc 1 357 3 view .LVU210
+ 1140 0142 0120     		movs	r0, #1
+ 1141 0144 FFF7FEFF 		bl	COMM_SendTest
+ 1142              	.LVL122:
+ 359:Core/Src/main.c **** 		ssd1306_SetCursor(16,16);
+ 1143              		.loc 1 359 3 view .LVU211
+ 1144 0148 2046     		mov	r0, r4
+ 1145 014a FFF7FEFF 		bl	ssd1306_Fill
+ 1146              	.LVL123:
+ 360:Core/Src/main.c **** 		ssd1306_WriteString("Test sent", Font_11x18, White);
+ 1147              		.loc 1 360 3 view .LVU212
+ 1148 014e 1021     		movs	r1, #16
+ 1149 0150 0846     		mov	r0, r1
+ 1150 0152 FFF7FEFF 		bl	ssd1306_SetCursor
+ 1151              	.LVL124:
+ 361:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 1152              		.loc 1 361 3 view .LVU213
+ 1153 0156 224B     		ldr	r3, .L61
+ 1154 0158 0122     		movs	r2, #1
+ 1155 015a 0092     		str	r2, [sp]
+ 1156 015c 0ECB     		ldm	r3, {r1, r2, r3}
+ 1157 015e 2948     		ldr	r0, .L61+36
+ 1158 0160 FFF7FEFF 		bl	ssd1306_WriteString
+ 1159              	.LVL125:
+ 362:Core/Src/main.c **** 		HAL_Delay(500);
+ 1160              		.loc 1 362 3 view .LVU214
+ 1161 0164 FFF7FEFF 		bl	ssd1306_UpdateScreen
+ 1162              	.LVL126:
+ 363:Core/Src/main.c **** 		main_screen();
+ 1163              		.loc 1 363 3 view .LVU215
+ 1164 0168 4FF4FA70 		mov	r0, #500
+ 1165 016c FFF7FEFF 		bl	HAL_Delay
+ 1166              	.LVL127:
+ 364:Core/Src/main.c **** 	}
+ 1167              		.loc 1 364 3 view .LVU216
+ 1168 0170 FFF7FEFF 		bl	main_screen.3
+ 1169              	.LVL128:
+ 1170 0174 D1E7     		b	.L48
+ 1171              	.L57:
+ 1172              	.LBB6:
+ 370:Core/Src/main.c **** 		uint8_t	type = COMM_GetMessage(&sender);
+ 1173              		.loc 1 370 3 view .LVU217
+ 371:Core/Src/main.c **** 
+ 1174              		.loc 1 371 3 view .LVU218
+ 371:Core/Src/main.c **** 
+ 1175              		.loc 1 371 18 is_stmt 0 view .LVU219
+ 1176 0176 0DF10F00 		add	r0, sp, #15
+ 1177 017a FFF7FEFF 		bl	COMM_GetMessage
+ 1178              	.LVL129:
+ 1179 017e 0446     		mov	r4, r0
+ 1180              	.LVL130:
+ 373:Core/Src/main.c **** 		ssd1306_SetCursor(16, 16);
+ 1181              		.loc 1 373 3 is_stmt 1 view .LVU220
+ARM GAS  /tmp/ccsooeYj.s 			page 35
 
 
- 1141              	.LVL106:
- 409:Core/Src/main.c **** 				ssd1306_WriteString("RX Location", Font_11x18, White);
- 1142              		.loc 1 409 5 view .LVU234
- 1143 0130 1021     		movs	r1, #16
- 1144 0132 0846     		mov	r0, r1
- 1145 0134 FFF7FEFF 		bl	ssd1306_SetCursor
- 1146              	.LVL107:
- 410:Core/Src/main.c **** 				ssd1306_UpdateScreen();
- 1147              		.loc 1 410 5 view .LVU235
- 1148 0138 444B     		ldr	r3, .L62
- 1149 013a 0122     		movs	r2, #1
- 1150 013c 0092     		str	r2, [sp]
- 1151 013e 0ECB     		ldm	r3, {r1, r2, r3}
- 1152 0140 4A48     		ldr	r0, .L62+32
- 1153 0142 FFF7FEFF 		bl	ssd1306_WriteString
- 1154              	.LVL108:
- 411:Core/Src/main.c **** 			}
- 1155              		.loc 1 411 5 view .LVU236
- 1156 0146 FFF7FEFF 		bl	ssd1306_UpdateScreen
- 1157              	.LVL109:
- 1158 014a C8E7     		b	.L47
- 1159              	.LVL110:
- 1160              	.L55:
- 411:Core/Src/main.c **** 			}
- 1161              		.loc 1 411 5 is_stmt 0 view .LVU237
- 1162              	.LBE6:
- 165:Core/Src/main.c **** 		ssd1306_WriteString("LoRa OK!", Font_11x18, White);
- 1163              		.loc 1 165 3 is_stmt 1 view .LVU238
- 1164 014c 1021     		movs	r1, #16
- 1165 014e 0846     		mov	r0, r1
- 1166 0150 FFF7FEFF 		bl	ssd1306_SetCursor
- 1167              	.LVL111:
- 166:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 1168              		.loc 1 166 3 view .LVU239
- 1169 0154 3D4B     		ldr	r3, .L62
- 1170 0156 0122     		movs	r2, #1
- 1171 0158 0092     		str	r2, [sp]
- 1172 015a 0ECB     		ldm	r3, {r1, r2, r3}
- 1173 015c 4448     		ldr	r0, .L62+36
- 1174 015e FFF7FEFF 		bl	ssd1306_WriteString
- 1175              	.LVL112:
- 167:Core/Src/main.c **** 		HAL_Delay(500);
- 1176              		.loc 1 167 3 view .LVU240
- 1177 0162 FFF7FEFF 		bl	ssd1306_UpdateScreen
- 1178              	.LVL113:
- 168:Core/Src/main.c **** 	}
- 1179              		.loc 1 168 3 view .LVU241
- 1180 0166 4FF4FA70 		mov	r0, #500
- 1181 016a FFF7FEFF 		bl	HAL_Delay
- 1182              	.LVL114:
- 1183 016e 8EE7     		b	.L45
- 1184              	.L56:
- 173:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 1185              		.loc 1 173 3 view .LVU242
- 1186 0170 364B     		ldr	r3, .L62
- 1187 0172 0122     		movs	r2, #1
- 1188 0174 0092     		str	r2, [sp]
-ARM GAS  /tmp/ccZzrLig.s 			page 36
+ 1182 0180 0020     		movs	r0, #0
+ 1183 0182 FFF7FEFF 		bl	ssd1306_Fill
+ 1184              	.LVL131:
+ 374:Core/Src/main.c **** 		if (type == MSG_TEST)
+ 1185              		.loc 1 374 3 view .LVU221
+ 1186 0186 1021     		movs	r1, #16
+ 1187 0188 0846     		mov	r0, r1
+ 1188 018a FFF7FEFF 		bl	ssd1306_SetCursor
+ 1189              	.LVL132:
+ 375:Core/Src/main.c **** 			ssd1306_WriteString("Test RX", Font_11x18, White);
+ 1190              		.loc 1 375 3 view .LVU222
+ 375:Core/Src/main.c **** 			ssd1306_WriteString("Test RX", Font_11x18, White);
+ 1191              		.loc 1 375 6 is_stmt 0 view .LVU223
+ 1192 018e 012C     		cmp	r4, #1
+ 1193 0190 16D0     		beq	.L59
+ 377:Core/Src/main.c **** 			ssd1306_WriteString("Scan RX", Font_11x18, White);
+ 1194              		.loc 1 377 8 is_stmt 1 view .LVU224
+ 377:Core/Src/main.c **** 			ssd1306_WriteString("Scan RX", Font_11x18, White);
+ 1195              		.loc 1 377 11 is_stmt 0 view .LVU225
+ 1196 0192 022C     		cmp	r4, #2
+ 1197 0194 1CD0     		beq	.L60
+ 1198              	.L51:
+ 380:Core/Src/main.c **** 		char	buf[16];
+ 1199              		.loc 1 380 3 is_stmt 1 view .LVU226
+ 1200 0196 0021     		movs	r1, #0
+ 1201 0198 1020     		movs	r0, #16
+ 1202 019a FFF7FEFF 		bl	ssd1306_SetCursor
+ 1203              	.LVL133:
+ 381:Core/Src/main.c **** 		sprintf(buf, "FROM %d", sender);
+ 1204              		.loc 1 381 3 view .LVU227
+ 382:Core/Src/main.c **** 		ssd1306_WriteString(buf, Font_11x18, White);
+ 1205              		.loc 1 382 3 view .LVU228
+ 1206 019e 04AC     		add	r4, sp, #16
+ 1207              	.LVL134:
+ 382:Core/Src/main.c **** 		ssd1306_WriteString(buf, Font_11x18, White);
+ 1208              		.loc 1 382 3 is_stmt 0 view .LVU229
+ 1209 01a0 9DF80F20 		ldrb	r2, [sp, #15]	@ zero_extendqisi2
+ 1210 01a4 1849     		ldr	r1, .L61+40
+ 1211 01a6 2046     		mov	r0, r4
+ 1212 01a8 FFF7FEFF 		bl	sprintf
+ 1213              	.LVL135:
+ 383:Core/Src/main.c **** 		ssd1306_UpdateScreen();
+ 1214              		.loc 1 383 3 is_stmt 1 view .LVU230
+ 1215 01ac 0C4B     		ldr	r3, .L61
+ 1216 01ae 0122     		movs	r2, #1
+ 1217 01b0 0092     		str	r2, [sp]
+ 1218 01b2 0ECB     		ldm	r3, {r1, r2, r3}
+ 1219 01b4 2046     		mov	r0, r4
+ 1220 01b6 FFF7FEFF 		bl	ssd1306_WriteString
+ 1221              	.LVL136:
+ 384:Core/Src/main.c **** 
+ 1222              		.loc 1 384 3 view .LVU231
+ 1223 01ba FFF7FEFF 		bl	ssd1306_UpdateScreen
+ 1224              	.LVL137:
+ 1225 01be AFE7     		b	.L49
+ 1226              	.LVL138:
+ 1227              	.L59:
+ARM GAS  /tmp/ccsooeYj.s 			page 36
 
 
- 1189 0176 0ECB     		ldm	r3, {r1, r2, r3}
- 1190 0178 3E48     		ldr	r0, .L62+40
- 1191 017a FFF7FEFF 		bl	ssd1306_WriteString
- 1192              	.LVL115:
- 174:Core/Src/main.c **** 		HAL_Delay(500);
- 1193              		.loc 1 174 3 view .LVU243
- 1194 017e FFF7FEFF 		bl	ssd1306_UpdateScreen
- 1195              	.LVL116:
- 175:Core/Src/main.c **** 	}
- 1196              		.loc 1 175 3 view .LVU244
- 1197 0182 4FF4FA70 		mov	r0, #500
- 1198 0186 FFF7FEFF 		bl	HAL_Delay
- 1199              	.LVL117:
- 1200 018a 80E7     		b	.L45
- 1201              	.L57:
- 180:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 1202              		.loc 1 180 3 view .LVU245
- 1203 018c 2F4B     		ldr	r3, .L62
- 1204 018e 0122     		movs	r2, #1
- 1205 0190 0092     		str	r2, [sp]
- 1206 0192 0ECB     		ldm	r3, {r1, r2, r3}
- 1207 0194 3848     		ldr	r0, .L62+44
- 1208 0196 FFF7FEFF 		bl	ssd1306_WriteString
- 1209              	.LVL118:
- 181:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 1210              		.loc 1 181 3 view .LVU246
- 1211 019a FFF7FEFF 		bl	ssd1306_UpdateScreen
- 1212              	.LVL119:
- 182:Core/Src/main.c **** 		HAL_Delay(500);
- 1213              		.loc 1 182 3 view .LVU247
- 1214 019e FFF7FEFF 		bl	ssd1306_UpdateScreen
- 1215              	.LVL120:
- 183:Core/Src/main.c **** 
- 1216              		.loc 1 183 3 view .LVU248
- 1217 01a2 4FF4FA70 		mov	r0, #500
- 1218 01a6 FFF7FEFF 		bl	HAL_Delay
- 1219              	.LVL121:
- 1220 01aa 70E7     		b	.L45
- 1221              	.LVL122:
- 1222              	.L58:
- 357:Core/Src/main.c **** 		scan_mode();
- 1223              		.loc 1 357 3 view .LVU249
- 357:Core/Src/main.c **** 		scan_mode();
- 1224              		.loc 1 357 20 is_stmt 0 view .LVU250
- 1225 01ac 2D4B     		ldr	r3, .L62+24
- 1226 01ae 0022     		movs	r2, #0
- 1227 01b0 1A70     		strb	r2, [r3]
- 358:Core/Src/main.c **** 
- 1228              		.loc 1 358 3 is_stmt 1 view .LVU251
- 1229 01b2 FFF7FEFF 		bl	scan_mode.1
- 1230              	.LVL123:
- 360:Core/Src/main.c **** 			SCAN_Start();
- 1231              		.loc 1 360 3 view .LVU252
- 360:Core/Src/main.c **** 			SCAN_Start();
- 1232              		.loc 1 360 8 is_stmt 0 view .LVU253
- 1233 01b6 FFF7FEFF 		bl	SCAN_IsActive
- 1234              	.LVL124:
-ARM GAS  /tmp/ccZzrLig.s 			page 37
+ 376:Core/Src/main.c **** 		else if (type == MSG_SCAN)
+ 1228              		.loc 1 376 4 view .LVU232
+ 1229 01c0 074B     		ldr	r3, .L61
+ 1230 01c2 0122     		movs	r2, #1
+ 1231 01c4 0092     		str	r2, [sp]
+ 1232 01c6 0ECB     		ldm	r3, {r1, r2, r3}
+ 1233 01c8 1048     		ldr	r0, .L61+44
+ 1234 01ca FFF7FEFF 		bl	ssd1306_WriteString
+ 1235              	.LVL139:
+ 1236 01ce E2E7     		b	.L51
+ 1237              	.L60:
+ 378:Core/Src/main.c **** 
+ 1238              		.loc 1 378 4 view .LVU233
+ 1239 01d0 034B     		ldr	r3, .L61
+ 1240 01d2 0122     		movs	r2, #1
+ 1241 01d4 0092     		str	r2, [sp]
+ 1242 01d6 0ECB     		ldm	r3, {r1, r2, r3}
+ 1243 01d8 0D48     		ldr	r0, .L61+48
+ 1244 01da FFF7FEFF 		bl	ssd1306_WriteString
+ 1245              	.LVL140:
+ 1246 01de DAE7     		b	.L51
+ 1247              	.L62:
+ 1248              		.align	2
+ 1249              	.L61:
+ 1250 01e0 00000000 		.word	Font_11x18
+ 1251 01e4 00000000 		.word	.LC5
+ 1252 01e8 00000000 		.word	gps
+ 1253 01ec 0C000000 		.word	.LC6
+ 1254 01f0 18000000 		.word	.LC7
+ 1255 01f4 38000000 		.word	.LC8
+ 1256 01f8 00000000 		.word	scan_btn_pressed
+ 1257 01fc 50000000 		.word	.LC9
+ 1258 0200 00000000 		.word	send_btn_pressed
+ 1259 0204 5C000000 		.word	.LC10
+ 1260 0208 78000000 		.word	.LC13
+ 1261 020c 68000000 		.word	.LC11
+ 1262 0210 70000000 		.word	.LC12
+ 1263              	.LBE6:
+ 1264              		.cfi_endproc
+ 1265              	.LFE69:
+ 1267              		.global	send_btn_pressed
+ 1268              		.section	.bss.send_btn_pressed,"aw",%nobits
+ 1271              	send_btn_pressed:
+ 1272 0000 00       		.space	1
+ 1273              		.global	scan_btn_pressed
+ 1274              		.section	.bss.scan_btn_pressed,"aw",%nobits
+ 1277              	scan_btn_pressed:
+ 1278 0000 00       		.space	1
+ 1279              		.global	gps
+ 1280              		.section	.bss.gps,"aw",%nobits
+ 1281              		.align	2
+ 1284              	gps:
+ 1285 0000 00000000 		.space	88
+ 1285      00000000 
+ 1285      00000000 
+ 1285      00000000 
+ 1285      00000000 
+ARM GAS  /tmp/ccsooeYj.s 			page 37
 
 
- 360:Core/Src/main.c **** 			SCAN_Start();
- 1235              		.loc 1 360 6 discriminator 1 view .LVU254
- 1236 01ba 0028     		cmp	r0, #0
- 1237 01bc 93D1     		bne	.L48
- 361:Core/Src/main.c **** 	
- 1238              		.loc 1 361 4 is_stmt 1 view .LVU255
- 1239 01be FFF7FEFF 		bl	SCAN_Start
- 1240              	.LVL125:
- 1241 01c2 90E7     		b	.L48
- 1242              	.L59:
- 368:Core/Src/main.c **** 		send_mode();
- 1243              		.loc 1 368 3 view .LVU256
- 368:Core/Src/main.c **** 		send_mode();
- 1244              		.loc 1 368 20 is_stmt 0 view .LVU257
- 1245 01c4 0025     		movs	r5, #0
- 1246 01c6 284B     		ldr	r3, .L62+28
- 1247 01c8 1D70     		strb	r5, [r3]
- 369:Core/Src/main.c **** 		COMM_SendLocation(44.18f, 44.51f, 0x01);
- 1248              		.loc 1 369 3 is_stmt 1 view .LVU258
- 1249 01ca FFF7FEFF 		bl	send_mode.2
- 1250              	.LVL126:
- 370:Core/Src/main.c **** 
- 1251              		.loc 1 370 3 view .LVU259
- 1252 01ce 0122     		movs	r2, #1
- 1253 01d0 2A49     		ldr	r1, .L62+48
- 1254 01d2 2B48     		ldr	r0, .L62+52
- 1255 01d4 FFF7FEFF 		bl	COMM_SendLocation
- 1256              	.LVL127:
- 372:Core/Src/main.c **** 		ssd1306_SetCursor(16,16);
- 1257              		.loc 1 372 3 view .LVU260
- 1258 01d8 2846     		mov	r0, r5
- 1259 01da FFF7FEFF 		bl	ssd1306_Fill
- 1260              	.LVL128:
- 373:Core/Src/main.c **** 		ssd1306_WriteString("Sent", Font_11x18, White);
- 1261              		.loc 1 373 3 view .LVU261
- 1262 01de 1021     		movs	r1, #16
- 1263 01e0 0846     		mov	r0, r1
- 1264 01e2 FFF7FEFF 		bl	ssd1306_SetCursor
- 1265              	.LVL129:
- 374:Core/Src/main.c **** 		ssd1306_UpdateScreen();
- 1266              		.loc 1 374 3 view .LVU262
- 1267 01e6 194B     		ldr	r3, .L62
- 1268 01e8 0122     		movs	r2, #1
- 1269 01ea 0092     		str	r2, [sp]
- 1270 01ec 0ECB     		ldm	r3, {r1, r2, r3}
- 1271 01ee 2548     		ldr	r0, .L62+56
- 1272 01f0 FFF7FEFF 		bl	ssd1306_WriteString
- 1273              	.LVL130:
- 375:Core/Src/main.c **** 	}
- 1274              		.loc 1 375 3 view .LVU263
- 1275 01f4 FFF7FEFF 		bl	ssd1306_UpdateScreen
- 1276              	.LVL131:
- 1277 01f8 79E7     		b	.L49
- 1278              	.L60:
- 383:Core/Src/main.c **** 
- 1279              		.loc 1 383 3 view .LVU264
- 1280              	.LVL132:
-ARM GAS  /tmp/ccZzrLig.s 			page 38
-
-
- 385:Core/Src/main.c ****         	ssd1306_SetCursor(16, 16);
- 1281              		.loc 1 385 3 view .LVU265
- 1282 01fa 0020     		movs	r0, #0
- 1283 01fc FFF7FEFF 		bl	ssd1306_Fill
- 1284              	.LVL133:
- 386:Core/Src/main.c **** 		ssd1306_WriteString("Scanning...", Font_11x18, White);
- 1285              		.loc 1 386 10 view .LVU266
- 1286 0200 1021     		movs	r1, #16
- 1287 0202 0846     		mov	r0, r1
- 1288 0204 FFF7FEFF 		bl	ssd1306_SetCursor
- 1289              	.LVL134:
- 387:Core/Src/main.c ****         	ssd1306_UpdateScreen();
- 1290              		.loc 1 387 3 view .LVU267
- 1291 0208 104B     		ldr	r3, .L62
- 1292 020a 0122     		movs	r2, #1
- 1293 020c 0092     		str	r2, [sp]
- 1294 020e 0ECB     		ldm	r3, {r1, r2, r3}
- 1295 0210 1D48     		ldr	r0, .L62+60
- 1296 0212 FFF7FEFF 		bl	ssd1306_WriteString
- 1297              	.LVL135:
- 388:Core/Src/main.c **** 	}
- 1298              		.loc 1 388 10 view .LVU268
- 1299 0216 FFF7FEFF 		bl	ssd1306_UpdateScreen
- 1300              	.LVL136:
- 383:Core/Src/main.c **** 
- 1301              		.loc 1 383 19 is_stmt 0 view .LVU269
- 1302 021a 2C46     		mov	r4, r5
- 1303 021c 71E7     		b	.L50
- 1304              	.LVL137:
- 1305              	.L61:
- 392:Core/Src/main.c **** 		ssd1306_Fill(Black);
- 1306              		.loc 1 392 3 is_stmt 1 view .LVU270
- 393:Core/Src/main.c ****         	ssd1306_SetCursor(16, 16);
- 1307              		.loc 1 393 3 view .LVU271
- 1308 021e FFF7FEFF 		bl	ssd1306_Fill
- 1309              	.LVL138:
- 394:Core/Src/main.c **** 		ssd1306_WriteString("Scan done", Font_11x18, White);
- 1310              		.loc 1 394 10 view .LVU272
- 1311 0222 1021     		movs	r1, #16
- 1312 0224 0846     		mov	r0, r1
- 1313 0226 FFF7FEFF 		bl	ssd1306_SetCursor
- 1314              	.LVL139:
- 395:Core/Src/main.c ****         	ssd1306_UpdateScreen();
- 1315              		.loc 1 395 3 view .LVU273
- 1316 022a 084B     		ldr	r3, .L62
- 1317 022c 0122     		movs	r2, #1
- 1318 022e 0092     		str	r2, [sp]
- 1319 0230 0ECB     		ldm	r3, {r1, r2, r3}
- 1320 0232 1648     		ldr	r0, .L62+64
- 1321 0234 FFF7FEFF 		bl	ssd1306_WriteString
- 1322              	.LVL140:
- 396:Core/Src/main.c **** 		HAL_Delay(500);
- 1323              		.loc 1 396 10 view .LVU274
- 1324 0238 FFF7FEFF 		bl	ssd1306_UpdateScreen
- 1325              	.LVL141:
- 397:Core/Src/main.c **** 		main_screen();
- 1326              		.loc 1 397 3 view .LVU275
-ARM GAS  /tmp/ccZzrLig.s 			page 39
-
-
- 1327 023c 4FF4FA70 		mov	r0, #500
- 1328 0240 FFF7FEFF 		bl	HAL_Delay
- 1329              	.LVL142:
- 398:Core/Src/main.c **** 	}
- 1330              		.loc 1 398 3 view .LVU276
- 1331 0244 FFF7FEFF 		bl	main_screen.3
- 1332              	.LVL143:
- 392:Core/Src/main.c **** 		ssd1306_Fill(Black);
- 1333              		.loc 1 392 19 is_stmt 0 view .LVU277
- 1334 0248 2C46     		mov	r4, r5
- 1335 024a 61E7     		b	.L51
- 1336              	.L63:
- 1337              		.align	2
- 1338              	.L62:
- 1339 024c 00000000 		.word	Font_11x18
- 1340 0250 00000000 		.word	.LC5
- 1341 0254 00000000 		.word	lora
- 1342 0258 00080140 		.word	1073809408
- 1343 025c 00000000 		.word	hspi1
- 1344 0260 00000000 		.word	gps
- 1345 0264 00000000 		.word	scan_btn_pressed
- 1346 0268 00000000 		.word	send_btn_pressed
- 1347 026c 70000000 		.word	.LC12
- 1348 0270 0C000000 		.word	.LC6
- 1349 0274 18000000 		.word	.LC7
- 1350 0278 38000000 		.word	.LC8
- 1351 027c 3D0A3242 		.word	1110575677
- 1352 0280 52B83042 		.word	1110489170
- 1353 0284 50000000 		.word	.LC9
- 1354 0288 58000000 		.word	.LC10
- 1355 028c 64000000 		.word	.LC11
- 1356              		.cfi_endproc
- 1357              	.LFE69:
- 1359              		.global	send_btn_pressed
- 1360              		.section	.bss.send_btn_pressed,"aw",%nobits
- 1363              	send_btn_pressed:
- 1364 0000 00       		.space	1
- 1365              		.global	scan_btn_pressed
- 1366              		.section	.bss.scan_btn_pressed,"aw",%nobits
- 1369              	scan_btn_pressed:
- 1370 0000 00       		.space	1
- 1371              		.global	gps
- 1372              		.section	.bss.gps,"aw",%nobits
- 1373              		.align	2
- 1376              	gps:
- 1377 0000 00000000 		.space	88
- 1377      00000000 
- 1377      00000000 
- 1377      00000000 
- 1377      00000000 
- 1378              		.global	lora
- 1379              		.section	.bss.lora,"aw",%nobits
- 1380              		.align	2
- 1383              	lora:
- 1384 0000 00000000 		.space	44
- 1384      00000000 
- 1384      00000000 
-ARM GAS  /tmp/ccZzrLig.s 			page 40
-
-
- 1384      00000000 
- 1384      00000000 
- 1385              		.text
- 1386              	.Letext0:
- 1387              		.file 3 "/usr/arm-none-eabi/include/machine/_default_types.h"
- 1388              		.file 4 "/usr/arm-none-eabi/include/sys/_stdint.h"
- 1389              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
- 1390              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
- 1391              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h"
- 1392              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h"
- 1393              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
- 1394              		.file 10 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h"
- 1395              		.file 11 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h"
- 1396              		.file 12 "Core/Inc/spi.h"
- 1397              		.file 13 "Core/Inc/usart.h"
- 1398              		.file 14 "Drivers/LoRa/LoRa.h"
- 1399              		.file 15 "Drivers/GPS/gps.h"
- 1400              		.file 16 "Drivers/OLED/ssd1306.h"
- 1401              		.file 17 "Drivers/OLED/ssd1306_fonts.h"
- 1402              		.file 18 "APP/../APP/comm.h"
- 1403              		.file 19 "APP/../APP/scan.h"
- 1404              		.file 20 "/usr/arm-none-eabi/include/string.h"
- 1405              		.file 21 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
- 1406              		.file 22 "Core/Inc/i2c.h"
- 1407              		.file 23 "Core/Inc/gpio.h"
- 1408              		.file 24 "<built-in>"
-ARM GAS  /tmp/ccZzrLig.s 			page 41
+ 1286              		.text
+ 1287              	.Letext0:
+ 1288              		.file 3 "/usr/arm-none-eabi/include/machine/_default_types.h"
+ 1289              		.file 4 "/usr/arm-none-eabi/include/sys/_stdint.h"
+ 1290              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 1291              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 1292              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h"
+ 1293              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h"
+ 1294              		.file 9 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
+ 1295              		.file 10 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h"
+ 1296              		.file 11 "Drivers/GPS/gps.h"
+ 1297              		.file 12 "Drivers/OLED/ssd1306.h"
+ 1298              		.file 13 "Core/Inc/usart.h"
+ 1299              		.file 14 "Drivers/OLED/ssd1306_fonts.h"
+ 1300              		.file 15 "/usr/arm-none-eabi/include/stdio.h"
+ 1301              		.file 16 "APP/../APP/comm.h"
+ 1302              		.file 17 "APP/../APP/scan.h"
+ 1303              		.file 18 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ 1304              		.file 19 "Core/Inc/i2c.h"
+ 1305              		.file 20 "Core/Inc/spi.h"
+ 1306              		.file 21 "Core/Inc/gpio.h"
+ 1307              		.file 22 "<built-in>"
+ARM GAS  /tmp/ccsooeYj.s 			page 38
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-     /tmp/ccZzrLig.s:19     .rodata.GPS_display_status.0.str1.4:00000000 $d
-     /tmp/ccZzrLig.s:29     .text.GPS_display_status.0:00000000 $t
-     /tmp/ccZzrLig.s:34     .text.GPS_display_status.0:00000000 GPS_display_status.0
-     /tmp/ccZzrLig.s:118    .text.GPS_display_status.0:00000054 $d
-     /tmp/ccZzrLig.s:126    .rodata.scan_mode.1.str1.4:00000000 $d
-     /tmp/ccZzrLig.s:133    .text.scan_mode.1:00000000 $t
-     /tmp/ccZzrLig.s:138    .text.scan_mode.1:00000000 scan_mode.1
-     /tmp/ccZzrLig.s:290    .text.scan_mode.1:000000e8 $d
-     /tmp/ccZzrLig.s:297    .text.send_mode.2:00000000 $t
-     /tmp/ccZzrLig.s:302    .text.send_mode.2:00000000 send_mode.2
-     /tmp/ccZzrLig.s:454    .text.send_mode.2:000000e8 $d
-     /tmp/ccZzrLig.s:461    .text.main_screen.3:00000000 $t
-     /tmp/ccZzrLig.s:466    .text.main_screen.3:00000000 main_screen.3
-     /tmp/ccZzrLig.s:604    .text.main_screen.3:000000d0 $d
-     /tmp/ccZzrLig.s:611    .text.HAL_UART_RxCpltCallback:00000000 $t
-     /tmp/ccZzrLig.s:617    .text.HAL_UART_RxCpltCallback:00000000 HAL_UART_RxCpltCallback
-     /tmp/ccZzrLig.s:649    .text.HAL_UART_RxCpltCallback:00000010 $d
-     /tmp/ccZzrLig.s:654    .text.HAL_GPIO_EXTI_Callback:00000000 $t
-     /tmp/ccZzrLig.s:660    .text.HAL_GPIO_EXTI_Callback:00000000 HAL_GPIO_EXTI_Callback
-     /tmp/ccZzrLig.s:697    .text.HAL_GPIO_EXTI_Callback:0000001c $d
-     /tmp/ccZzrLig.s:1369   .bss.scan_btn_pressed:00000000 scan_btn_pressed
-     /tmp/ccZzrLig.s:1363   .bss.send_btn_pressed:00000000 send_btn_pressed
-     /tmp/ccZzrLig.s:703    .text.Error_Handler:00000000 $t
-     /tmp/ccZzrLig.s:709    .text.Error_Handler:00000000 Error_Handler
-     /tmp/ccZzrLig.s:741    .text.SystemClock_Config:00000000 $t
-     /tmp/ccZzrLig.s:747    .text.SystemClock_Config:00000000 SystemClock_Config
-     /tmp/ccZzrLig.s:854    .rodata.main.str1.4:00000000 $d
-     /tmp/ccZzrLig.s:879    .text.main:00000000 $t
-     /tmp/ccZzrLig.s:885    .text.main:00000000 main
-     /tmp/ccZzrLig.s:1339   .text.main:0000024c $d
-     /tmp/ccZzrLig.s:1383   .bss.lora:00000000 lora
-     /tmp/ccZzrLig.s:1376   .bss.gps:00000000 gps
-     /tmp/ccZzrLig.s:1364   .bss.send_btn_pressed:00000000 $d
-     /tmp/ccZzrLig.s:1370   .bss.scan_btn_pressed:00000000 $d
-     /tmp/ccZzrLig.s:1373   .bss.gps:00000000 $d
-     /tmp/ccZzrLig.s:1380   .bss.lora:00000000 $d
+     /tmp/ccsooeYj.s:19     .rodata.GPS_display_status.0.str1.4:00000000 $d
+     /tmp/ccsooeYj.s:29     .text.GPS_display_status.0:00000000 $t
+     /tmp/ccsooeYj.s:34     .text.GPS_display_status.0:00000000 GPS_display_status.0
+     /tmp/ccsooeYj.s:118    .text.GPS_display_status.0:00000054 $d
+     /tmp/ccsooeYj.s:126    .rodata.scan_mode.1.str1.4:00000000 $d
+     /tmp/ccsooeYj.s:133    .text.scan_mode.1:00000000 $t
+     /tmp/ccsooeYj.s:138    .text.scan_mode.1:00000000 scan_mode.1
+     /tmp/ccsooeYj.s:290    .text.scan_mode.1:000000e8 $d
+     /tmp/ccsooeYj.s:297    .text.send_mode.2:00000000 $t
+     /tmp/ccsooeYj.s:302    .text.send_mode.2:00000000 send_mode.2
+     /tmp/ccsooeYj.s:454    .text.send_mode.2:000000e8 $d
+     /tmp/ccsooeYj.s:461    .text.main_screen.3:00000000 $t
+     /tmp/ccsooeYj.s:466    .text.main_screen.3:00000000 main_screen.3
+     /tmp/ccsooeYj.s:604    .text.main_screen.3:000000d0 $d
+     /tmp/ccsooeYj.s:611    .text.HAL_UART_RxCpltCallback:00000000 $t
+     /tmp/ccsooeYj.s:617    .text.HAL_UART_RxCpltCallback:00000000 HAL_UART_RxCpltCallback
+     /tmp/ccsooeYj.s:649    .text.HAL_UART_RxCpltCallback:00000010 $d
+     /tmp/ccsooeYj.s:654    .text.HAL_GPIO_EXTI_Callback:00000000 $t
+     /tmp/ccsooeYj.s:660    .text.HAL_GPIO_EXTI_Callback:00000000 HAL_GPIO_EXTI_Callback
+     /tmp/ccsooeYj.s:697    .text.HAL_GPIO_EXTI_Callback:0000001c $d
+     /tmp/ccsooeYj.s:1277   .bss.scan_btn_pressed:00000000 scan_btn_pressed
+     /tmp/ccsooeYj.s:1271   .bss.send_btn_pressed:00000000 send_btn_pressed
+     /tmp/ccsooeYj.s:703    .text.Error_Handler:00000000 $t
+     /tmp/ccsooeYj.s:709    .text.Error_Handler:00000000 Error_Handler
+     /tmp/ccsooeYj.s:741    .text.SystemClock_Config:00000000 $t
+     /tmp/ccsooeYj.s:747    .text.SystemClock_Config:00000000 SystemClock_Config
+     /tmp/ccsooeYj.s:854    .rodata.main.str1.4:00000000 $d
+     /tmp/ccsooeYj.s:882    .text.main:00000000 $t
+     /tmp/ccsooeYj.s:888    .text.main:00000000 main
+     /tmp/ccsooeYj.s:1250   .text.main:000001e0 $d
+     /tmp/ccsooeYj.s:1284   .bss.gps:00000000 gps
+     /tmp/ccsooeYj.s:1272   .bss.send_btn_pressed:00000000 $d
+     /tmp/ccsooeYj.s:1278   .bss.scan_btn_pressed:00000000 $d
+     /tmp/ccsooeYj.s:1281   .bss.gps:00000000 $d
 
 UNDEFINED SYMBOLS
 ssd1306_SetCursor
@@ -2427,25 +2241,23 @@ memset
 HAL_RCC_OscConfig
 HAL_RCC_ClockConfig
 HAL_Init
-ARM GAS  /tmp/ccZzrLig.s 			page 42
-
-
 MX_GPIO_Init
 MX_USART2_UART_Init
+ARM GAS  /tmp/ccsooeYj.s 			page 39
+
+
 MX_SPI1_Init
 MX_I2C1_Init
 MX_USART1_UART_Init
 ssd1306_Init
-LoRa_init
+COMM_Init
 GPS_Init
 GPS_parse
-COMM_Init
 SCAN_Init
+SCAN_Start
+COMM_HasMessage
 COMM_Process
 SCAN_Process
-SCAN_IsActive
-COMM_HasPacket
-COMM_GetPacket
-SCAN_Start
-COMM_SendLocation
-hspi1
+COMM_SendTest
+COMM_GetMessage
+sprintf

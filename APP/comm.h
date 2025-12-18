@@ -1,35 +1,22 @@
 #ifndef COMM_H
 #define COMM_H
 
-#include <stdbool.h>
 #include <stdint.h>
+#include <stdbool.h>
 
-typedef enum
-{
-    COMM_NONE = 0,
-    COMM_LOCATION,
-    COMM_SCAN_REQUEST
-} CommPacketType_t;
+#define MSG_TEST   0x01
+#define MSG_SCAN   0x02
 
-typedef struct
-{
-    CommPacketType_t type;
-    float latitude;
-    float longitude;
-    uint8_t sender_id;
-} CommPacket_t;
-
-/* Lifecycle */
-void COMM_Init(void);
+uint16_t COMM_Init(void);
 void COMM_Process(void);
 
 /* TX */
-bool COMM_SendLocation(float lat, float lon, uint8_t id);
-bool COMM_SendScanRequest(uint8_t id);
+bool COMM_SendTest(uint8_t id);
+bool COMM_SendScan(uint8_t id);
 
 /* RX */
-bool COMM_HasPacket(void);
-bool COMM_GetPacket(CommPacket_t *pkt);
+bool COMM_HasMessage(void);
+uint8_t COMM_GetMessage(uint8_t *sender_id);
 
 #endif
 
