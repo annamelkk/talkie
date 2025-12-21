@@ -59,8 +59,8 @@
 
 // declaring the objects
 GPS_t gps;
-#define NODE_ID	1
-//#define NODE_ID	2
+//#define NODE_ID	1
+#define NODE_ID	2
 
 volatile bool	scan_btn_pressed = false;
 volatile bool	send_btn_pressed = false;

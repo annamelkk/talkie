@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cc69wAXg.s 			page 1
+ARM GAS  /tmp/ccJjRktS.s 			page 1
 
 
    1              		.cpu cortex-m3
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cc69wAXg.s 			page 1
   37              		.cfi_offset 14, -4
   38 0002 0446     		mov	r4, r0
   20:APP/comm.c    ****     HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 100);
-ARM GAS  /tmp/cc69wAXg.s 			page 2
+ARM GAS  /tmp/ccJjRktS.s 			page 2
 
 
   39              		.loc 1 20 5 is_stmt 1 view .LVU2
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cc69wAXg.s 			page 1
   84              		.cfi_offset 4, -12
   85              		.cfi_offset 5, -8
   86              		.cfi_offset 14, -4
-ARM GAS  /tmp/cc69wAXg.s 			page 3
+ARM GAS  /tmp/ccJjRktS.s 			page 3
 
 
   87 0002 8FB0     		sub	sp, sp, #60
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cc69wAXg.s 			page 1
  129              		.loc 1 35 5 is_stmt 1 view .LVU28
  130              		.loc 1 35 25 is_stmt 0 view .LVU29
  131 0032 0423     		movs	r3, #4
-ARM GAS  /tmp/cc69wAXg.s 			page 4
+ARM GAS  /tmp/ccJjRktS.s 			page 4
 
 
  132 0034 80F82630 		strb	r3, [r0, #38]
@@ -238,7 +238,7 @@ ARM GAS  /tmp/cc69wAXg.s 			page 1
   50:APP/comm.c    ****     return status;
  172              		.loc 1 50 5 view .LVU44
   51:APP/comm.c    **** }
-ARM GAS  /tmp/cc69wAXg.s 			page 5
+ARM GAS  /tmp/ccJjRktS.s 			page 5
 
 
  173              		.loc 1 51 1 is_stmt 0 view .LVU45
@@ -298,7 +298,7 @@ ARM GAS  /tmp/cc69wAXg.s 			page 1
  220              		.loc 1 53 25 view -0
  221              		.cfi_startproc
  222              		@ args = 0, pretend = 0, frame = 64
-ARM GAS  /tmp/cc69wAXg.s 			page 6
+ARM GAS  /tmp/ccJjRktS.s 			page 6
 
 
  223              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -358,7 +358,7 @@ ARM GAS  /tmp/cc69wAXg.s 			page 1
   58:APP/comm.c    ****         char msg[50];
  260              		.loc 1 58 9 is_stmt 1 view .LVU57
   59:APP/comm.c    ****         DEBUG_Log(msg);
-ARM GAS  /tmp/cc69wAXg.s 			page 7
+ARM GAS  /tmp/ccJjRktS.s 			page 7
 
 
  261              		.loc 1 59 9 view .LVU58
@@ -418,7 +418,7 @@ ARM GAS  /tmp/cc69wAXg.s 			page 1
  302 004e 00BF     		.align	2
  303              	.L18:
  304 0050 00000000 		.word	lora
-ARM GAS  /tmp/cc69wAXg.s 			page 8
+ARM GAS  /tmp/ccJjRktS.s 			page 8
 
 
  305 0054 00000000 		.word	.LC2
@@ -478,7 +478,7 @@ ARM GAS  /tmp/cc69wAXg.s 			page 1
   73:APP/comm.c    ****     DEBUG_Log("DEBUG: Attempting to send TEST packet...\r\n");
  347              		.loc 1 73 5 is_stmt 1 view .LVU74
  348 0006 1048     		ldr	r0, .L25
-ARM GAS  /tmp/cc69wAXg.s 			page 9
+ARM GAS  /tmp/ccJjRktS.s 			page 9
 
 
  349              	.LVL21:
@@ -538,7 +538,7 @@ ARM GAS  /tmp/cc69wAXg.s 			page 1
  394 003c 10BD     		pop	{r4, pc}
  395              	.LVL28:
  396              	.L24:
-ARM GAS  /tmp/cc69wAXg.s 			page 10
+ARM GAS  /tmp/ccJjRktS.s 			page 10
 
 
  397              	.LCFI12:
@@ -598,7 +598,7 @@ ARM GAS  /tmp/cc69wAXg.s 			page 1
  447 0012 01A9     		add	r1, sp, #4
  448 0014 2846     		mov	r0, r5
  449              	.LVL31:
-ARM GAS  /tmp/cc69wAXg.s 			page 11
+ARM GAS  /tmp/ccJjRktS.s 			page 11
 
 
  450              		.loc 1 87 13 view .LVU95
@@ -658,7 +658,7 @@ ARM GAS  /tmp/cc69wAXg.s 			page 1
  498 0004 7047     		bx	lr
  499              	.L33:
  500 0006 00BF     		.align	2
-ARM GAS  /tmp/cc69wAXg.s 			page 12
+ARM GAS  /tmp/ccJjRktS.s 			page 12
 
 
  501              	.L32:
@@ -718,7 +718,7 @@ ARM GAS  /tmp/cc69wAXg.s 			page 1
  555              	rx_sender:
  556 0000 00       		.space	1
  557              		.section	.bss.rx_type,"aw",%nobits
-ARM GAS  /tmp/cc69wAXg.s 			page 13
+ARM GAS  /tmp/ccJjRktS.s 			page 13
 
 
  560              	rx_type:
@@ -745,43 +745,43 @@ ARM GAS  /tmp/cc69wAXg.s 			page 1
  579              		.file 10 "Drivers/LoRa/LoRa.h"
  580              		.file 11 "/usr/arm-none-eabi/include/stdio.h"
  581              		.file 12 "/usr/arm-none-eabi/include/string.h"
-ARM GAS  /tmp/cc69wAXg.s 			page 14
+ARM GAS  /tmp/ccJjRktS.s 			page 14
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 comm.c
-     /tmp/cc69wAXg.s:19     .text.DEBUG_Log:00000000 $t
-     /tmp/cc69wAXg.s:25     .text.DEBUG_Log:00000000 DEBUG_Log
-     /tmp/cc69wAXg.s:57     .text.DEBUG_Log:00000018 $d
-     /tmp/cc69wAXg.s:62     .rodata.COMM_Init.str1.4:00000000 $d
-     /tmp/cc69wAXg.s:69     .text.COMM_Init:00000000 $t
-     /tmp/cc69wAXg.s:75     .text.COMM_Init:00000000 COMM_Init
-     /tmp/cc69wAXg.s:199    .text.COMM_Init:00000078 $d
-     /tmp/cc69wAXg.s:567    .bss.lora:00000000 lora
-     /tmp/cc69wAXg.s:208    .rodata.COMM_Process.str1.4:00000000 $d
-     /tmp/cc69wAXg.s:212    .text.COMM_Process:00000000 $t
-     /tmp/cc69wAXg.s:218    .text.COMM_Process:00000000 COMM_Process
-     /tmp/cc69wAXg.s:304    .text.COMM_Process:00000050 $d
-     /tmp/cc69wAXg.s:560    .bss.rx_type:00000000 rx_type
-     /tmp/cc69wAXg.s:555    .bss.rx_sender:00000000 rx_sender
-     /tmp/cc69wAXg.s:550    .bss.rx_ready:00000000 rx_ready
-     /tmp/cc69wAXg.s:314    .rodata.COMM_SendTest.str1.4:00000000 $d
-     /tmp/cc69wAXg.s:324    .text.COMM_SendTest:00000000 $t
-     /tmp/cc69wAXg.s:330    .text.COMM_SendTest:00000000 COMM_SendTest
-     /tmp/cc69wAXg.s:407    .text.COMM_SendTest:00000048 $d
-     /tmp/cc69wAXg.s:415    .text.COMM_SendScan:00000000 $t
-     /tmp/cc69wAXg.s:421    .text.COMM_SendScan:00000000 COMM_SendScan
-     /tmp/cc69wAXg.s:476    .text.COMM_SendScan:00000030 $d
-     /tmp/cc69wAXg.s:481    .text.COMM_HasMessage:00000000 $t
-     /tmp/cc69wAXg.s:487    .text.COMM_HasMessage:00000000 COMM_HasMessage
-     /tmp/cc69wAXg.s:502    .text.COMM_HasMessage:00000008 $d
-     /tmp/cc69wAXg.s:507    .text.COMM_GetMessage:00000000 $t
-     /tmp/cc69wAXg.s:513    .text.COMM_GetMessage:00000000 COMM_GetMessage
-     /tmp/cc69wAXg.s:541    .text.COMM_GetMessage:00000014 $d
-     /tmp/cc69wAXg.s:551    .bss.rx_ready:00000000 $d
-     /tmp/cc69wAXg.s:556    .bss.rx_sender:00000000 $d
-     /tmp/cc69wAXg.s:561    .bss.rx_type:00000000 $d
-     /tmp/cc69wAXg.s:564    .bss.lora:00000000 $d
+     /tmp/ccJjRktS.s:19     .text.DEBUG_Log:00000000 $t
+     /tmp/ccJjRktS.s:25     .text.DEBUG_Log:00000000 DEBUG_Log
+     /tmp/ccJjRktS.s:57     .text.DEBUG_Log:00000018 $d
+     /tmp/ccJjRktS.s:62     .rodata.COMM_Init.str1.4:00000000 $d
+     /tmp/ccJjRktS.s:69     .text.COMM_Init:00000000 $t
+     /tmp/ccJjRktS.s:75     .text.COMM_Init:00000000 COMM_Init
+     /tmp/ccJjRktS.s:199    .text.COMM_Init:00000078 $d
+     /tmp/ccJjRktS.s:567    .bss.lora:00000000 lora
+     /tmp/ccJjRktS.s:208    .rodata.COMM_Process.str1.4:00000000 $d
+     /tmp/ccJjRktS.s:212    .text.COMM_Process:00000000 $t
+     /tmp/ccJjRktS.s:218    .text.COMM_Process:00000000 COMM_Process
+     /tmp/ccJjRktS.s:304    .text.COMM_Process:00000050 $d
+     /tmp/ccJjRktS.s:560    .bss.rx_type:00000000 rx_type
+     /tmp/ccJjRktS.s:555    .bss.rx_sender:00000000 rx_sender
+     /tmp/ccJjRktS.s:550    .bss.rx_ready:00000000 rx_ready
+     /tmp/ccJjRktS.s:314    .rodata.COMM_SendTest.str1.4:00000000 $d
+     /tmp/ccJjRktS.s:324    .text.COMM_SendTest:00000000 $t
+     /tmp/ccJjRktS.s:330    .text.COMM_SendTest:00000000 COMM_SendTest
+     /tmp/ccJjRktS.s:407    .text.COMM_SendTest:00000048 $d
+     /tmp/ccJjRktS.s:415    .text.COMM_SendScan:00000000 $t
+     /tmp/ccJjRktS.s:421    .text.COMM_SendScan:00000000 COMM_SendScan
+     /tmp/ccJjRktS.s:476    .text.COMM_SendScan:00000030 $d
+     /tmp/ccJjRktS.s:481    .text.COMM_HasMessage:00000000 $t
+     /tmp/ccJjRktS.s:487    .text.COMM_HasMessage:00000000 COMM_HasMessage
+     /tmp/ccJjRktS.s:502    .text.COMM_HasMessage:00000008 $d
+     /tmp/ccJjRktS.s:507    .text.COMM_GetMessage:00000000 $t
+     /tmp/ccJjRktS.s:513    .text.COMM_GetMessage:00000000 COMM_GetMessage
+     /tmp/ccJjRktS.s:541    .text.COMM_GetMessage:00000014 $d
+     /tmp/ccJjRktS.s:551    .bss.rx_ready:00000000 $d
+     /tmp/ccJjRktS.s:556    .bss.rx_sender:00000000 $d
+     /tmp/ccJjRktS.s:561    .bss.rx_type:00000000 $d
+     /tmp/ccJjRktS.s:564    .bss.lora:00000000 $d
 
 UNDEFINED SYMBOLS
 strlen

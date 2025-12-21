@@ -4,8 +4,8 @@
 
 #define SCAN_DURATION_MS	10000
 #define SCAN_TX_PERIOD		5000
-#define NODE_ID			1
-//#define	NODE_ID			2
+//#define NODE_ID			1
+#define	NODE_ID			2
 
 static bool scan_active = false;
 static uint32_t scan_start_time = 0;
